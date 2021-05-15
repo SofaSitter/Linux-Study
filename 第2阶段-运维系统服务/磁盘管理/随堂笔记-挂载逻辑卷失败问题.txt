@@ -1,0 +1,6 @@
+挂载逻辑卷失败
+[root@server ~]# setfacl -m u:stu1:rwx /u01
+setfacl: /u01: Operation not supported
+原因：不支持ACL
+解决：
+[root@server ~]# mount -o remount,rw,usrquota,grpquota,acl /u01

@@ -1,0 +1,2719 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Chapter 19 Using MySQL as a Document Store</title>
+<link rel="stylesheet" href="mvl.css" type="text/css" />
+<meta name="generator" content="DocBook XSL Stylesheets + chunker.py v1.9.2" />
+<link rel="start" href="index.html" title="{book-title}" />
+<link rel="up" href="" title="" />
+<link rel="prev" href="mysql-shell-userguide.html" title="Chapter 18 MySQL Shell" />
+<link rel="next" href="mysql-innodb-cluster-userguide.html" title="Chapter 20 InnoDB Cluster" />
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr>
+<th colspan="3" align="center">Chapter 19 Using MySQL as a Document Store</th>
+</tr>
+<tr>
+<td width="20%" align="left"><a accesskey="p" href="mysql-shell-userguide.html">Prev</a> </td>
+<th width="60%" align="center"></th>
+<td width="20%" align="right"> <a accesskey="n" href="mysql-innodb-cluster-userguide.html">Next</a></td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="chapter">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a name="document-store"></a>Chapter 19 Using MySQL as a Document Store</h1>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<p><b>Table of Contents</b></p><dl class="toc"><dt><span class="section"><a href="document-store.html#document-store-concepts">19.1 Key Concepts</a></span></dt><dt><span class="section"><a href="document-store.html#document-store-setting-up">19.2 Setting Up MySQL as a Document Store</a></span></dt><dd><dl><dt><span class="section"><a href="document-store.html#document-store-shell-install">19.2.1 Installing MySQL Shell</a></span></dt><dt><span class="section"><a href="document-store.html#installing-mysql-shell-starting">19.2.2 Starting MySQL Shell</a></span></dt></dl></dd><dt><span class="section"><a href="document-store.html#mysql-shell-visual-studio">19.3 Quick-Start Guide: MySQL for Visual Studio</a></span></dt><dt><span class="section"><a href="document-store.html#x-plugin">19.4 X Plugin</a></span></dt><dd><dl><dt><span class="section"><a href="document-store.html#x-plugin-ssl-connections">19.4.1 Using Secure Connections with X Plugin</a></span></dt><dt><span class="section"><a href="document-store.html#x-plugin-options-variables">19.4.2 X Plugin Options and Variables</a></span></dt><dt><span class="section"><a href="document-store.html#x-plugin-system-monitoring">19.4.3 Monitoring X Plugin</a></span></dt></dl></dd></dl>
+</div>
+<a class="indexterm" name="idm45535096271744"></a><a class="indexterm" name="idm45535096270704"></a><a class="indexterm" name="idm45535096269216"></a><p>
+    This chapter introduces an alternative way of working with MySQL as
+    a document store, sometimes referred to as <span class="quote">“<span class="quote">using
+    NoSQL</span>”</span>. If your intention is to use MySQL in a traditional
+    (SQL) way, this chapter is probably not relevant to you.
+</p>
+<div class="important" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Important
+</div>
+<p>
+      MySQL Shell 8.0 is the most recent version and is highly
+      recommended for use with MySQL Server 5.7. Please upgrade to
+      MySQL Shell 8.0. If you have not yet installed MySQL Shell,
+      download it from the
+      <a class="ulink" href="https://dev.mysql.com/downloads/shell" target="_top">download site</a>. See
+      the <a class="ulink" href="https://dev.mysql.com/doc/mysql-shell/8.0/en/" target="_top">MySQL Shell 8.0 (part of MySQL 8.0)</a> documentation for the latest
+      documentation. This chapter covers configuring MySQL 5.7 server as
+      a document store and is compatible with version 8.0 clients such
+      as MySQL Shell and MySQL Connectors.
+
+      
+</p>
+</div>
+<p>
+    Relational databases such as MySQL usually required a document
+    schema to be defined before documents can be stored. The features
+    described in this section enable you to use MySQL as a document
+    store, which is a schema-less, and therefore schema-flexible,
+    storage system for documents. When using MySQL as a document store,
+    to create documents describing products you do not need to know and
+    define all possible attributes of any products before storing them
+    and operating with them. This differs from working with a relational
+    database and storing products in a table, when all columns of the
+    table must be known and defined before adding any products to the
+    database. The features described in this chapter enable you to
+    choose how you configure MySQL, using only the document store model,
+    or combining the flexibility of the document store model with the
+    power of the relational model.
+  </p><p>
+    These sections cover the usage of MySQL as a document store:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+        The <a class="xref" href="document-store.html#document-store-concepts" title="19.1 Key Concepts">Section 19.1, “Key Concepts”</a> section covers
+        concepts like Document, Collection, Session, and Schema to help
+        you understand how to use MySQL as a document store.
+      </p></li><li class="listitem"><p>
+        The <a class="xref" href="document-store.html#document-store-setting-up" title="19.2 Setting Up MySQL as a Document Store">Section 19.2, “Setting Up MySQL as a Document Store”</a> section explains
+        how to configure X Plugin on a MySQL Server, so it can
+        function as a document store, and how to install MySQL Shell
+        to use as a client.
+      </p></li><li class="listitem"><p>
+        <a class="ulink" href="https://dev.mysql.com/doc/mysql-shell/8.0/en/" target="_top">MySQL Shell 8.0 (part of MySQL 8.0)</a> provides more detailed information
+        about using MySQL Shell.
+      </p></li><li class="listitem"><p>
+        <span class="emphasis"><em>X DevAPI User guide.</em></span>
+      </p><p>
+        Clients that communicate with a MySQL Server using the
+        X Protocol can use the X DevAPI to develop
+        applications. For example MySQL Shell and MySQL Connectors
+        provide this ability by implementing the X DevAPI.
+        X DevAPI offers a modern programming interface with a
+        simple yet powerful design which provides support for
+        established industry standard concepts. See
+        <a class="ulink" href="https://dev.mysql.com/doc/x-devapi-userguide/en/" target="_top">X DevAPI User Guide</a> for in-depth tutorials on
+        using X DevAPI.
+      </p></li><li class="listitem"><p>
+        The following MySQL products support the X Protocol and
+        enable you to use X DevAPI in your chosen language to
+        develop applications that communicate with a MySQL Server
+        functioning as a document store.
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+            MySQL Shell provides implementations of X DevAPI in
+            JavaScript and Python.
+          </p></li><li class="listitem"><p>
+            Connector/C++
+          </p></li><li class="listitem"><p>
+            Connector/J
+          </p></li><li class="listitem"><p>
+            Connector/Node.js
+          </p></li><li class="listitem"><p>
+            Connector/NET
+          </p></li><li class="listitem"><p>
+            Connector/Python
+</p></li></ul>
+</div>
+</li></ul>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="document-store-concepts"></a>19.1 Key Concepts</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      This section explains the concepts introduced as part of using
+      MySQL as a document store.
+</p>
+<div class="simplesect">
+
+<div class="titlepage">
+<div>
+
+<div class="simple">
+<h3 class="title"><a name="document-store-concept-document"></a>Document</h3>
+</div>
+</div>
+</div>
+<p>
+        A Document is a set of key and value pairs, as represented by a
+        JSON object. A Document is represented internally using the
+        MySQL binary JSON object, through the JSON MySQL datatype. The
+        values of fields can contain other documents, arrays, and lists
+        of documents.
+      </p><pre data-lang="json" class="programlisting">{
+    "GNP": .6,
+    "IndepYear": 1967,
+    "Name": "Sealand",
+    "_id": "SEA",
+    "demographics": {
+        "LifeExpectancy": 79,
+        "Population": 27
+    },
+    "geography": {
+        "Continent": "Europe",
+        "Region": "British Islands",
+        "SurfaceArea": 193
+    },
+    "government": {
+        "GovernmentForm": "Monarchy",
+        "HeadOfState": "Michael Bates"
+    }
+}</pre>
+</div>
+<div class="simplesect">
+<div class="titlepage">
+<div>
+<div class="simple">
+<h3 class="title"><a name="document-store-concept-collection"></a>Collection</h3>
+
+</div>
+
+</div>
+
+</div>
+<p>
+        A Collection is a container that may be used to store Documents
+        in a MySQL database.
+</p>
+</div>
+<div class="simplesect">
+<div class="titlepage">
+<div>
+<div class="simple">
+<h3 class="title"><a name="document-store-concept-crud"></a>CRUD Operations</h3>
+
+</div>
+
+</div>
+
+</div>
+<p>
+        Create, Read, Update and Delete (CRUD) operations are the four
+        basic operations that can be performed on a database Collection
+        or Table. In terms of MySQL this means:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+            Create a new entry (insertion or addition)
+          </p></li><li class="listitem"><p>
+            Read entries (queries)
+          </p></li><li class="listitem"><p>
+            Update entries
+          </p></li><li class="listitem"><p>
+            Delete entries
+</p></li></ul>
+</div>
+
+</div>
+<div class="simplesect">
+<div class="titlepage">
+<div>
+<div class="simple">
+<h3 class="title"><a name="document-store-concept-xplugin"></a>X Plugin</h3>
+
+</div>
+
+</div>
+
+</div>
+<p>
+        The MySQL Server plugin which enables communication using
+        X Protocol. Supports clients that implement X DevAPI
+        and enables you to use MySQL as a document store.
+
+        
+</p>
+</div>
+<div class="simplesect">
+<div class="titlepage">
+<div>
+<div class="simple">
+<h3 class="title"><a name="document-store-concept-xprotocol"></a>X Protocol</h3>
+
+</div>
+
+</div>
+
+</div>
+<p>
+        A protocol to communicate with a MySQL Server running
+        X Plugin. X Protocol supports both CRUD and SQL
+        operations, authentication via SASL, allows streaming
+        (pipelining) of commands and is extensible on the protocol and
+        the message layer.
+</p>
+</div>
+
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="document-store-setting-up"></a>19.2 Setting Up MySQL as a Document Store</h2>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<dl class="toc"><dt><span class="section"><a href="document-store.html#document-store-shell-install">19.2.1 Installing MySQL Shell</a></span></dt><dt><span class="section"><a href="document-store.html#installing-mysql-shell-starting">19.2.2 Starting MySQL Shell</a></span></dt></dl>
+</div>
+<p>
+    To use MySQL 5.7 as a document store, the X Plugin needs to be
+    installed. Then you can use X Protocol to communicate with the
+    server. Without the X Plugin running, X Protocol clients
+    cannot connect to the server. The X Plugin is supplied with
+    MySQL (5.7.12 or higher) — installing it does not involve a
+    separate download. This section describes how to install
+    X Plugin.
+  </p><p>
+    Follow the steps outlined here:
+</p>
+<div class="orderedlist">
+<ol class="orderedlist" type="1"><li class="listitem"><p>
+        <span class="bold"><strong>Install or upgrade to MySQL 5.7.12 or
+        higher.</strong></span>
+      </p><p>
+        When the <a class="link" href="installing.html" title="Chapter 2 Installing and Upgrading MySQL">installation</a> or
+        upgrade is done, start the server. For server startup
+        instructions, see <a class="xref" href="installing.html#starting-server" title="2.10.2 Starting the Server">Section 2.10.2, “Starting the Server”</a>.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+          MySQL Installer enables you to perform this and the next step
+          (Install the X Plugin) at the same time for new
+          installations on Microsoft Windows. In the <span class="guilabel">Plugin
+          and Extensions</span> screen, check mark the
+          <span class="guilabel">Enable X Protocol/MySQL as a Document
+          Store</span> check box. After the installation, verify
+          that the X Plugin has been installed.
+</p>
+</div>
+</li><li class="listitem"><p><a name="installing-xplugin-linux-quick"></a>
+        <span class="bold"><strong>Install the X Plugin.</strong></span> A
+        non-root account can be used to install the plugin as long as
+        the account has <a class="link" href="security.html#priv_insert"><code class="literal">INSERT</code></a> privilege
+        for the <code class="literal">mysql.plugin</code> table.
+      </p><p>
+        Always save your existing configuration settings before
+        reconfiguring the server.
+      </p><p>
+        To install the built-in X Plugin, do one of the following:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+            Using <a class="link" href="installing.html#mysql-installer" title="2.3.3 MySQL Installer for Windows">MySQL Installer for
+            Windows</a>:
+</p>
+<div class="orderedlist">
+<ol class="orderedlist" type="a"><li class="listitem"><p>
+                Launch MySQL Installer for Windows. MySQL Installer
+                dashboard opens.
+              </p></li><li class="listitem"><p>
+                Click the <span class="guilabel">Reconfigure</span> quick action
+                for MySQL Server. Use <span class="guibutton">Next</span> and
+                <span class="guibutton">Back</span> to configure the following
+                items:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+                    In <span class="guilabel">Accounts and Roles</span>, confirm
+                    the current <code class="literal">root</code> account
+                    password.
+                  </p></li><li class="listitem"><p>
+                    In <span class="guilabel">Plugin and Extensions</span>, check
+                    mark the <span class="guilabel">Enable X Protocol/MySQL as
+                    a Document Store</span> check box. MySQL
+                    Installer provides a default port number and opens
+                    the firewall port for network access.
+                  </p></li><li class="listitem"><p>
+                    In <span class="guilabel">Apply Server Configuration</span>,
+                    click <span class="guilabel">Execute</span>.
+                  </p></li><li class="listitem"><p>
+                    Click <span class="guibutton">Finish</span> to close MySQL
+                    Installer.
+</p></li></ul>
+</div>
+</li><li class="listitem"><p>
+                <a class="link" href="document-store.html#installing-mysql-shell-windows-quick" title="19.2.1.1 Installing MySQL Shell on Microsoft Windows">Install
+                MySQL Shell</a>.
+</p></li></ol>
+</div>
+</li><li class="listitem"><p>
+            Using MySQL Shell:
+</p>
+<div class="orderedlist">
+<ol class="orderedlist" type="a"><li class="listitem"><p>
+                <a class="link" href="document-store.html#document-store-shell-install" title="19.2.1 Installing MySQL Shell">Install
+                MySQL Shell</a>.
+              </p></li><li class="listitem"><p>
+                Open a terminal window (command prompt on Windows) and
+                navigate to the MySQL binaries location (for example,
+                <code class="filename">/usr/bin/</code> on Linux).
+              </p></li><li class="listitem"><p>
+                Run the following command:
+              </p><pre data-lang="terminal" class="programlisting">mysqlsh -u <em class="replaceable"><code>user</code></em> -h localhost --classic --dba enableXProtocol
+</pre></li></ol>
+</div>
+</li><li class="listitem"><p>
+            Using the MySQL Client program:
+</p>
+<div class="orderedlist">
+<ol class="orderedlist" type="a"><li class="listitem"><p>
+                Open a terminal window (command prompt on Windows) and
+                navigate to the MySQL binaries location (for example,
+                <code class="filename">/usr/bin/</code> on Linux).
+              </p></li><li class="listitem"><p>
+                Invoke the <a class="link" href="programs.html#mysql" title="4.5.1 mysql — The MySQL Command-Line Client"><span class="command"><strong>mysql</strong></span></a> command-line client:
+              </p><pre data-lang="terminal" class="programlisting">mysql -u <em class="replaceable"><code>user</code></em> -p
+</pre></li><li class="listitem"><p>
+                Issue the following statement:
+              </p><pre data-lang="sql" class="programlisting">mysql&gt; <strong class="userinput"><code>INSTALL PLUGIN mysqlx SONAME 'mysqlx.so';</code></strong>
+</pre><p>
+                Replace <code class="filename">mysqlx.so</code> with
+                <code class="filename">mysqlx.dll</code> for Windows.
+</p>
+<div class="important" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Important
+</div>
+<p>
+                  The <code class="literal">mysql.session</code> user must exist
+                  before you can load X Plugin.
+                  <code class="literal">mysql.session</code> was added in MySQL
+                  version 5.7.19. If your data dictionary was
+                  initialized using an earlier version you must run the
+                  <a class="link" href="programs.html#mysql-upgrade" title="4.4.7 mysql_upgrade — Check and Upgrade MySQL Tables"><span class="command"><strong>mysql_upgrade</strong></span></a> procedure. If the
+                  upgrade is not run, X Plugin fails to start with
+                  the error message <span class="errortext">There was an error when
+                  trying to access the server with user:
+                  mysql.session@localhost. Make sure the user is present
+                  in the server and that mysql_upgrade was ran after a
+                  server update.</span>.
+</p>
+</div>
+</li><li class="listitem"><p>
+                <a class="link" href="document-store.html#document-store-shell-install" title="19.2.1 Installing MySQL Shell">Install
+                MySQL Shell</a>.
+</p></li></ol>
+</div>
+</li></ul>
+</div>
+</li><li class="listitem"><p>
+        <span class="bold"><strong>Verify that the X Plugin has been
+        installed.</strong></span>
+      </p><p>
+        When the X Plugin is installed properly, it shows up in
+        the list when you query for active plugins on the server with
+        one of the following commands:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+            MySQL Shell command:
+          </p><pre data-lang="terminal" class="programlisting">mysqlsh -u <em class="replaceable"><code>user</code></em> --sqlc -e "show plugins"
+</pre></li><li class="listitem"><p>
+            MySQL Client program command:
+          </p><pre data-lang="terminal" class="programlisting">mysql -u <em class="replaceable"><code>user</code></em> -p -e "show plugins"
+</pre></li></ul>
+</div>
+<p>
+        If you encounter problems with the X Plugin installation,
+        or if you want to learn about alternative ways of installing,
+        configuring, or uninstalling server plugins, see
+        <a class="xref" href="server-administration.html#plugin-loading" title="5.5.1 Installing and Uninstalling Plugins">Section 5.5.1, “Installing and Uninstalling Plugins”</a>.
+</p></li></ol>
+</div>
+<h3><a name="idm45535096162144"></a><code class="literal">mysqlxsys@localhost</code> User Account</h3>
+<p>
+    Installing the X Plugin creates a
+    <code class="literal">mysqlxsys@localhost</code> user account. If, for some
+    reason, creating the user account fails, the X Plugin
+    installation fails, too. Here is an explanation on what the
+    <code class="literal">mysqlxsys@localhost</code> user account is for and what
+    to do when its creation fails.
+  </p><p>
+    The X Plugin installation process uses the MySQL
+    <code class="literal">root</code> user to create an internal account for the
+    <code class="literal">mysqlxsys@localhost</code> user. The
+    <code class="literal">mysqlxsys@localhost</code> account is used by the
+    X Plugin for authentication of external users against the
+    MySQL account system and for killing sessions when requested by a
+    privileged user. The <code class="literal">mysqlxsys@localhost</code> account
+    is created as locked, so it cannot be used to log in by external
+    users. If for some reason the MySQL <code class="literal">root</code> account
+    is not available, before you start the X Plugin installation
+    you must manually create the <code class="literal">mysqlxsys@localhost</code>
+    user by issuing the following statements in the
+    <a class="link" href="programs.html#mysql" title="4.5.1 mysql — The MySQL Command-Line Client"><span class="command"><strong>mysql</strong></span></a> command-line client:
+  </p><pre data-lang="sql" class="programlisting">CREATE USER IF NOT EXISTS mysqlxsys@localhost IDENTIFIED WITH
+mysql_native_password AS '<em class="replaceable"><code>password</code></em>' ACCOUNT LOCK;
+GRANT SELECT ON mysql.user TO mysqlxsys@localhost;
+GRANT SUPER ON *.* TO mysqlxsys@localhost;
+</pre>
+<h3><a name="idm45535096150784"></a>Uninstalling the X Plugin</h3>
+<p>
+    If you ever want to uninstall (deactivate) the X Plugin, issue
+    the following statement in the <a class="link" href="programs.html#mysql" title="4.5.1 mysql — The MySQL Command-Line Client"><span class="command"><strong>mysql</strong></span></a> command-line
+    client:
+  </p><pre data-lang="sql" class="programlisting">UNINSTALL PLUGIN mysqlx;</pre><p>
+    Do not use MySQL Shell to issue the previous statement. It works
+    from MySQL Shell, but you get an error (code 1130). Also,
+    uninstalling the plugin removes the mysqlxsys user.
+</p>
+<div class="section">
+
+<div class="titlepage">
+<div>
+<div>
+<h3 class="title"><a name="document-store-shell-install"></a>19.2.1 Installing MySQL Shell</h3>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="toc">
+<dl class="toc"><dt><span class="section"><a href="document-store.html#installing-mysql-shell-windows-quick">19.2.1.1 Installing MySQL Shell on Microsoft Windows</a></span></dt><dt><span class="section"><a href="document-store.html#installing-mysql-shell-linux-quick">19.2.1.2 Installing MySQL Shell on Linux</a></span></dt><dt><span class="section"><a href="document-store.html#installing-mysql-shell-osx-quick">19.2.1.3 Installing MySQL Shell on macOS</a></span></dt></dl>
+</div>
+<p>
+      This section describes how to download, install, and start
+      MySQL Shell, which is an interactive JavaScript, Python, or SQL
+      interface supporting development and administration for the MySQL
+      Server. MySQL Shell is a component that you can install
+      separately.
+</p>
+<h4><a name="idm45535096144912"></a>Requirements</h4>
+<p>
+      MySQL Shell is available on Microsoft Windows, Linux, and macOS
+      for 64-bit platforms. MySQL Shell requires that the built-in
+      X Plugin be active. You can install the server plugin before
+      or after you install MySQL Shell. For instructions, see
+      <a class="link" href="document-store.html#installing-xplugin-linux-quick">Installing the
+      X Plugin</a>.
+</p>
+<div class="section">
+
+<div class="titlepage">
+<div>
+<div>
+<h4 class="title"><a name="installing-mysql-shell-windows-quick"></a>19.2.1.1 Installing MySQL Shell on Microsoft Windows</h4>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="important" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Important
+</div>
+<p>
+          The Community version of MySQL Shell requires the Visual C++
+          Redistributable for Visual Studio 2013 (available at the
+          <a class="ulink" href="http://www.microsoft.com/en-us/download/default.aspx" target="_top">Microsoft
+          Download Center</a>) to work; make sure that is installed
+          on your Windows system before installing MySQL Shell.
+</p>
+</div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<div class="admon-title">
+Note
+</div>
+<p>
+          MySQL Shell is currently not supplied with an MSI Installer.
+          See <a class="xref" href="document-store.html#installing-mysql-shell-binaries" title="Installing MySQL Shell Binaries">Installing MySQL Shell Binaries</a> for the
+          manual install procedure.
+</p>
+</div>
+<p>
+        To install MySQL Shell on Microsoft Windows using the MSI
+        Installer, do the following:
+</p>
+<div class="orderedlist">
+<ol class="orderedlist" type="1"><li class="listitem"><p>
+            Download the <span class="bold"><strong>Windows (x86, 64-bit),
+            MSI Installer</strong></span> package from
+            <a class="ulink" href="http://dev.mysql.com/downloads/shell/" target="_top">http://dev.mysql.com/downloads/shell/</a>.
+          </p></li><li class="listitem"><p>
+            When prompted, click <span class="guibutton">Run</span>.
+          </p></li><li class="listitem"><p>
+            Follow the steps in the Setup Wizard.
+</p>
+<div class="figure">
+<a name="fig-x-installation-mysql-shell-win-quick"></a><p class="title"><b>Figure 19.1 Installation of MySQL Shell on Windows</b></p>
+<div class="figure-contents">
+
+<div class="mediaobject">
+<img src="images/x-installation-mysql-shell-win.png" width="512" height="399" alt="Installation of MySQL Shell on Windows">
+</div>
+
+</div>
+
+</div>
+<br class="figure-break"></li></ol>
+</div>
+<p>
+        If you have installed MySQL without enabling the X Plugin,
+        then later on decide you want to install the X Plugin, or
+        if you are installing MySQL <span class="emphasis"><em>without</em></span> using
+        MySQL Installer, see
+        <a class="link" href="document-store.html#installing-xplugin-linux-quick">Installing the
+        X Plugin</a>.
+</p>
+<div class="simplesect">
+
+<div class="titlepage">
+<div>
+
+<div class="simple">
+<h5 class="title"><a name="installing-mysql-shell-binaries"></a>Installing MySQL Shell Binaries</h5>
+</div>
+</div>
+</div>
+<p>
+          To install MySQL Shell binaries:
+</p>
+<div class="orderedlist">
+<ol class="orderedlist" type="1"><li class="listitem"><p>
+              Unzip the content of the Zip file to the MySQL products
+              directory, for example <code class="filename">C:\Program
+              Files\MySQL\</code>.
+            </p></li><li class="listitem"><p>
+              To be able to start MySQL Shell from a command prompt
+              add the bin directory <code class="filename">C:\Program
+              Files\MySQL\mysql-shell-1.0.8-rc-windows-x86-64bit\bin</code>
+              to the <code class="literal">PATH</code> system variable.
+</p></li></ol>
+</div>
+
+</div>
+
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h4 class="title"><a name="installing-mysql-shell-linux-quick"></a>19.2.1.2 Installing MySQL Shell on Linux</h4>
+
+</div>
+
+</div>
+
+</div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+<div class="admon-title">
+Note
+</div>
+<p>
+          Installation packages for MySQL Shell are available only for
+          a limited number of Linux distributions, and only for 64-bit
+          systems.
+</p>
+</div>
+<p>
+        For supported Linux distributions, the easiest way to install
+        MySQL Shell on Linux is to use the
+        <a class="ulink" href="https://dev.mysql.com/downloads/repo/apt/" target="_top">MySQL APT
+        repository</a> or
+        <a class="ulink" href="https://dev.mysql.com/downloads/repo/yum/" target="_top">MySQL Yum
+        repository</a>. For systems not using the MySQL
+        repositories, MySQL Shell can also be downloaded and installed
+        directly.
+</p>
+<div class="simplesect">
+
+<div class="titlepage">
+<div>
+
+<div class="simple">
+<h5 class="title"><a name="installing-mysql-shell-linux-apt"></a>Installing MySQL Shell with the MySQL APT Repository</h5>
+</div>
+</div>
+</div>
+<p>
+          For Linux distributions supported by the
+          <a class="ulink" href="https://dev.mysql.com/downloads/repo/apt/" target="_top">MySQL APT
+          repository</a>, follow one of the paths below:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+              If you do not yet have the
+              <a class="ulink" href="https://dev.mysql.com/downloads/repo/apt/" target="_top">MySQL APT
+              repository</a> as a software repository on your
+              system, do the following:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+                  Follow the steps given in
+                  <a class="ulink" href="https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-setup" target="_top">Adding
+                  the MySQL APT Repository</a>, paying special
+                  attention to the following:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: square; "><li class="listitem"><p>
+                      During the installation of the configuration
+                      package, when asked in the dialogue box to
+                      configure the repository, make sure you choose
+                      MySQL 5.7 (which is the default option) as the
+                      release series you want, and enable the
+                      <span class="guimenuitem">MySQL Preview Packages</span>
+                      component.
+                    </p></li><li class="listitem"><p>
+                      Make sure you do not skip the step for updating
+                      package information for the MySQL APT repository:
+</p><pre data-lang="terminal" class="programlisting"><strong class="userinput"><code>sudo apt-get update</code></strong></pre></li></ul>
+</div>
+</li><li class="listitem"><p>
+                  Install MySQL Shell with this command:
+</p><pre data-lang="terminal" class="programlisting">sudo apt-get install mysql-shell</pre></li></ul>
+</div>
+</li><li class="listitem"><p>
+              If you already have the
+              <a class="ulink" href="https://dev.mysql.com/downloads/repo/apt/" target="_top">MySQL APT
+              repository</a> as a software repository on your
+              system, do the following:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+                  Update package information for the MySQL APT
+                  repository:
+                </p><pre data-lang="terminal" class="programlisting">sudo apt-get update</pre></li><li class="listitem"><p>
+                  Update the MySQL APT repository configuration package
+                  with the following command:
+                </p><pre data-lang="terminal" class="programlisting">sudo apt-get install mysql-apt-config</pre><p>
+                  When asked in the dialogue box to configure the
+                  repository, make sure you choose MySQL 5.7 (which is
+                  the default option) as the release series you want,
+                  and enable the <span class="guimenuitem">MySQL Preview
+                  Packages</span> component.
+                </p></li><li class="listitem"><p>
+                  Install MySQL Shell with this command:
+</p><pre data-lang="terminal" class="programlisting">sudo apt-get install mysql-shell</pre></li></ul>
+</div>
+</li></ul>
+</div>
+
+</div>
+<div class="simplesect">
+<div class="titlepage">
+<div>
+<div class="simple">
+<h5 class="title"><a name="installing-mysql-shell-linux-yum"></a>Installing MySQL Shell with the MySQL Yum Repository</h5>
+
+</div>
+
+</div>
+
+</div>
+<p>
+          For Linux distributions supported by the
+          <a class="ulink" href="https://dev.mysql.com/downloads/repo/yum/" target="_top">MySQL Yum
+          repository</a>, follow these steps to install
+          MySQL Shell:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+              Do one of the following:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+                  If you already have the
+                  <a class="ulink" href="https://dev.mysql.com/downloads/repo/yum/" target="_top">MySQL Yum
+                  repository</a> as a software repository on your
+                  system and the repository was configured with the new
+                  release package
+                  <code class="literal">mysql57-community-release</code>, skip to
+                  the next step (<span class="quote">“<span class="quote">Enable the MySQL Tools Preview
+                  subrepository...</span>”</span>).
+                </p></li><li class="listitem"><p>
+                  If you already have the
+                  <a class="ulink" href="https://dev.mysql.com/downloads/repo/yum/" target="_top">MySQL Yum
+                  repository</a> as a software repository on your
+                  system but have configured the repository with the old
+                  release package
+                  <code class="literal">mysql-community-release</code>, it is
+                  easiest to install MySQL Shell by first
+                  reconfiguring the MySQL Yum repository with the new
+                  <code class="literal">mysql57-community-release</code> package.
+                  To do so, you need to remove your old release package
+                  first, with the following command :
+                </p><pre data-lang="terminal" class="programlisting">sudo yum remove mysql-community-release</pre><p>
+                  For dnf-enabled systems, do this instead:
+                </p><pre data-lang="terminal" class="programlisting">sudo dnf erase mysql-community-release</pre><p>
+                  Then, follow the steps given in
+                  <a class="ulink" href="https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/#repo-qg-yum-repo-setup" target="_top">Adding
+                  the MySQL Yum Repository</a> to install the new
+                  release package,
+                  <code class="literal">mysql57-community-release</code>.
+                </p></li><li class="listitem"><p>
+                  If you do not yet have the
+                  <a class="ulink" href="https://dev.mysql.com/downloads/repo/yum/" target="_top">MySQL Yum
+                  repository</a> as a software repository on your
+                  system, follow the steps given in
+                  <a class="ulink" href="https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/#repo-qg-yum-repo-setup" target="_top">Adding
+                  the MySQL Yum Repository</a>.
+</p></li></ul>
+</div>
+</li><li class="listitem"><p>
+              Enable the MySQL Tools Preview subrepository. You can do
+              that by editing manually the
+              <code class="filename">/etc/yum.repos.d/mysql-community.repo</code>
+              file. This is an example of the subrepository's default
+              entry in the file (the <code class="literal">baseurl</code> entry in
+              your file might look different, depending on your Linux
+              distribution):
+            </p><pre data-lang="ini" class="programlisting">[mysql-tools-preview]
+name=MySQL Tools Preview
+baseurl=http://repo.mysql.com/yum/mysql-tools-preview/el/6/$basearch/
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql</pre><p>
+              Change the entry <code class="option">enabled=0</code> to
+              <code class="option">enabled=1</code> to enable the subrepository.
+            </p></li><li class="listitem"><p>
+              Install MySQL Shell with this command:
+            </p><pre data-lang="terminal" class="programlisting">sudo yum install mysql-shell</pre><p>
+              For dnf-enabled systems, do this instead:
+</p><pre data-lang="terminal" class="programlisting">sudo dnf install mysql-shell</pre></li></ul>
+</div>
+
+</div>
+<div class="simplesect">
+<div class="titlepage">
+<div>
+<div class="simple">
+<h5 class="title"><a name="installing-mysql-shell-linux-direct"></a>Installing MySQL Shell from Direct Downloads from the MySQL Developer
+Zone</h5>
+</div>
+</div>
+</div>
+<p>
+          RPM, Debian, and source packages for installing MySQL Shell
+          are also available for download at
+          <a class="ulink" href="https://dev.mysql.com/downloads/shell/" target="_top">Download MySQL
+          Shell</a>.
+</p>
+</div>
+
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h4 class="title"><a name="installing-mysql-shell-osx-quick"></a>19.2.1.3 Installing MySQL Shell on macOS</h4>
+
+</div>
+
+</div>
+
+</div>
+<p>
+        To install MySQL Shell on macOS, do the following:
+</p>
+<div class="orderedlist">
+<ol class="orderedlist" type="1"><li class="listitem"><p>
+            Download the package from
+            <a class="ulink" href="http://dev.mysql.com/downloads/shell/" target="_top">http://dev.mysql.com/downloads/shell/</a>.
+          </p></li><li class="listitem"><p>
+            Double-click the downloaded DMG to mount it. Finder opens.
+          </p></li><li class="listitem"><p>
+            Double-click the <code class="filename">.pkg</code> file shown in the
+            Finder window.
+          </p></li><li class="listitem"><p>
+            Follow the steps in the installation wizard.
+</p>
+<div class="figure">
+<a name="fig-x-installation-mysql-shell-osx-quick"></a><p class="title"><b>Figure 19.2 Installation of MySQL Shell on macOS</b></p>
+<div class="figure-contents">
+
+<div class="mediaobject">
+<img src="images/x-installation-mysql-shell-osx-1.png" width="600" height="373" alt="Installation of MySQL Shell on macOS">
+</div>
+
+</div>
+
+</div>
+<br class="figure-break"></li><li class="listitem"><p>
+            When the installer finishes, eject the DMG. (It can be
+            deleted.)
+</p></li></ol>
+</div>
+
+</div>
+
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h3 class="title"><a name="installing-mysql-shell-starting"></a>19.2.2 Starting MySQL Shell</h3>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      You need an account name and password to establish a session using
+      MySQL Shell. Replace <em class="replaceable"><code>user</code></em> with your
+      account name.
+    </p><p>
+      On the same system where the server instance is running, open a
+      terminal window (command prompt on Windows) and start MySQL Shell
+      with the following command:
+
+</p><pre data-lang="terminal" class="programlisting">mysqlsh --uri <em class="replaceable"><code>user</code></em>@localhost
+</pre><p>
+
+      You are prompted to input your password and then this establishes
+      an X Session.
+    </p><p>
+      For instructions to get you started using MySQL as a document
+      store, see the following quick-start guides:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          <a class="ulink" href="https://dev.mysql.com/doc/refman/8.0/en/mysql-shell-tutorial-javascript.html" target="_top">Quick-Start
+          Guide: MySQL Shell for JavaScript</a>
+        </p></li><li class="listitem"><p>
+          <a class="ulink" href="https://dev.mysql.com/doc/refman/8.0/en/mysql-shell-tutorial-python.html" target="_top">Quick-Start
+          Guide: MySQL Shell for Python</a>
+</p></li></ul>
+</div>
+
+</div>
+
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="mysql-shell-visual-studio"></a>19.3 Quick-Start Guide: MySQL for Visual Studio</h2>
+
+</div>
+
+</div>
+
+</div>
+<p>
+    This section explains how to use MySQL Shell to script a server
+    using MySQL for Visual Studio.
+</p>
+<div class="simplesect">
+
+<div class="titlepage">
+<div>
+
+<div class="simple">
+<h3 class="title"><a name="mysql-shell-visual-studio-introduction"></a>Introduction</h3>
+</div>
+</div>
+</div>
+<p>
+      MySQL for Visual Studio provides access to MySQL objects and data without forcing
+      developers to leave Visual Studio. Designed and developed as a
+      Visual Studio package, MySQL for Visual Studio integrates directly into Server
+      Explorer providing a seamless experience for setting up new
+      connections and working with database objects.
+    </p><p>
+      The following MySQL for Visual Studio features are available as of version 2.0.2:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+          JavaScript and Python code editors, where scripts in those
+          languages can be executed to query data from a MySQL database.
+        </p></li><li class="listitem"><p>
+          Better integration with the Server Explorer to open MySQL,
+          JavaScript, and Python code editors directly from a connected
+          MySQL instance.
+        </p></li><li class="listitem"><p>
+          A newer user interface for displaying query results, where
+          different views are presented from result sets returned by a
+          MySQL Server like:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+              Multiple tabs for each result set returned by an executed
+              query.
+            </p></li><li class="listitem"><p>
+              Results view, where the information can be seen in grid,
+              tree, or text representation for JSON results.
+            </p></li><li class="listitem"><p>
+              Field types view, where information about the columns of a
+              result set is shown, such as names, data types, character
+              sets, and more.
+            </p></li><li class="listitem"><p>
+              Query statistics view, displaying information about the
+              executed query such as execution times, processed rows,
+              index and temporary tables usage, and more.
+            </p></li><li class="listitem"><p>
+              Execution plan view, displaying an explanation of the
+              query execution done internally by the MySQL Server.
+</p></li></ul>
+</div>
+</li></ul>
+</div>
+
+</div>
+<div class="simplesect">
+<div class="titlepage">
+<div>
+<div class="simple">
+<h3 class="title"><a name="mysql-shell-visual-studio-getting-started"></a>Getting Started</h3>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      The requirements are MySQL for Visual Studio 2.0.2 or higher, and Visual Studio
+      2010 or higher. X DevAPI support requires MySQL Server 5.7.12 or
+      higher with the X plugin enabled.
+</p>
+</div>
+<div class="simplesect">
+<div class="titlepage">
+<div>
+<div class="simple">
+<h3 class="title"><a name="mysql-shell-visual-studio-code-editor-open"></a>Opening a Code Editor</h3>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      Before opening a code editor that can execute queries against a
+      MySQL server, a connection needs to be established:
+</p>
+<div class="orderedlist">
+<ol class="orderedlist" type="1"><li class="listitem"><p>
+          Open the Server Explorer pane through the View menu, or with
+          <span class="keycap"><strong>Control</strong></span> + <span class="keycap"><strong>W</strong></span>,
+          <span class="keycap"><strong>K</strong></span>.
+        </p></li><li class="listitem"><p>
+          Right-click on the Data Connections node, select <span class="guilabel">Add
+          Connection...</span>.
+        </p></li><li class="listitem"><p>
+          In the <span class="guilabel">Add Connection</span> dialog, make sure
+          the MySQL Data Provider is being used and fill in all the
+          information.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+            To enter the port number, click
+            <span class="guibutton">Advanced...</span> and set the Port among
+            the list of connection properties.
+</p>
+</div>
+</li><li class="listitem"><p>
+          Click <span class="guibutton">Test Connection</span> to ensure you
+          have a valid connection, then click <span class="guibutton">OK</span>.
+        </p></li><li class="listitem"><p>
+          Right-click your newly created connection, select <span class="guimenu">New
+          MySQL Script</span> and then the language for the code
+          editor you want to open.
+</p></li></ol>
+</div>
+<p>
+      For existing MySQL connections, to create a new editor you need
+      only to do the last step.
+</p>
+</div>
+<div class="simplesect">
+<div class="titlepage">
+<div>
+<div class="simple">
+<h3 class="title"><a name="mysql-shell-visual-studio-code-editor-using"></a>Using the Code Editor</h3>
+
+</div>
+
+</div>
+
+</div>
+<p>
+      The MySQL script editors have a toolbar at the start where
+      information about the session is displayed, along with the actions
+      that can be executed.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+        Note the first two buttons in the toolbar represent a way to
+        connect or disconnect from a MySQL server. If the editor was
+        opened from the Server Explorer, the connection will be already
+        established for the new editor window.
+</p>
+</div>
+<p>
+      The third button is the <span class="guibutton">Run</span> button, the
+      script contained in the editor window is executed by clicking it
+      and results from the script execution are displayed below the
+      script window.
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+
+<div class="admon-title">
+Note
+</div>
+<p>
+        Some commands in the MySQL Shell can be executed without
+        appending <span class="command"><strong>execute()</strong></span> while in interactive
+        mode. In MySQL for Visual Studio, these commands do require
+        <span class="command"><strong>execute()</strong></span>. In other words, append
+        ".execute()" to execute commands.
+</p>
+</div>
+
+</div>
+
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h2 class="title" style="clear: both"><a name="x-plugin"></a>19.4 X Plugin</h2>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<dl class="toc"><dt><span class="section"><a href="document-store.html#x-plugin-ssl-connections">19.4.1 Using Secure Connections with X Plugin</a></span></dt><dt><span class="section"><a href="document-store.html#x-plugin-options-variables">19.4.2 X Plugin Options and Variables</a></span></dt><dt><span class="section"><a href="document-store.html#x-plugin-system-monitoring">19.4.3 Monitoring X Plugin</a></span></dt></dl>
+</div>
+<a class="indexterm" name="idm45535095997456"></a><p>
+    This section explains how to configure and monitor the
+    X Plugin.
+</p>
+<div class="section">
+
+<div class="titlepage">
+<div>
+<div>
+<h3 class="title"><a name="x-plugin-ssl-connections"></a>19.4.1 Using Secure Connections with X Plugin</h3>
+</div>
+</div>
+</div>
+<p>
+      This section explains how to configure X Plugin to use
+      secure connections. For more background information, see
+      <a class="xref" href="security.html#encrypted-connections" title="6.3 Using Encrypted Connections">Section 6.3, “Using Encrypted Connections”</a>.
+    </p><p>
+      X Plugin has its own SSL settings which can differ from
+      those used with MySQL Server. This means that X Plugin can
+      be configured with a different SSL key, certificate, and
+      certificate authorities file than MySQL Server. Similarly,
+      X Plugin has its own SSL status variables calculated
+      independently from the MySQL Server SSL related variables. By
+      default the X Plugin SSL configuration is taken from the
+      <code class="literal">mysqlx_ssl_*</code> variables, described at
+      <a class="xref" href="document-store.html#x-plugin-options-system-variables" title="19.4.2.2 X Plugin Options and System Variables">Section 19.4.2.2, “X Plugin Options and System Variables”</a>. If no
+      configuration is provided using the
+      <code class="literal">mysqlx_ssl_*</code> variables, X Plugin falls
+      back to using the MySQL Server SSL system variables. This means
+      you can choose to either have separate SSL configurations for
+      MySQL Protocol and X Protocol connections by configuring
+      each separately, or share the SSL configuration between MySQL
+      Protocol and X Protocol connections by only configuring the
+      <code class="literal">ssl-*</code> variables.
+    </p><p>
+      On a server with X Plugin installed, to configure MySQL
+      Protocol and X Protocol connections with separate SSL
+      configurations use both the <code class="literal">ssl-*</code> and
+      <code class="literal">mysqlx-ssl-*</code> variables in
+      <code class="filename">my.cnf</code>:
+    </p><pre data-lang="ini" class="programlisting">[mysqld]
+ssl-ca=ca1.pem
+ssl-cert=server-cert1.pem
+ssl-key=server-key1.pem
+
+mysqlx-ssl-ca=ca2.pem
+mysqlx-ssl-cert=server-cert2.pem
+mysqlx-ssl-key=server-key2.pem</pre><p>
+      The available <code class="literal">mysqlx_ssl_*</code> variables mirror the
+      SSL variables in MySQL Server, so the files and techniques
+      described for configuring MySQL Server to use SSL at
+      <a class="xref" href="security.html#using-encrypted-connections" title="6.3.1 Configuring MySQL to Use Encrypted Connections">Section 6.3.1, “Configuring MySQL to Use Encrypted Connections”</a> are relevant to
+      configuring X Plugin to use secure connections.
+    </p><p>
+      You can configure the TLS versions used by X Protocol SSL
+      connections using the <a class="link" href="server-administration.html#sysvar_tls_version"><code class="literal">tls_version</code></a>
+      system variable. The TLS version used by MySQL Protocol and
+      X Protocol connections is therefore the same TLS version.
+    </p><p>
+      Encryption per connection is optional, but a specific user can be
+      forced to use encryption for X Protocol and MySQL Protocol
+      connections. You configure such a user by issuing a
+      <a class="link" href="sql-statements.html#grant" title="13.7.1.4 GRANT Statement"><code class="literal">GRANT</code></a> statement with the
+      <code class="literal">REQUIRE</code> option. For more details see
+      <a class="xref" href="sql-statements.html#grant" title="13.7.1.4 GRANT Statement">Section 13.7.1.4, “GRANT Statement”</a>. Alternatively all X Protocol and
+      MySQL Protocol connections can be forced to use encryption by
+      setting <a class="link" href="server-administration.html#sysvar_require_secure_transport"><code class="literal">require_secure_transport</code></a>.
+</p>
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h3 class="title"><a name="x-plugin-options-variables"></a>19.4.2 X Plugin Options and Variables</h3>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<dl class="toc"><dt><span class="section"><a href="document-store.html#x-plugin-option-variable-reference">19.4.2.1 X Plugin Option and Variable Reference</a></span></dt><dt><span class="section"><a href="document-store.html#x-plugin-options-system-variables">19.4.2.2 X Plugin Options and System Variables</a></span></dt></dl>
+</div>
+<p>
+      This section describes the command options and system variables
+      which configure X Plugin. If values specified at startup
+      time are incorrect, X Plugin could fail to initialize
+      properly and the server does not load it. In this case, the server
+      could also produce error messages for other X Plugin
+      settings because it cannot recognize them.
+</p>
+<div class="section">
+
+<div class="titlepage">
+<div>
+<div>
+<h4 class="title"><a name="x-plugin-option-variable-reference"></a>19.4.2.1 X Plugin Option and Variable Reference</h4>
+</div>
+</div>
+</div>
+<p>
+        This table provides an overview of the command options, and
+        system and status variables provided by X Plugin.
+</p>
+<div class="table">
+<a name="idm45535095973104"></a><p class="title"><b>Table 19.1 X Plugin Option and Variable
+Reference</b></p>
+<div class="table-contents">
+<table frame="box" rules="all" summary="Reference for X Plugin command-line options, system variables, and status variables."><col width="20%"><col width="15%"><col width="15%"><col width="15%"><col width="15%"><col width="15%"><col width="15%"><thead><tr><th scope="col">Name</th>
+<th scope="col">Cmd-Line</th>
+<th scope="col">Option File</th>
+<th scope="col">System Var</th>
+<th scope="col">Status Var</th>
+<th scope="col">Var Scope</th>
+<th scope="col">Dynamic</th>
+</tr></thead><tbody><tr><td scope="row"><a class="link" href="document-store.html#option_mysqld_mysqlx">mysqlx</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_address">Mysqlx_address</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_bind_address">mysqlx_bind_address</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_bytes_received">Mysqlx_bytes_received</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_bytes_sent">Mysqlx_bytes_sent</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_connect_timeout">mysqlx_connect_timeout</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>Yes</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_connection_accept_errors">Mysqlx_connection_accept_errors</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_connection_errors">Mysqlx_connection_errors</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_connections_accepted">Mysqlx_connections_accepted</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_connections_closed">Mysqlx_connections_closed</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_connections_rejected">Mysqlx_connections_rejected</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_crud_create_view">Mysqlx_crud_create_view</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_crud_delete">Mysqlx_crud_delete</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_crud_drop_view">Mysqlx_crud_drop_view</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_crud_find">Mysqlx_crud_find</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_crud_insert">Mysqlx_crud_insert</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_crud_modify_view">Mysqlx_crud_modify_view</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_crud_update">Mysqlx_crud_update</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_errors_sent">Mysqlx_errors_sent</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row">Mysqlx_errors_unknown_message_type</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_expect_close">Mysqlx_expect_close</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_expect_open">Mysqlx_expect_open</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_idle_worker_thread_timeout">mysqlx_idle_worker_thread_timeout</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>Yes</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_init_error">Mysqlx_init_error</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_max_allowed_packet">mysqlx_max_allowed_packet</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>Yes</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_max_connections">mysqlx_max_connections</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>Yes</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_min_worker_threads">mysqlx_min_worker_threads</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>Yes</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_notice_other_sent">Mysqlx_notice_other_sent</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_notice_warning_sent">Mysqlx_notice_warning_sent</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_port">Mysqlx_port</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_port">mysqlx_port</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_port_open_timeout">mysqlx_port_open_timeout</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_rows_sent">Mysqlx_rows_sent</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_sessions">Mysqlx_sessions</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_sessions_accepted">Mysqlx_sessions_accepted</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_sessions_closed">Mysqlx_sessions_closed</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_sessions_fatal_error">Mysqlx_sessions_fatal_error</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_sessions_killed">Mysqlx_sessions_killed</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_sessions_rejected">Mysqlx_sessions_rejected</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_socket">Mysqlx_socket</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_socket">mysqlx_socket</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_accept_renegotiates">Mysqlx_ssl_accept_renegotiates</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_accepts">Mysqlx_ssl_accepts</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_active">Mysqlx_ssl_active</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_ca">mysqlx_ssl_ca</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_capath">mysqlx_ssl_capath</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_cert">mysqlx_ssl_cert</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_cipher">Mysqlx_ssl_cipher</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_cipher">mysqlx_ssl_cipher</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_cipher_list">Mysqlx_ssl_cipher_list</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_crl">mysqlx_ssl_crl</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_crlpath">mysqlx_ssl_crlpath</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_ctx_verify_depth">Mysqlx_ssl_ctx_verify_depth</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_ctx_verify_mode">Mysqlx_ssl_ctx_verify_mode</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_finished_accepts">Mysqlx_ssl_finished_accepts</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_key">mysqlx_ssl_key</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td></td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_server_not_after">Mysqlx_ssl_server_not_after</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_server_not_before">Mysqlx_ssl_server_not_before</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_verify_depth">Mysqlx_ssl_verify_depth</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_verify_mode">Mysqlx_ssl_verify_mode</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_ssl_version">Mysqlx_ssl_version</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_create_collection">Mysqlx_stmt_create_collection</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_create_collection_index">Mysqlx_stmt_create_collection_index</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_disable_notices">Mysqlx_stmt_disable_notices</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_drop_collection">Mysqlx_stmt_drop_collection</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_drop_collection_index">Mysqlx_stmt_drop_collection_index</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_enable_notices">Mysqlx_stmt_enable_notices</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_ensure_collection">Mysqlx_stmt_ensure_collection</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_execute_mysqlx">Mysqlx_stmt_execute_mysqlx</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_execute_sql">Mysqlx_stmt_execute_sql</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_execute_xplugin">Mysqlx_stmt_execute_xplugin</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_kill_client">Mysqlx_stmt_kill_client</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_list_clients">Mysqlx_stmt_list_clients</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_list_notices">Mysqlx_stmt_list_notices</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_list_objects">Mysqlx_stmt_list_objects</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_stmt_ping">Mysqlx_stmt_ping</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Both</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_worker_threads">Mysqlx_worker_threads</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr><tr><td scope="row"><a class="link" href="document-store.html#statvar_Mysqlx_worker_threads_active">Mysqlx_worker_threads_active</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Yes</td>
+<td>Global</td>
+<td>No</td>
+</tr></tbody></table>
+</div>
+
+</div>
+<br class="table-break">
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h4 class="title"><a name="x-plugin-options-system-variables"></a>19.4.2.2 X Plugin Options and System Variables</h4>
+
+</div>
+
+</div>
+
+</div>
+<p>
+        To control activation of X Plugin, use this option:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><a name="option_mysqld_mysqlx"></a>
+            <a class="indexterm" name="idm45535095422768"></a>
+
+            <a class="indexterm" name="idm45535095421728"></a>
+
+            <a class="link" href="document-store.html#option_mysqld_mysqlx"><code class="option">--mysqlx[=value]</code></a>
+</p>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx[=value]</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>Enumeration</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Default Value</strong></span></td>
+<td><code class="literal">ON</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Valid Values</strong></span></td>
+<td><p class="valid-value"><code class="literal">ON</code></p><p class="valid-value"><code class="literal">OFF</code></p><p class="valid-value"><code class="literal">FORCE</code></p><p class="valid-value"><code class="literal">FORCE_PLUS_PERMANENT</code></p></td>
+</tr></tbody></table>
+</div>
+<p>
+            This option controls how the server loads X Plugin at
+            startup. It is available only if the plugin has been
+            previously registered with <a class="link" href="sql-statements.html#install-plugin" title="13.7.3.3 INSTALL PLUGIN Statement"><code class="literal">INSTALL
+            PLUGIN</code></a> or is loaded with
+            <a class="link" href="server-administration.html#option_mysqld_plugin-load"><code class="option">--plugin-load</code></a> or
+            <a class="link" href="server-administration.html#option_mysqld_plugin-load-add"><code class="option">--plugin-load-add</code></a>.
+          </p><p>
+            The option value should be one of those available for
+            plugin-loading options, as described in
+            <a class="xref" href="server-administration.html#plugin-loading" title="5.5.1 Installing and Uninstalling Plugins">Section 5.5.1, “Installing and Uninstalling Plugins”</a>. For example,
+            <a class="link" href="document-store.html#option_mysqld_mysqlx"><code class="option">--mysqlx=FORCE_PLUS_PERMANENT</code></a>
+            tells the server to load the plugin and prevent it from
+            being removed while the server is running.
+</p></li></ul>
+</div>
+<p>
+        If X Plugin is enabled, it exposes several system
+        variables that permit control over its operation:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><a name="sysvar_mysqlx_bind_address"></a>
+            <a class="indexterm" name="idm45535095387232"></a>
+
+            <a class="indexterm" name="idm45535095386224"></a>
+
+            <a class="link" href="document-store.html#sysvar_mysqlx_bind_address"><code class="literal">mysqlx_bind_address</code></a>
+</p>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_bind_address"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-bind-address=addr</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.17</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_bind_address">mysqlx_bind_address</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>String</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Default Value</strong></span></td>
+<td><code class="literal">*</code></td>
+</tr></tbody></table>
+</div>
+<p>
+            The network address on which X Plugin listens for
+            TCP/IP connections. This variable is not dynamic and can be
+            configured only at startup. This is the X Plugin
+            equivalent of the
+            <a class="link" href="server-administration.html#sysvar_bind_address"><code class="literal">bind_address</code></a> system
+            variable; see that variable description for more
+            information.
+          </p><p>
+            <a class="link" href="document-store.html#sysvar_mysqlx_bind_address"><code class="literal">mysqlx_bind_address</code></a> accepts
+            a single address value, which may specify a single
+            non-wildcard IP address or host name, or one of the wildcard
+            address formats that permit listening on multiple network
+            interfaces (<code class="literal">*</code>,
+            <code class="literal">0.0.0.0</code>, or <code class="literal">::</code>).
+          </p><p>
+            An IP address can be specified as an IPv4 or IPv6 address.
+            If the value is a host name, X Plugin resolves the
+            name to an IP address and binds to that address. If a host
+            name resolves to multiple IP addresses, X Plugin uses
+            the first IPv4 address if there are any, or the first IPv6
+            address otherwise.
+          </p><p>
+            X Plugin treats different types of addresses as
+            follows:
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: circle; "><li class="listitem"><p>
+                If the address is <code class="literal">*</code>, X Plugin
+                accepts TCP/IP connections on all server host IPv4
+                interfaces, and, if the server host supports IPv6, on
+                all IPv6 interfaces. Use this address to permit both
+                IPv4 and IPv6 connections for X Plugin. This value
+                is the default.
+              </p></li><li class="listitem"><p>
+                If the address is <code class="literal">0.0.0.0</code>,
+                X Plugin accepts TCP/IP connections on all server
+                host IPv4 interfaces.
+              </p></li><li class="listitem"><p>
+                If the address is <code class="literal">::</code>, X Plugin
+                accepts TCP/IP connections on all server host IPv4 and
+                IPv6 interfaces.
+              </p></li><li class="listitem"><p>
+                If the address is an IPv4-mapped address, X Plugin
+                accepts TCP/IP connections for that address, in either
+                IPv4 or IPv6 format. For example, if X Plugin is
+                bound to <code class="literal">::ffff:127.0.0.1</code>, a client
+                such as MySQL Shell can connect using
+                <code class="option">--host=127.0.0.1</code> or
+                <code class="option">--host=::ffff:127.0.0.1</code>.
+              </p></li><li class="listitem"><p>
+                If the address is a <span class="quote">“<span class="quote">regular</span>”</span> IPv4 or IPv6
+                address (such as <code class="literal">127.0.0.1</code> or
+                <code class="literal">::1</code>), X Plugin accepts TCP/IP
+                connections only for that IPv4 or IPv6 address.
+</p></li></ul>
+</div>
+<p>
+            If binding to the address fails, X Plugin produces an
+            error and the server does not load it.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_connect_timeout"></a>
+            <a class="indexterm" name="idm45535095337088"></a>
+
+            <a class="indexterm" name="idm45535095336048"></a>
+
+            <a class="link" href="document-store.html#sysvar_mysqlx_connect_timeout"><code class="literal">mysqlx_connect_timeout</code></a>
+</p>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_connect_timeout"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-connect-timeout=#</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_connect_timeout">mysqlx_connect_timeout</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>Yes</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>Integer</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Default Value</strong></span></td>
+<td><code class="literal">30</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Minimum Value</strong></span></td>
+<td><code class="literal">1</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Maximum Value</strong></span></td>
+<td><code class="literal">1000000000</code></td>
+</tr></tbody></table>
+</div>
+<p>
+            The number of seconds X Plugin waits for the first
+            packet to be received from newly connected clients. This is
+            the X Plugin equivalent of
+            <a class="link" href="server-administration.html#sysvar_connect_timeout"><code class="literal">connect_timeout</code></a>; see that
+            variable for more information.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_idle_worker_thread_timeout"></a>
+            <a class="indexterm" name="idm45535095297552"></a>
+
+            <a class="indexterm" name="idm45535095296512"></a>
+
+            <a class="link" href="document-store.html#sysvar_mysqlx_idle_worker_thread_timeout"><code class="literal">mysqlx_idle_worker_thread_timeout</code></a>
+</p>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_idle_worker_thread_timeout"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-idle-worker-thread-timeout=#</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_idle_worker_thread_timeout">mysqlx_idle_worker_thread_timeout</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>Yes</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>Integer</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Default Value</strong></span></td>
+<td><code class="literal">60</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Minimum Value</strong></span></td>
+<td><code class="literal">0</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Maximum Value</strong></span></td>
+<td><code class="literal">3600</code></td>
+</tr></tbody></table>
+</div>
+<p>
+            The number of seconds after which idle worker threads are
+            terminated.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_max_allowed_packet"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_max_allowed_packet"><code class="literal">mysqlx_max_allowed_packet</code></a>
+</p><a class="indexterm" name="idm45535095257968"></a><a class="indexterm" name="idm45535095256864"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_max_allowed_packet"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-max-allowed-packet=#</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_max_allowed_packet">mysqlx_max_allowed_packet</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>Yes</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>Integer</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Default Value</strong></span></td>
+<td><code class="literal">67108864</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Minimum Value</strong></span></td>
+<td><code class="literal">512</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Maximum Value</strong></span></td>
+<td><code class="literal">1073741824</code></td>
+</tr></tbody></table>
+</div>
+<p>
+            The maximum size of network packets that can be received by
+            X Plugin. This is the X Plugin equivalent of
+            <a class="link" href="server-administration.html#sysvar_max_allowed_packet"><code class="literal">max_allowed_packet</code></a>; see
+            that variable for more information.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_max_connections"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_max_connections"><code class="literal">mysqlx_max_connections</code></a>
+</p><a class="indexterm" name="idm45535095218352"></a><a class="indexterm" name="idm45535095217312"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_max_connections"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-max-connections=#</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_max_connections">mysqlx_max_connections</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>Yes</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>Integer</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Default Value</strong></span></td>
+<td><code class="literal">100</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Minimum Value</strong></span></td>
+<td><code class="literal">1</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Maximum Value</strong></span></td>
+<td><code class="literal">65535</code></td>
+</tr></tbody></table>
+</div>
+<p>
+            The maximum number of concurrent client connections
+            X Plugin can accept. This is the X Plugin
+            equivalent of
+            <a class="link" href="server-administration.html#sysvar_max_connections"><code class="literal">max_connections</code></a>; see that
+            variable for more information.
+          </p><p>
+            For modifications to this variable, if the new value is
+            smaller than the current number of connections, the new
+            limit is taken into account only for new connections.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_min_worker_threads"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_min_worker_threads"><code class="literal">mysqlx_min_worker_threads</code></a>
+</p><a class="indexterm" name="idm45535095178320"></a><a class="indexterm" name="idm45535095177216"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_min_worker_threads"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-min-worker-threads=#</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_min_worker_threads">mysqlx_min_worker_threads</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>Yes</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>Integer</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Default Value</strong></span></td>
+<td><code class="literal">2</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Minimum Value</strong></span></td>
+<td><code class="literal">1</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Maximum Value</strong></span></td>
+<td><code class="literal">100</code></td>
+</tr></tbody></table>
+</div>
+<p>
+            The minimum number of worker threads used by X Plugin
+            for handling client requests.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_port"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_port"><code class="literal">mysqlx_port</code></a>
+</p><a class="indexterm" name="idm45535095140224"></a><a class="indexterm" name="idm45535095139136"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_port"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-port=port_num</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_port">mysqlx_port</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>Integer</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Default Value</strong></span></td>
+<td><code class="literal">33060</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Minimum Value</strong></span></td>
+<td><code class="literal">1</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Maximum Value</strong></span></td>
+<td><code class="literal">65535</code></td>
+</tr></tbody></table>
+</div>
+<p>
+            The network port on which X Plugin listens for TCP/IP
+            connections. This is the X Plugin equivalent of
+            <a class="link" href="server-administration.html#sysvar_port"><code class="literal">port</code></a>; see that variable for
+            more information.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_port_open_timeout"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_port_open_timeout"><code class="literal">mysqlx_port_open_timeout</code></a>
+</p><a class="indexterm" name="idm45535095100784"></a><a class="indexterm" name="idm45535095099680"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_port_open_timeout"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-port-open-timeout=#</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.17</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_port_open_timeout">mysqlx_port_open_timeout</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>Integer</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Default Value</strong></span></td>
+<td><code class="literal">0</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Minimum Value</strong></span></td>
+<td><code class="literal">0</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Maximum Value</strong></span></td>
+<td><code class="literal">120</code></td>
+</tr></tbody></table>
+</div>
+<p>
+            The number of seconds X Plugin waits for a TCP/IP port
+            to become free.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_socket"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_socket"><code class="literal">mysqlx_socket</code></a>
+</p><a class="indexterm" name="idm45535095062704"></a><a class="indexterm" name="idm45535095061616"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_socket"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-socket=file_name</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.15</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_socket">mysqlx_socket</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>String</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Default Value</strong></span></td>
+<td><code class="literal">/tmp/mysqlx.sock</code></td>
+</tr></tbody></table>
+</div>
+<p>
+            The path to a Unix socket file which X Plugin uses for
+            connections. This setting is only used by MySQL Server when
+            running on Unix operating systems. Clients can use this
+            socket to connect to MySQL Server using X Plugin.
+          </p><p>
+            The default <a class="link" href="document-store.html#sysvar_mysqlx_socket"><code class="literal">mysqlx_socket</code></a>
+            path and file name is based on the default path and file
+            name for the main socket file for MySQL Server, with the
+            addition of an <code class="literal">x</code> appended to the file
+            name. The default path and file name for the main socket
+            file is <code class="literal">/tmp/mysql.sock</code>, therefore the
+            default path and file name for the X Plugin socket
+            file is <code class="literal">/tmp/mysqlx.sock</code>.
+          </p><p>
+            If you specify an alternative path and file name for the
+            main socket file at server startup using the
+            <a class="link" href="server-administration.html#sysvar_socket"><code class="literal">socket</code></a> system variable,
+            this does not affect the default for the X Plugin
+            socket file. In this situation, if you want to store both
+            sockets at a single path, you must set the
+            <a class="link" href="document-store.html#sysvar_mysqlx_socket"><code class="literal">mysqlx_socket</code></a> system
+            variable as well. For example in a configuration file:
+          </p><pre data-lang="ini" class="programlisting">socket=/home/sockets/mysqld/mysql.sock
+mysqlx_socket=/home/sockets/xplugin/xplugin.sock</pre><p>
+            If you change the default path and file name for the main
+            socket file at compile time using the
+            <a class="link" href="installing.html#option_cmake_mysql_unix_addr"><code class="option">MYSQL_UNIX_ADDR</code></a> compile
+            option, this does affect the default for the X Plugin
+            socket file, which is formed by appending an
+            <code class="literal">x</code> to the
+            <a class="link" href="installing.html#option_cmake_mysql_unix_addr"><code class="option">MYSQL_UNIX_ADDR</code></a> file name. If
+            you want to set a different default for the X Plugin
+            socket file at compile time, use the
+            <a class="link" href="installing.html#option_cmake_mysqlx_unix_addr"><code class="option">MYSQLX_UNIX_ADDR</code></a> compile
+            option.
+          </p><p>
+            The <code class="literal">MYSQLX_UNIX_PORT</code> environment variable
+            can also be used to set a default for the X Plugin
+            socket file at server startup (see
+            <a class="xref" href="programs.html#environment-variables" title="4.9 Environment Variables">Section 4.9, “Environment Variables”</a>). If you set this
+            environment variable, it overrides the compiled
+            <a class="link" href="installing.html#option_cmake_mysqlx_unix_addr"><code class="option">MYSQLX_UNIX_ADDR</code></a> value, but is
+            overridden by the
+            <a class="link" href="document-store.html#sysvar_mysqlx_socket"><code class="literal">mysqlx_socket</code></a> value.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_ssl_ca"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_ssl_ca"><code class="literal">mysqlx_ssl_ca</code></a>
+</p><a class="indexterm" name="idm45535095013472"></a><a class="indexterm" name="idm45535095012384"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_ssl_ca"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-ssl-ca=file_name</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_ca">mysqlx_ssl_ca</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>File name</td>
+</tr></tbody></table>
+</div>
+<p>
+            This is the X Plugin equivalent of
+            <a class="link" href="server-administration.html#sysvar_ssl_ca"><code class="literal">ssl_ca</code></a>; see that variable
+            for more information.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_ssl_capath"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_ssl_capath"><code class="literal">mysqlx_ssl_capath</code></a>
+</p><a class="indexterm" name="idm45535094983296"></a><a class="indexterm" name="idm45535094982256"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_ssl_capath"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-ssl-capath=dir_name</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_capath">mysqlx_ssl_capath</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>Directory name</td>
+</tr></tbody></table>
+</div>
+<p>
+            This is the X Plugin equivalent of
+            <a class="link" href="server-administration.html#sysvar_ssl_capath"><code class="literal">ssl_capath</code></a>; see that
+            variable for more information.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_ssl_cert"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_ssl_cert"><code class="literal">mysqlx_ssl_cert</code></a>
+</p><a class="indexterm" name="idm45535094953248"></a><a class="indexterm" name="idm45535094952160"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_ssl_cert"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-ssl-cert=name</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_cert">mysqlx_ssl_cert</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>File name</td>
+</tr></tbody></table>
+</div>
+<p>
+            This is the X Plugin equivalent of
+            <a class="link" href="server-administration.html#sysvar_ssl_cert"><code class="literal">ssl_cert</code></a>; see that variable
+            for more information.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_ssl_cipher"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_ssl_cipher"><code class="literal">mysqlx_ssl_cipher</code></a>
+</p><a class="indexterm" name="idm45535094923088"></a><a class="indexterm" name="idm45535094922048"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_ssl_cipher"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-ssl-cipher=name</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_cipher">mysqlx_ssl_cipher</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>String</td>
+</tr></tbody></table>
+</div>
+<p>
+            The SSL cipher to use for X Protocol connections. This
+            is the X Plugin equivalent of
+            <a class="link" href="server-administration.html#sysvar_ssl_cipher"><code class="literal">ssl_cipher</code></a>; see that
+            variable for more information.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_ssl_crl"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_ssl_crl"><code class="literal">mysqlx_ssl_crl</code></a>
+</p><a class="indexterm" name="idm45535094892976"></a><a class="indexterm" name="idm45535094891888"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_ssl_crl"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-ssl-crl=file_name</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_crl">mysqlx_ssl_crl</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>File name</td>
+</tr></tbody></table>
+</div>
+<p>
+            This is the X Plugin equivalent of
+            <a class="link" href="server-administration.html#sysvar_ssl_crl"><code class="literal">ssl_crl</code></a>; see that variable
+            for more information.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_ssl_crlpath"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_ssl_crlpath"><code class="literal">mysqlx_ssl_crlpath</code></a>
+</p><a class="indexterm" name="idm45535094862800"></a><a class="indexterm" name="idm45535094861760"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_ssl_crlpath"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-ssl-crlpath=dir_name</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_crlpath">mysqlx_ssl_crlpath</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>Directory name</td>
+</tr></tbody></table>
+</div>
+<p>
+            This is the X Plugin equivalent of
+            <a class="link" href="server-administration.html#sysvar_ssl_crlpath"><code class="literal">ssl_crlpath</code></a>; see that
+            variable for more information.
+          </p></li><li class="listitem"><p><a name="sysvar_mysqlx_ssl_key"></a>
+            <a class="link" href="document-store.html#sysvar_mysqlx_ssl_key"><code class="literal">mysqlx_ssl_key</code></a>
+</p><a class="indexterm" name="idm45535094832752"></a><a class="indexterm" name="idm45535094831664"></a>
+<div class="informaltable">
+<table frame="box" rules="all" summary="Properties for mysqlx_ssl_key"><col width="30%"><col width="70%"><thead><tr><th scope="col">Property</th>
+<th scope="col">Value</th>
+</tr></thead><tbody><tr><td scope="row"><span class="bold"><strong>Command-Line Format</strong></span></td>
+<td><code class="literal">--mysqlx-ssl-key=file_name</code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Introduced</strong></span></td>
+<td>5.7.12</td>
+</tr><tr><td scope="row"><span class="bold"><strong>System Variable</strong></span></td>
+<td><code class="literal"><a class="link" href="document-store.html#sysvar_mysqlx_ssl_key">mysqlx_ssl_key</a></code></td>
+</tr><tr><td scope="row"><span class="bold"><strong>Scope</strong></span></td>
+<td>Global</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Dynamic</strong></span></td>
+<td>No</td>
+</tr><tr><td scope="row"><span class="bold"><strong>Type</strong></span></td>
+<td>File name</td>
+</tr></tbody></table>
+</div>
+<p>
+            This is the X Plugin equivalent of
+            <a class="link" href="server-administration.html#sysvar_ssl_key"><code class="literal">ssl_key</code></a>; see that variable
+            for more information.
+</p></li></ul>
+</div>
+
+</div>
+
+</div>
+<div class="section">
+<div class="titlepage">
+<div>
+<div>
+<h3 class="title"><a name="x-plugin-system-monitoring"></a>19.4.3 Monitoring X Plugin</h3>
+
+</div>
+
+</div>
+
+</div>
+<div class="toc">
+<dl class="toc"><dt><span class="section"><a href="document-store.html#x-plugin-monitoring-status-variables">19.4.3.1 Status Variables for X Plugin</a></span></dt></dl>
+</div>
+<p>
+      This section describes how to monitor X Plugin. There are
+      two available methods of monitoring, using Performance Schema
+      tables or status variables.
+</p>
+<div class="section">
+
+<div class="titlepage">
+<div>
+<div>
+<h4 class="title"><a name="x-plugin-monitoring-status-variables"></a>19.4.3.1 Status Variables for X Plugin</h4>
+</div>
+</div>
+</div>
+<p>
+        The status variables have the following meanings.
+</p>
+<div class="itemizedlist">
+<ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p><a name="statvar_Mysqlx_address"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_address"><code class="literal">Mysqlx_address</code></a>
+          </p><p>
+            The network address which X Plugin is bound to. If the
+            bind has failed, or if the
+            <a class="link" href="server-administration.html#sysvar_skip_networking"><code class="literal">skip_networking</code></a> option has
+            been used, the value shows <code class="literal">UNDEFINED</code>.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_bytes_received"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_bytes_received"><code class="literal">Mysqlx_bytes_received</code></a>
+          </p><p>
+            The number of bytes received through the network.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_bytes_sent"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_bytes_sent"><code class="literal">Mysqlx_bytes_sent</code></a>
+          </p><p>
+            The number of bytes sent through the network.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_connection_accept_errors"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_connection_accept_errors"><code class="literal">Mysqlx_connection_accept_errors</code></a>
+          </p><p>
+            The number of connections which have caused accept errors.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_connection_errors"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_connection_errors"><code class="literal">Mysqlx_connection_errors</code></a>
+          </p><p>
+            The number of connections which have caused errors.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_connections_accepted"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_connections_accepted"><code class="literal">Mysqlx_connections_accepted</code></a>
+          </p><p>
+            The number of connections which have been accepted.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_connections_closed"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_connections_closed"><code class="literal">Mysqlx_connections_closed</code></a>
+          </p><p>
+            The number of connections which have been closed.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_connections_rejected"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_connections_rejected"><code class="literal">Mysqlx_connections_rejected</code></a>
+          </p><p>
+            The number of connections which have been rejected.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_crud_create_view"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_crud_create_view"><code class="literal">Mysqlx_crud_create_view</code></a>
+          </p><p>
+            The number of create view requests received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_crud_delete"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_crud_delete"><code class="literal">Mysqlx_crud_delete</code></a>
+          </p><p>
+            The number of delete requests received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_crud_drop_view"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_crud_drop_view"><code class="literal">Mysqlx_crud_drop_view</code></a>
+          </p><p>
+            The number of drop view requests received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_crud_find"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_crud_find"><code class="literal">Mysqlx_crud_find</code></a>
+          </p><p>
+            The number of find requests received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_crud_insert"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_crud_insert"><code class="literal">Mysqlx_crud_insert</code></a>
+          </p><p>
+            The number of insert requests received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_crud_modify_view"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_crud_modify_view"><code class="literal">Mysqlx_crud_modify_view</code></a>
+          </p><p>
+            The number of modify view requests received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_crud_update"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_crud_update"><code class="literal">Mysqlx_crud_update</code></a>
+          </p><p>
+            The number of update requests received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_errors_sent"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_errors_sent"><code class="literal">Mysqlx_errors_sent</code></a>
+          </p><p>
+            The number of errors sent to clients.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_expect_close"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_expect_close"><code class="literal">Mysqlx_expect_close</code></a>
+          </p><p>
+            The number of expectation blocks closed.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_expect_open"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_expect_open"><code class="literal">Mysqlx_expect_open</code></a>
+          </p><p>
+            The number of expectation blocks opened.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_init_error"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_init_error"><code class="literal">Mysqlx_init_error</code></a>
+          </p><p>
+            The number of errors during initialisation.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_notice_other_sent"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_notice_other_sent"><code class="literal">Mysqlx_notice_other_sent</code></a>
+          </p><p>
+            The number of other types of notices sent back to clients.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_notice_warning_sent"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_notice_warning_sent"><code class="literal">Mysqlx_notice_warning_sent</code></a>
+          </p><p>
+            The number of warning notices sent back to clients.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_port"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_port"><code class="literal">Mysqlx_port</code></a>
+          </p><p>
+            The TCP port which X Plugin is listening to. If a
+            network bind has failed, or if the
+            <a class="link" href="server-administration.html#sysvar_skip_networking"><code class="literal">skip_networking</code></a> system
+            variable is enabled, the value shows
+            <code class="literal">UNDEFINED</code>.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_rows_sent"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_rows_sent"><code class="literal">Mysqlx_rows_sent</code></a>
+          </p><p>
+            The number of rows sent back to clients.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_sessions"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_sessions"><code class="literal">Mysqlx_sessions</code></a>
+          </p><p>
+            The number of sessions that have been opened.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_sessions_accepted"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_sessions_accepted"><code class="literal">Mysqlx_sessions_accepted</code></a>
+          </p><p>
+            The number of session attempts which have been accepted.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_sessions_closed"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_sessions_closed"><code class="literal">Mysqlx_sessions_closed</code></a>
+          </p><p>
+            The number of sessions that have been closed.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_sessions_fatal_error"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_sessions_fatal_error"><code class="literal">Mysqlx_sessions_fatal_error</code></a>
+          </p><p>
+            The number of sessions that have closed with a fatal error.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_sessions_killed"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_sessions_killed"><code class="literal">Mysqlx_sessions_killed</code></a>
+          </p><p>
+            The number of sessions which have been killed.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_sessions_rejected"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_sessions_rejected"><code class="literal">Mysqlx_sessions_rejected</code></a>
+          </p><p>
+            The number of session attempts which have been rejected.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_socket"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_socket"><code class="literal">Mysqlx_socket</code></a>
+          </p><p>
+            The Unix socket which X Plugin is listening to.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_accept_renegotiates"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_accept_renegotiates"><code class="literal">Mysqlx_ssl_accept_renegotiates</code></a>
+          </p><p>
+            The number of negotiations needed to establish the
+            connection.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_accepts"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_accepts"><code class="literal">Mysqlx_ssl_accepts</code></a>
+          </p><p>
+            The number of accepted SSL connections.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_active"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_active"><code class="literal">Mysqlx_ssl_active</code></a>
+          </p><p>
+            If SSL is active.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_cipher"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_cipher"><code class="literal">Mysqlx_ssl_cipher</code></a>
+          </p><p>
+            The current SSL cipher (empty for non-SSL connections).
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_cipher_list"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_cipher_list"><code class="literal">Mysqlx_ssl_cipher_list</code></a>
+          </p><p>
+            A list of possible SSL ciphers (empty for non-SSL
+            connections).
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_ctx_verify_depth"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_ctx_verify_depth"><code class="literal">Mysqlx_ssl_ctx_verify_depth</code></a>
+          </p><p>
+            
+
+            The certificate verification depth limit currently set in
+            ctx.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_ctx_verify_mode"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_ctx_verify_mode"><code class="literal">Mysqlx_ssl_ctx_verify_mode</code></a>
+          </p><p>
+            The certificate verification mode currently set in ctx.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_finished_accepts"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_finished_accepts"><code class="literal">Mysqlx_ssl_finished_accepts</code></a>
+          </p><p>
+            The number of successful SSL connections to the server.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_server_not_after"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_server_not_after"><code class="literal">Mysqlx_ssl_server_not_after</code></a>
+          </p><p>
+            The last date for which the SSL certificate is valid.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_server_not_before"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_server_not_before"><code class="literal">Mysqlx_ssl_server_not_before</code></a>
+          </p><p>
+            The first date for which the SSL certificate is valid.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_verify_depth"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_verify_depth"><code class="literal">Mysqlx_ssl_verify_depth</code></a>
+          </p><p>
+            The certificate verification depth for SSL connections.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_verify_mode"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_verify_mode"><code class="literal">Mysqlx_ssl_verify_mode</code></a>
+          </p><p>
+            The certificate verification mode for SSL connections.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_ssl_version"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_ssl_version"><code class="literal">Mysqlx_ssl_version</code></a>
+          </p><p>
+            The name of the protocol used for SSL connections.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_create_collection"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_create_collection"><code class="literal">Mysqlx_stmt_create_collection</code></a>
+          </p><p>
+            The number of create collection statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_create_collection_index"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_create_collection_index"><code class="literal">Mysqlx_stmt_create_collection_index</code></a>
+          </p><p>
+            The number of create collection index statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_disable_notices"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_disable_notices"><code class="literal">Mysqlx_stmt_disable_notices</code></a>
+          </p><p>
+            The number of disable notice statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_drop_collection"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_drop_collection"><code class="literal">Mysqlx_stmt_drop_collection</code></a>
+          </p><p>
+            The number of drop collection statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_drop_collection_index"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_drop_collection_index"><code class="literal">Mysqlx_stmt_drop_collection_index</code></a>
+          </p><p>
+            The number of drop collection index statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_enable_notices"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_enable_notices"><code class="literal">Mysqlx_stmt_enable_notices</code></a>
+          </p><p>
+            The number of enable notice statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_ensure_collection"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_ensure_collection"><code class="literal">Mysqlx_stmt_ensure_collection</code></a>
+          </p><p>
+            The number of ensure collection statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_execute_mysqlx"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_execute_mysqlx"><code class="literal">Mysqlx_stmt_execute_mysqlx</code></a>
+          </p><p>
+            The number of StmtExecute messages received with namespace
+            set to <code class="literal">mysqlx</code>.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_execute_sql"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_execute_sql"><code class="literal">Mysqlx_stmt_execute_sql</code></a>
+          </p><p>
+            The number of StmtExecute requests received for the SQL
+            namespace.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_execute_xplugin"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_execute_xplugin"><code class="literal">Mysqlx_stmt_execute_xplugin</code></a>
+          </p><p>
+            The number of StmtExecute requests received for the
+            X Plugin namespace.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_kill_client"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_kill_client"><code class="literal">Mysqlx_stmt_kill_client</code></a>
+          </p><p>
+            The number of kill client statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_list_clients"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_list_clients"><code class="literal">Mysqlx_stmt_list_clients</code></a>
+          </p><p>
+            The number of list client statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_list_notices"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_list_notices"><code class="literal">Mysqlx_stmt_list_notices</code></a>
+          </p><p>
+            The number of list notice statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_list_objects"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_list_objects"><code class="literal">Mysqlx_stmt_list_objects</code></a>
+          </p><p>
+            The number of list object statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_stmt_ping"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_stmt_ping"><code class="literal">Mysqlx_stmt_ping</code></a>
+          </p><p>
+            The number of ping statements received.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_worker_threads"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_worker_threads"><code class="literal">Mysqlx_worker_threads</code></a>
+          </p><p>
+            The number of worker threads available.
+          </p></li><li class="listitem"><p><a name="statvar_Mysqlx_worker_threads_active"></a>
+            <a class="link" href="document-store.html#statvar_Mysqlx_worker_threads_active"><code class="literal">Mysqlx_worker_threads_active</code></a>
+          </p><p>
+            The number of worker threads currently used.
+</p></li></ul>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="copyright-footer">
+
+</div>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"><a accesskey="p" href="mysql-shell-userguide.html">Prev</a></td>
+<td width="20%" align="center"><a accesskey="u" href="">Up</a></td>
+<td width="40%" align="right"> <a accesskey="n" href="mysql-innodb-cluster-userguide.html">Next</a></td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">Chapter 18 MySQL Shell</td>
+<td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+<td width="40%" align="right" valign="top">Chapter 20 InnoDB Cluster</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+[local]
+name=local yum
+baseurl=file:///mnt
+enabled=1
+gpgcheck=0
+[aliyun]
+name=this is aliyun yum
+baseurl=http://mirrors.aliyun.com/centos/7/os/x86_64/
+enabled=1
+gpgcheck=0
