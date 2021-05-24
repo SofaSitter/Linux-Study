@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zk-data1
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.122.250
+    path: /vdc/zk/data1
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zk-data2
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.122.250
+    path: /vdc/zk/data2
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zk-data3
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.122.250
+    path: /vdc/zk/data3
