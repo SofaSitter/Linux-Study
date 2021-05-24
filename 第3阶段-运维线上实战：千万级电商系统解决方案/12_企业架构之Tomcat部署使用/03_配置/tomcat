@@ -1,0 +1,43 @@
+#!/bin/bash
+#chkconfig: 35 86 89
+TOMCATBIN=/usr/local/tomcat/bin/catalina.sh
+export JAVA_HOME=/usr/local/java
+start(){
+  $TOMCATBIN start
+}
+
+stop(){
+  $TOMCATBIN stop
+}
+
+restart(){
+ stop
+ start
+}
+
+status(){
+  if [ -f '/var/run/tomcat.pid' ];then
+     echo 'tomcat is running'
+  else
+     echo 'tomcat is not run'
+  fi
+}
+
+configtest(){
+  $TOMCATBIN configtest
+}
+
+case "$1" in
+   start)
+      start;;
+   stop)
+      stop;;
+   restart)
+      restart;;
+   status)
+      status;;
+   configtest)
+      configtest;;
+   *)
+      echo '{start|stop|restart|configtest|status}'
+esac   

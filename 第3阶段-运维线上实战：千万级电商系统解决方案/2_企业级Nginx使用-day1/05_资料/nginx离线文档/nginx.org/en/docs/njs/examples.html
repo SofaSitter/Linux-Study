@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Examples</title><style type="text/css">body { background: white; color: black; font-family: sans-serif; line-height: 1.4em; text-align: center; margin: 0; padding: 0; } #banner { background: black; color: #F2F2F2; line-height: 1.2em; padding: .3em 0; box-shadow: 0 5px 10px black; } #banner a { color: #00B140; } #main { text-align: left; margin: 0 auto; min-width: 32em; max-width: 64em; } #menu { float: right; width: 11em; padding: 0 .5em 1em .5em; border-left: 2px solid #DDD; } #content { margin-right: 13.5em; padding: 0 .2em 0 1.5em; } h1 { display: block; font-size: 3em; text-align: left; height: .7em; margin: 0; margin-bottom: .5em; } h1 img { width: 100%; } h2 { text-align: center; } p { text-align: justify; } table.news p { margin-top: 0; } table.news td { vertical-align: baseline; } table.news .date { text-align: right; padding-right: 0.5em; white-space: nowrap; } table.donors td { vertical-align: baseline; } table.donors li { text-align: left; } div.directive { background: #F2F2F2; line-height: 1em; margin: 1em 0 1em -1em; padding: .7em .7em .7em 1em; border-top: 2px solid #DDD; } div.directive th { padding-left: 0; padding-right: .5em; vertical-align: baseline; text-align: left; font-weight: normal; } div.directive td { vertical-align: baseline; } div.directive pre { padding: 0; margin: 0; } div.directive p { margin: .5em 0 0 .1em; font-size: .8em; } a.notrans { color: gray; text-decoration:none; } span.initial { font-size: 200%; float: left; padding-right: 10pt;} ul, ol { margin: .5em 0 1em 1em; padding: 0 .5em; } ol { list-style-position: inside; } li { text-align: justify; padding: .5em 0 0 1px; } .compact li { padding-top: 0; } dl { margin: .5em 0 1em 0; } dt { margin: .5em 0; } .compact dt { margin-bottom: .2em; } dd { margin-left: 1.5em; padding-left: 1px; text-align: justify; } td.list { background: #F2F2F2; } blockquote { margin: 1em 0 1em 1em; padding: .5em; } li blockquote, dd blockquote { margin: .7em 0; } blockquote.note { border: 1px dotted #999; line-height: 1.2em; text-align: justify; } blockquote.example { line-height: 1em; border-left: 1px solid #BBB; } blockquote.example pre { padding: 0; margin: 0; } sup { font-size: 50%; } .video { position: relative; padding-bottom: 56.25%; overflow: hidden; } .video iframe, .video object, .video embed { position: absolute; top:0; left:0; width:100%; height:100%; }</style><script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TPSP33');
+    </script></head><body><div id="banner">
+        NGINX Plus R17 released: TLS 1.3, two-stage rate limiting, easier OpenID Connect SSO, and 2x faster NGINX WAF.<br><a href="https://www.nginx.com/blog/nginx-plus-r17-released/?utm_source=nginxorg&amp;utm_medium=homepagebanner&amp;utm_campaign=r17">Learn more.</a></div><div id="main"><div id="menu"><h1><a href="http://nginx.org/"><img src="http://nginx.org/nginx.png" alt="nginx"></a></h1><div>english<br><a href="http://nginx.org/ru/docs/njs/examples.html">русский</a><br><br><a href="http://nginx.org/">news</a><br><a href="http://nginx.org/en/">about</a><br><a href="http://nginx.org/en/download.html">download</a><br><a href="http://nginx.org/en/security_advisories.html">security</a><br><a href="../index.html">documentation</a><br><a href="../faq.html">faq</a><br><a href="http://nginx.org/en/books.html">books</a><br><a href="http://nginx.org/en/support.html">support</a><br><br><a href="http://trac.nginx.org/nginx">trac</a><br><a href="http://twitter.com/nginxorg">twitter</a><br><a href="https://www.nginx.com/blog/">blog</a><br><br><a href="https://unit.nginx.org/">unit</a><br><a href="http://nginx.org/en/docs/njs/">njs</a><br></div></div><div id="content"><h2>Examples</h2><table width="100%"><tr><td align="left"><a href="examples.html#helloword">Hello World</a><br><a href="examples.html#urldecode">URL Decoding</a><br><a href="examples.html#urlencode">URL Encoding</a><br><a href="examples.html#redirect">Internal Redirect</a><br><a href="examples.html#fast_response">Returning Fastest Response from Proxy</a><br><a href="examples.html#jwt">Creating HS JWT</a><br><a href="examples.html#subrequest">Accessing API from a Subrequest</a><br><a href="examples.html#secure_link">Creating secure_link Hash</a><br><a href="examples.html#legacy">Legacy Examples</a><br>     <a href="examples.html#legacy_stream">Injecting HTTP header using stream proxy</a><br></td></tr></table><a name="helloword"></a><center><h4>Hello World</h4></center><p>
+<code>nginx.conf</code>:
+</p> <blockquote class="example"><pre>
+load_module modules/ngx_http_js_module.so;
+
+events {}
+
+http {
+    js_include hello_world.js;
+
+    server {
+        listen 8000;
+
+        location / {
+            js_content hello;
+        }
+    }
+}
+
+</pre></blockquote><p> 
+</p><p>
+<code>hello_world.js</code>:
+</p> <blockquote class="example"><pre>
+function hello(r) {
+    r.return(200, "Hello world!");
+}
+</pre></blockquote><p> 
+</p><a name="urldecode"></a><center><h4>URL Decoding</h4></center><p>
+<code>nginx.conf</code>:
+</p> <blockquote class="example"><pre>
+js_include urldecode.js;
+
+js_set $decoded_foo decoded_foo;
+</pre></blockquote><p> 
+</p><p>
+<code>urldecode.js</code>:
+</p> <blockquote class="example"><pre>
+function decoded_foo(r) {
+    return decodeURIComponent(r.args.foo);
+}
+</pre></blockquote><p> 
+</p><a name="urlencode"></a><center><h4>URL Encoding</h4></center><p>
+<code>nginx.conf</code>:
+</p> <blockquote class="example"><pre>
+js_include urlencode.js;
+
+js_set $encoded_foo encoded_foo;
+...
+
+location / {
+    proxy_pass http://example.com?foo=$encoded_foo;
+}
+</pre></blockquote><p> 
+</p><p>
+<code>urlencode.js</code>:
+</p> <blockquote class="example"><pre>
+function encoded_foo(r) {
+    return encodeURIComponent('foo &amp; bar?');
+}
+</pre></blockquote><p> 
+</p><a name="redirect"></a><center><h4>Internal Redirect</h4></center><p>
+<code>nginx.conf</code>:
+</p> <blockquote class="example"><pre>
+js_include redirect.js;
+
+location /redirect {
+    js_content redirect;
+}
+
+location @named {
+    return 200 named;
+}
+</pre></blockquote><p> 
+</p><p>
+<code>redirect.js</code>:
+</p> <blockquote class="example"><pre>
+function redirect(r) {
+    r.internalRedirect('@named');
+}
+</pre></blockquote><p> 
+</p><a name="fast_response"></a><center><h4>Returning Fastest Response from Proxy</h4></center><p>
+<code>nginx.conf</code>:
+</p> <blockquote class="example"><pre>
+js_include fastresponse.js;
+
+location /start {
+    js_content content;
+}
+
+location /foo {
+    proxy_pass http://backend1;
+}
+
+location /bar {
+    proxy_pass http://backend2;
+}
+</pre></blockquote><p> 
+</p><p>
+<code>fastresponse.js</code>:
+</p> <blockquote class="example"><pre>
+function content(r) {
+    var n = 0;
+
+    function done(res) {
+        if (n++ == 0) {
+            r.return(res.status, res.responseBody);
+        }
+    }
+
+    r.subrequest('/foo', r.variables.args, done);
+    r.subrequest('/bar', r.variables.args, done);
+}
+</pre></blockquote><p> 
+</p><a name="jwt"></a><center><h4>Creating HS JWT</h4></center><p>
+<code>nginx.conf</code>:
+</p> <blockquote class="example"><pre>
+js_include hs_jwt.js;
+
+js_set $jwt jwt;
+</pre></blockquote><p> 
+</p><p>
+<code>hs_jwt.js</code>:
+</p> <blockquote class="example"><pre>
+function create_hs256_jwt(claims, key, valid) {
+    var header = { "typ" : "JWT", "alg" : "HS256", "exp" : Date.now() + valid };
+
+    var s = JSON.stringify(header).toBytes().toString('base64url') + '.'
+            + JSON.stringify(claims).toBytes().toString('base64url');
+
+    var h = require('crypto').createHmac('sha256', key);
+
+    return s + '.' + h.update(s).digest().toString('base64url');
+}
+
+function jwt(r) {
+    var claims = {
+        "iss" : "nginx",
+        "sub" : "alice",
+        "foo" : 123,
+        "bar" : "qq",
+        "zyx" : false
+    };
+
+    return create_hs256_jwt(claims, 'foo', 600);
+}
+</pre></blockquote><p> 
+</p><a name="subrequest"></a><center><h4>Accessing API from a Subrequest</h4></center><p>
+<code>nginx.conf</code>:
+</p> <blockquote class="example"><pre>
+js_include subrequest.js;
+
+keyval_zone zone=foo:10m;
+...
+
+location /keyval {
+    js_content set_keyval;
+}
+
+location /version {
+    js_content version;
+}
+
+location /api {
+    api write=on;
+}
+</pre></blockquote><p> 
+</p><p>
+<code>subrequest.js</code>:
+</p> <blockquote class="example"><pre>
+function set_keyval(r) {
+    r.subrequest('/api/3/http/keyvals/foo',
+        { method: 'POST',
+          body: JSON.stringify({ foo: 789, bar: "ss dd 00" })},
+
+        function(res) {
+            if (res.status &gt;= 300) {
+                r.return(res.status, res.responseBody);
+                return;
+            }
+            r.return(500);
+        });
+}
+
+function version(r) {
+    r.subrequest('/api/3/nginx', { method: 'GET' }, function(res) {
+        if (res.status != 200) {
+            r.return(res.status);
+            return;
+        }
+
+        var json = JSON.parse(res.responseBody);
+        r.return(200, json.version);
+    });
+}
+</pre></blockquote><p> 
+</p><a name="secure_link"></a><center><h4>Creating secure_link Hash</h4></center><p>
+<code>nginx.conf</code>:
+</p> <blockquote class="example"><pre>
+js_include hash.js;
+
+js_set $new_foo create_secure_link;
+...
+
+location / {
+    secure_link $cookie_foo;
+    secure_link_md5 "$uri mykey";
+    ...
+}
+
+location @login {
+    add_header Set-Cookie "foo=$new_foo; Max-Age=60";
+    return 302 /;
+}
+</pre></blockquote><p> 
+</p><p>
+<code>hash.js</code>:
+</p> <blockquote class="example"><pre>
+function create_secure_link(r) {
+    return require('crypto').createHash('md5')
+                            .update(r.uri).update(" mykey")
+                            .digest('base64url');
+}
+</pre></blockquote><p> 
+</p><a name="legacy"></a><center><h4>Legacy Examples</h4></center><a name="legacy_stream"></a><center><h4>Injecting HTTP header using stream proxy</h4></center><p>
+Starting from njs <a href="changes.html#njs0.2.4">0.2.4</a>,
+stream configuration
+<a href="../stream/ngx_stream_js_module.html#example">example</a>
+has been changed.
+For njs <a href="changes.html#njs0.2.3">0.2.3</a>
+and earlier, use this configuration example:
+</p> <blockquote class="example"><pre>
+load_module modules/ngx_stream_js_module.so;
+...
+
+stream {
+    js_include stream.js;
+
+    js_set $foo foo;
+    js_set $bar bar;
+
+    server {
+        listen 12345;
+
+        js_preread qux;
+        return     $foo;
+    }
+
+    server {
+        listen 12346;
+
+        js_access  xyz;
+        proxy_pass 127.0.0.1:8000;
+        js_filter  baz;
+    }
+}
+
+http {
+    server {
+        listen 8000;
+        location / {
+            return 200 $http_foo\n;
+        }
+    }
+}
+</pre></blockquote><p> 
+</p><p>
+The <code>stream.js</code> file:
+</p> <blockquote class="example"><pre>
+var req = '';
+var matched = 0;
+var line = '';
+
+function qux(s) {
+    var n = s.buffer.indexOf('\n');
+    if (n == -1) {
+        return s.AGAIN;
+    }
+
+    line = s.buffer.substr(0, n);
+}
+
+function foo(s) {
+    return line;
+}
+
+function bar(s) {
+    var v = s.variables;
+    s.log("hello from bar() handler!");
+    return "foo-var" + v.remote_port + "; pid=" + v.pid;
+}
+
+// The filter processes one buffer per call.
+// The buffer is available in s.buffer both for
+// reading and writing.  Called for both directions.
+
+function baz(s) {
+    if (s.fromUpstream || matched) {
+        return;
+    }
+
+    // Disable certain addresses.
+
+    if (s.remoteAddress.match('^192.*')) {
+        return s.ERROR;
+    }
+
+    // Read HTTP request line.
+    // Collect bytes in 'req' until request
+    // line is read.  Clear current buffer to
+    // disable output.
+
+    req = req + s.buffer;
+    s.buffer = '';
+
+    var n = req.search('\n');
+
+    if (n != -1) {
+        // Inject a new HTTP header.
+        var rest = req.substr(n + 1);
+        req = req.substr(0, n + 1);
+
+        var addr = s.remoteAddress;
+
+        s.log('req:' + req);
+        s.log('rest:' + rest);
+
+        // Output the result and skip further
+        // processing.
+
+        s.buffer = req + 'Foo: addr_' + addr + '\r\n' + rest;
+        matched = 1;
+    }
+}
+
+function xyz(s) {
+    if (s.remoteAddress.match('^192.*')) {
+        return s.ABORT;
+    }
+}
+</pre></blockquote><p> 
+</p></div></div></body></html>

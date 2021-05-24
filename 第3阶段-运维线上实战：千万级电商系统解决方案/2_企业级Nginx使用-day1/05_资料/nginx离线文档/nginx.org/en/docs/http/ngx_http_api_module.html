@@ -1,0 +1,3081 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Module ngx_http_api_module</title><style type="text/css">body { background: white; color: black; font-family: sans-serif; line-height: 1.4em; text-align: center; margin: 0; padding: 0; } #banner { background: black; color: #F2F2F2; line-height: 1.2em; padding: .3em 0; box-shadow: 0 5px 10px black; } #banner a { color: #00B140; } #main { text-align: left; margin: 0 auto; min-width: 32em; max-width: 64em; } #menu { float: right; width: 11em; padding: 0 .5em 1em .5em; border-left: 2px solid #DDD; } #content { margin-right: 13.5em; padding: 0 .2em 0 1.5em; } h1 { display: block; font-size: 3em; text-align: left; height: .7em; margin: 0; margin-bottom: .5em; } h1 img { width: 100%; } h2 { text-align: center; } p { text-align: justify; } table.news p { margin-top: 0; } table.news td { vertical-align: baseline; } table.news .date { text-align: right; padding-right: 0.5em; white-space: nowrap; } table.donors td { vertical-align: baseline; } table.donors li { text-align: left; } div.directive { background: #F2F2F2; line-height: 1em; margin: 1em 0 1em -1em; padding: .7em .7em .7em 1em; border-top: 2px solid #DDD; } div.directive th { padding-left: 0; padding-right: .5em; vertical-align: baseline; text-align: left; font-weight: normal; } div.directive td { vertical-align: baseline; } div.directive pre { padding: 0; margin: 0; } div.directive p { margin: .5em 0 0 .1em; font-size: .8em; } a.notrans { color: gray; text-decoration:none; } span.initial { font-size: 200%; float: left; padding-right: 10pt;} ul, ol { margin: .5em 0 1em 1em; padding: 0 .5em; } ol { list-style-position: inside; } li { text-align: justify; padding: .5em 0 0 1px; } .compact li { padding-top: 0; } dl { margin: .5em 0 1em 0; } dt { margin: .5em 0; } .compact dt { margin-bottom: .2em; } dd { margin-left: 1.5em; padding-left: 1px; text-align: justify; } td.list { background: #F2F2F2; } blockquote { margin: 1em 0 1em 1em; padding: .5em; } li blockquote, dd blockquote { margin: .7em 0; } blockquote.note { border: 1px dotted #999; line-height: 1.2em; text-align: justify; } blockquote.example { line-height: 1em; border-left: 1px solid #BBB; } blockquote.example pre { padding: 0; margin: 0; } sup { font-size: 50%; } .video { position: relative; padding-bottom: 56.25%; overflow: hidden; } .video iframe, .video object, .video embed { position: absolute; top:0; left:0; width:100%; height:100%; }</style><script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TPSP33');
+    </script></head><body><div id="banner">
+        NGINX Plus R17 released: TLS 1.3, two-stage rate limiting, easier OpenID Connect SSO, and 2x faster NGINX WAF.<br><a href="https://www.nginx.com/blog/nginx-plus-r17-released/?utm_source=nginxorg&amp;utm_medium=homepagebanner&amp;utm_campaign=r17">Learn more.</a></div><div id="main"><div id="menu"><h1><a href="http://nginx.org/"><img src="http://nginx.org/nginx.png" alt="nginx"></a></h1><div>english<br><a class="notrans">русский</a><br><br><a href="http://nginx.org/">news</a><br><a href="http://nginx.org/en/">about</a><br><a href="http://nginx.org/en/download.html">download</a><br><a href="http://nginx.org/en/security_advisories.html">security</a><br><a href="../index.html">documentation</a><br><a href="../faq.html">faq</a><br><a href="http://nginx.org/en/books.html">books</a><br><a href="http://nginx.org/en/support.html">support</a><br><br><a href="http://trac.nginx.org/nginx">trac</a><br><a href="http://twitter.com/nginxorg">twitter</a><br><a href="https://www.nginx.com/blog/">blog</a><br><br><a href="https://unit.nginx.org/">unit</a><br><a href="http://nginx.org/en/docs/njs/">njs</a><br></div></div><div id="content"><h2>Module ngx_http_api_module</h2><table width="100%"><tr><td align="left"><a href="ngx_http_api_module.html#example">Example Configuration</a><br><a href="ngx_http_api_module.html#directives">Directives</a><br>     <a href="ngx_http_api_module.html#api">api</a><br>     <a href="ngx_http_api_module.html#status_zone">status_zone</a><br><a href="ngx_http_api_module.html#compatibility">Compatibility</a><br><a href="ngx_http_api_module.html#endpoints">Endpoints</a><br>     <a href="ngx_http_api_module.html#root">/</a><br>     <a href="ngx_http_api_module.html#nginx">/nginx</a><br>     <a href="ngx_http_api_module.html#processes">/processes</a><br>     <a href="ngx_http_api_module.html#connections">/connections</a><br>     <a href="ngx_http_api_module.html#ssl">/ssl</a><br>     <a href="ngx_http_api_module.html#slabs_">/slabs/</a><br>     <a href="ngx_http_api_module.html#slabs_slab_zone_name">/slabs/{slabZoneName}</a><br>     <a href="ngx_http_api_module.html#http_">/http/</a><br>     <a href="ngx_http_api_module.html#http_requests">/http/requests</a><br>     <a href="ngx_http_api_module.html#http_server_zones_">/http/server_zones/</a><br>     <a href="ngx_http_api_module.html#http_server_zones_http_server_zone_name">/http/server_zones/{httpServerZoneName}</a><br>     <a href="ngx_http_api_module.html#http_caches_">/http/caches/</a><br>     <a href="ngx_http_api_module.html#http_caches_http_cache_zone_name">/http/caches/{httpCacheZoneName}</a><br>     <a href="ngx_http_api_module.html#http_upstreams_">/http/upstreams/</a><br>     <a href="ngx_http_api_module.html#http_upstreams_http_upstream_name_">/http/upstreams/{httpUpstreamName}/</a><br>     <a href="ngx_http_api_module.html#http_upstreams_http_upstream_name_servers_">/http/upstreams/{httpUpstreamName}/servers/</a><br>     <a href="ngx_http_api_module.html#http_upstreams_http_upstream_name_servers_http_upstream_server_id">/http/upstreams/{httpUpstreamName}/servers/{httpUpstreamServerId}</a><br>     <a href="ngx_http_api_module.html#http_keyvals_">/http/keyvals/</a><br>     <a href="ngx_http_api_module.html#http_keyvals_http_keyval_zone_name">/http/keyvals/{httpKeyvalZoneName}</a><br>     <a href="ngx_http_api_module.html#stream_">/stream/</a><br>     <a href="ngx_http_api_module.html#stream_server_zones_">/stream/server_zones/</a><br>     <a href="ngx_http_api_module.html#stream_server_zones_stream_server_zone_name">/stream/server_zones/{streamServerZoneName}</a><br>     <a href="ngx_http_api_module.html#stream_upstreams_">/stream/upstreams/</a><br>     <a href="ngx_http_api_module.html#stream_upstreams_stream_upstream_name_">/stream/upstreams/{streamUpstreamName}/</a><br>     <a href="ngx_http_api_module.html#stream_upstreams_stream_upstream_name_servers_">/stream/upstreams/{streamUpstreamName}/servers/</a><br>     <a href="ngx_http_api_module.html#stream_upstreams_stream_upstream_name_servers_stream_upstream_server_id">/stream/upstreams/{streamUpstreamName}/servers/{streamUpstreamServerId}</a><br>     <a href="ngx_http_api_module.html#stream_keyvals_">/stream/keyvals/</a><br>     <a href="ngx_http_api_module.html#stream_keyvals_stream_keyval_zone_name">/stream/keyvals/{streamKeyvalZoneName}</a><br>     <a href="ngx_http_api_module.html#stream_zone_sync_">/stream/zone_sync/</a><br><a href="ngx_http_api_module.html#definitions">Response Objects</a><br></td></tr></table>
+
+<a name="summary"></a><p>
+The <code>ngx_http_api_module</code> module (1.13.3) provides REST API
+for accessing various status information,
+configuring upstream server groups on-the-fly, and managing
+<a href="ngx_http_keyval_module.html">key-value pairs</a>
+without the need of reconfiguring nginx.
+</p><p>
+</p> <blockquote class="note">
+The module supersedes the
+<a href="ngx_http_status_module.html">ngx_http_status_module</a> and
+<a href="ngx_http_upstream_conf_module.html">ngx_http_upstream_conf_module</a>
+modules.
+</blockquote><p> 
+</p><p>
+</p> <blockquote class="note">
+This module is available as part of our
+<a href="http://nginx.com/products/">commercial subscription</a>.
+</blockquote><p> 
+</p>
+
+
+<a name="example"></a><center><h4>Example Configuration</h4></center><p>
+</p> <blockquote class="example"><pre>
+http {
+    upstream backend {
+        zone http_backend 64k;
+
+        server backend1.example.com weight=5;
+        server backend2.example.com;
+    }
+
+    proxy_cache_path /data/nginx/cache_backend keys_zone=cache_backend:10m;
+
+    server {
+        server_name backend.example.com;
+
+        location / {
+            proxy_pass  http://backend;
+            proxy_cache cache_backend;
+
+            health_check;
+        }
+
+        status_zone server_backend;
+    }
+
+    keyval_zone zone=one:32k state=one.keyval;
+    keyval $arg_text $text zone=one;
+
+    server {
+        listen 127.0.0.1;
+
+        location /api {
+            <strong>api</strong> write=on;
+            allow 127.0.0.1;
+            deny all;
+        }
+    }
+}
+
+stream {
+    upstream backend {
+        zone stream_backend 64k;
+
+        server backend1.example.com:12345 weight=5;
+        server backend2.example.com:12345;
+    }
+
+    server {
+        listen      127.0.0.1:12345;
+        proxy_pass  backend;
+        status_zone server_backend;
+        health_check;
+    }
+}
+</pre></blockquote><p> 
+All API requests include
+a supported API <a href="ngx_http_api_module.html#api_version">version</a> in the URI.
+Examples of API requests with this configuration:
+</p> <blockquote class="example"><pre>
+http://127.0.0.1/api/3/
+http://127.0.0.1/api/3/nginx
+http://127.0.0.1/api/3/connections
+http://127.0.0.1/api/3/http/requests
+http://127.0.0.1/api/3/http/server_zones/server_backend
+http://127.0.0.1/api/3/http/caches/cache_backend
+http://127.0.0.1/api/3/http/upstreams/backend
+http://127.0.0.1/api/3/http/upstreams/backend/servers/
+http://127.0.0.1/api/3/http/upstreams/backend/servers/1
+http://127.0.0.1/api/3/http/keyvals/one?key=arg1
+http://127.0.0.1/api/3/stream/
+http://127.0.0.1/api/3/stream/server_zones/server_backend
+http://127.0.0.1/api/3/stream/upstreams/
+http://127.0.0.1/api/3/stream/upstreams/backend
+http://127.0.0.1/api/3/stream/upstreams/backend/servers/1
+</pre></blockquote><p> 
+</p>
+
+
+<a name="directives"></a><center><h4>Directives</h4></center><a name="api"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>api</strong> 
+[<code>write</code>=<code>on</code>|<code>off</code>];</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            
+            —
+        
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>location</code><br>
+                </td>
+                </tr>
+            </table></div><p>
+Turns on the REST API interface in the surrounding location.
+Access to this location should be
+<a href="ngx_http_core_module.html#satisfy">limited</a>.
+</p><p>
+The <code>write</code> parameter determines whether the API
+is read-only or read-write.
+By default, the API is read-only.
+</p><a name="api_version"></a><p>
+All API requests should contain a supported API version in the URI.
+If the request URI equals the location prefix,
+the list of supported API versions is returned.
+The current API version is “<code>3</code>”.
+</p><p>
+The optional “<code>fields</code>” argument in the request line
+specifies which fields of the requested objects will be output:
+</p> <blockquote class="example"><pre>
+http://127.0.0.1/api/3/nginx?fields=version,build
+</pre></blockquote><p> 
+</p><a name="status_zone"></a><div class="directive"><table cellspacing="0">
+                <tr>
+                <th>
+            Syntax:
+                </th>
+                <td>
+            <code><strong>status_zone</strong> <code><i>zone</i></code>;</code><br>
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Default:
+                </th>
+                <td>
+            
+            —
+        
+                </td>
+                </tr>
+            
+                <tr>
+                <th>
+            Context:
+                </th>
+                <td>
+            <code>server</code><br>
+                </td>
+                </tr>
+            </table><p>This directive appeared in version 1.13.12.
+            </p></div><p>
+Enables collection of virtual
+<a href="ngx_http_core_module.html#server">http</a>
+or
+<a href="../stream/ngx_stream_core_module.html#server">stream</a>
+server status information in the specified <code><i>zone</i></code>.
+Several servers may share the same zone.
+</p>
+
+<a name="compatibility"></a><center><h4>Compatibility</h4></center><p>
+</p> <ul class="compact">
+
+<li>
+The <a href="ngx_http_api_module.html#stream_zone_sync_">/stream/zone_sync/</a> data
+were added in <a href="ngx_http_api_module.html#api_version">version</a> 3.
+</li>
+
+<li>
+The <a href="ngx_http_api_module.html#def_nginx_http_upstream_conf_server">drain</a> parameter
+was added in <a href="ngx_http_api_module.html#api_version">version</a> 2.
+</li>
+
+<li>
+The <a href="ngx_http_api_module.html#stream_keyvals_">/stream/keyvals/</a> data
+were added in <a href="ngx_http_api_module.html#api_version">version</a> 2.
+</li>
+
+</ul><p> 
+</p>
+<a name="endpoints"></a><center><h4>Endpoints</h4></center><p>
+</p> <dl class="compact">
+<dt id="root">
+<code>/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getAPIEndpoints">
+<code>GET</code> - Return list of root endpoints
+<p>Returns a list of root endpoints.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns an array of strings</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="nginx">
+<code>/nginx</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getNginx">
+<code>GET</code> - Return status of nginx running instance
+<p>Returns nginx version, build name, address, number of configuration reloads, IDs of master and worker processes.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of nginx running instance will be output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_object">nginx</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="processes">
+<code>/processes</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getProcesses">
+<code>GET</code> - Return nginx processes status
+<p>Returns the number of abnormally terminated and respawned child processes.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_processes">Processes</a></li>
+</ul>
+</li>
+<li id="deleteProcesses">
+<code>DELETE</code> - Reset nginx processes statistics
+<p>Resets counters of abnormally terminated and respawned child processes.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="connections">
+<code>/connections</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getConnections">
+<code>GET</code> - Return client connections statistics
+<p>Returns statistics of client connections.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of the connections statistics will be output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_connections">Connections</a></li>
+</ul>
+</li>
+<li id="deleteConnections">
+<code>DELETE</code> - Reset client connections statistics
+<p>Resets statistics of accepted and dropped client connections.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="ssl">
+<code>/ssl</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getSsl">
+<code>GET</code> - Return SSL statistics
+<p>Returns SSL statistics.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of SSL statistics will be output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_ssl_object">SSL</a></li>
+</ul>
+</li>
+<li id="deleteSslStat">
+<code>DELETE</code> - Reset SSL statistics
+<p>Resets counters of SSL handshakes and session reuses.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="slabs_">
+<code>/slabs/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getSlabs">
+<code>GET</code> - Return status of all slabs
+<p>Returns status of slabs for each shared memory zone with slab allocator.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of slab zones will be output. If the “<code>fields</code>” value is empty, then only zone names are output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns a collection of "<a href="ngx_http_api_module.html#def_nginx_slab_zone">Shared memory zone with slab allocator</a>" objects for all  slabs </li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="slabs_slab_zone_name">
+<code>/slabs/{slabZoneName}</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>slabZoneName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of the shared memory zone with slab allocator.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getSlabZone">
+<code>GET</code> - Return status of a slab
+<p>Returns status of slabs for a particular shared memory zone with slab allocator.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of the slab zone will be output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_slab_zone">Shared memory zone with slab allocator</a></li>
+<li>404 - Slab not found (<code>SlabNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="deleteSlabZoneStats">
+<code>DELETE</code> - Reset slab statistics
+<p>Resets the “<code>reqs</code>” and “<code>fails</code>” metrics for each memory slot.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>404 - Slab not found (<code>SlabNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_">
+<code>/http/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttp">
+<code>GET</code> - Return list of HTTP-related endpoints
+<p>Returns a list of first level HTTP endpoints.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns an array of strings</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_requests">
+<code>/http/requests</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpRequests">
+<code>GET</code> - Return HTTP requests statistics
+<p>Returns status of client HTTP requests.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of client HTTP requests statistics will be output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_http_requests">HTTP Requests</a></li>
+</ul>
+</li>
+<li id="deleteHttpRequests">
+<code>DELETE</code> - Reset HTTP requests statistics
+<p>Resets the number of total client HTTP requests.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_server_zones_">
+<code>/http/server_zones/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpServerZones">
+<code>GET</code> - Return status of all HTTP server zones
+<p>Returns status information for each HTTP <a href="https://nginx.org/en/docs/http/ngx_http_api_module.html#status_zone">server zone</a>.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of server zones will be output. If the “<code>fields</code>” value is empty, then only server zone names are output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns a collection of "<a href="ngx_http_api_module.html#def_nginx_http_server_zone">HTTP Server Zone</a>" objects for all  http server zones </li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_server_zones_http_server_zone_name">
+<code>/http/server_zones/{httpServerZoneName}</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>httpServerZoneName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of an HTTP server zone.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpServerZone">
+<code>GET</code> - Return status of an HTTP server zone
+<p>Returns status of a particular HTTP server zone.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of the server zone will be output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_http_server_zone">HTTP Server Zone</a></li>
+<li>404 - Server zone not found (<code>ServerZoneNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="deleteHttpServerZoneStat">
+<code>DELETE</code> - Reset statistics for an HTTP server zone
+<p>Resets statistics of accepted and discarded requests, responses, received and sent bytes in a particular HTTP server zone.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>404 - Server zone not found (<code>ServerZoneNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_caches_">
+<code>/http/caches/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpCaches">
+<code>GET</code> - Return status of all caches
+<p>Returns status of each cache configured by <a href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">proxy_cache_path</a> and other “<code>*_cache_path</code>” directives.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of cache zones will be output. If the “<code>fields</code>” value is empty, then only names of cache zones are output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns a collection of "<a href="ngx_http_api_module.html#def_nginx_http_cache">HTTP Cache</a>" objects for all  http caches </li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_caches_http_cache_zone_name">
+<code>/http/caches/{httpCacheZoneName}</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>httpCacheZoneName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of the cache zone.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpCacheZone">
+<code>GET</code> - Return status of a cache
+<p>Returns status of a particular cache.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of the cache zone will be output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_http_cache">HTTP Cache</a></li>
+<li>404 - Cache not found (<code>CacheNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="deleteHttpCacheZoneStat">
+<code>DELETE</code> - Reset cache statistics
+<p>Resets statistics of cache hits/misses in a particular cache zone.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>404 - Cache not found (<code>CacheNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_upstreams_">
+<code>/http/upstreams/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpUpstreams">
+<code>GET</code> - Return status of all HTTP upstream server groups
+<p>Returns status of each HTTP upstream server group and its servers.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of upstream server groups will be output. If the “<code>fields</code>” value is empty, only names of upstreams are output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns a collection of "<a href="ngx_http_api_module.html#def_nginx_http_upstream">HTTP Upstream</a>" objects for all  http upstreams </li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_upstreams_http_upstream_name_">
+<code>/http/upstreams/{httpUpstreamName}/</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>httpUpstreamName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of an HTTP upstream server group.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpUpstreamName">
+<code>GET</code> - Return status of an HTTP upstream server group
+<p>Returns status of a particular HTTP upstream server group and its servers.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of the upstream server group will be output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_http_upstream">HTTP Upstream</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="deleteHttpUpstreamStat">
+<code>DELETE</code> - Reset statistics of an HTTP upstream server group
+<p>Resets the statistics for each upstream server in an upstream server group and queue statistics.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_upstreams_http_upstream_name_servers_">
+<code>/http/upstreams/{httpUpstreamName}/servers/</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>httpUpstreamName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of an upstream server group.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpUpstreamServers">
+<code>GET</code> - Return configuration of all servers in an HTTP upstream server group
+<p>Returns configuration of each server in a particular HTTP upstream server group.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns an array of <a href="ngx_http_api_module.html#def_nginx_http_upstream_conf_server">HTTP Upstream Servers</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="postHttpUpstreamServer">
+<code>POST</code> - Add a server to an HTTP upstream server group
+<p>Adds a new server to an HTTP upstream server group. Server parameters are specified in the JSON format.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>postHttpUpstreamServer</code>
+(<a href="ngx_http_api_module.html#def_nginx_http_upstream_conf_server">HTTP Upstream Server</a>, required)</dt>
+<dd>
+Address of a new server and other optional parameters in the JSON format. The “<code>ID</code>”, “<code>backup</code>”, and “<code>service</code>” parameters cannot be changed.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>201 - Created, returns <a href="ngx_http_api_module.html#def_nginx_http_upstream_conf_server">HTTP Upstream Server</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>),
+invalid “<code><i>parameter</i></code>” value (<code>UpstreamConfFormatError</code>),
+missing “<code>server</code>” argument (<code>UpstreamConfFormatError</code>),
+unknown parameter “<code><i>name</i></code>” (<code>UpstreamConfFormatError</code>),
+nested object or list (<code>UpstreamConfFormatError</code>),
+“<code>error</code>” while parsing (<code>UpstreamBadAddress</code>),
+service upstream “<code>host</code>” may not have port (<code>UpstreamBadAddress</code>),
+service upstream “<code>host</code>” requires domain name (<code>UpstreamBadAddress</code>),
+invalid “<code>weight</code>” (<code>UpstreamBadWeight</code>),
+invalid “<code>max_conns</code>” (<code>UpstreamBadMaxConns</code>),
+invalid “<code>max_fails</code>” (<code>UpstreamBadMaxFails</code>),
+invalid “<code>fail_timeout</code>” (<code>UpstreamBadFailTimeout</code>),
+invalid “<code>slow_start</code>” (<code>UpstreamBadSlowStart</code>),
+route is too long (<code>UpstreamBadRoute</code>),
+“<code>service</code>” is empty (<code>UpstreamBadService</code>),
+no resolver defined to resolve (<code>UpstreamConfNoResolver</code>),
+upstream “<code><i>name</i></code>” has no backup (<code>UpstreamNoBackup</code>),
+upstream “<code><i>name</i></code>” memory exhausted (<code>UpstreamOutOfMemory</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>415 - JSON error (<code>JsonError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_upstreams_http_upstream_name_servers_http_upstream_server_id">
+<code>/http/upstreams/{httpUpstreamName}/servers/{httpUpstreamServerId}</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>httpUpstreamName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of the upstream server group.</dd>
+<dt><code>httpUpstreamServerId</code>
+(<code>string</code>, required)</dt>
+<dd>
+The ID of the server.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpUpstreamPeer">
+<code>GET</code> - Return configuration of a server in an HTTP upstream server group
+<p>Returns configuration of a particular server in the HTTP upstream server group.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_http_upstream_conf_server">HTTP Upstream Server</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>),
+invalid server ID (<code>UpstreamBadServerId</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>),
+server with ID “<code><i>id</i></code>” does not exist (<code>UpstreamServerNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="patchHttpUpstreamPeer">
+<code>PATCH</code> - Modify a server in an HTTP upstream server group
+<p>Modifies settings of a particular server in an HTTP upstream server group. Server parameters are specified in the JSON format.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>patchHttpUpstreamServer</code>
+(<a href="ngx_http_api_module.html#def_nginx_http_upstream_conf_server">HTTP Upstream Server</a>, required)</dt>
+<dd>
+Server parameters, specified in the JSON format. The “<code>ID</code>”, “<code>backup</code>”, and “<code>service</code>” parameters cannot be changed.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_http_upstream_conf_server">HTTP Upstream Server</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>),
+invalid “<code><i>parameter</i></code>” value (<code>UpstreamConfFormatError</code>),
+unknown parameter “<code><i>name</i></code>” (<code>UpstreamConfFormatError</code>),
+nested object or list (<code>UpstreamConfFormatError</code>),
+“<code>error</code>” while parsing (<code>UpstreamBadAddress</code>),
+invalid “<code>server</code>” argument (<code>UpstreamBadAddress</code>),
+invalid server ID (<code>UpstreamBadServerId</code>),
+invalid “<code>weight</code>” (<code>UpstreamBadWeight</code>),
+invalid “<code>max_conns</code>” (<code>UpstreamBadMaxConns</code>),
+invalid “<code>max_fails</code>” (<code>UpstreamBadMaxFails</code>),
+invalid “<code>fail_timeout</code>” (<code>UpstreamBadFailTimeout</code>),
+invalid “<code>slow_start</code>” (<code>UpstreamBadSlowStart</code>),
+route is too long (<code>UpstreamBadRoute</code>),
+“<code>service</code>” is empty (<code>UpstreamBadService</code>),
+server “<code><i>ID</i></code>” address is immutable (<code>UpstreamServerImmutable</code>),
+server “<code>ID</code>” weight is immutable (<code>UpstreamServerWeightImmutable</code>),
+upstream “<code>name</code>” memory exhausted (<code>UpstreamOutOfMemory</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>),
+server with ID “<code><i>id</i></code>” does not exist (<code>UpstreamServerNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>415 - JSON error (<code>JsonError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="deleteHttpUpstreamServer">
+<code>DELETE</code> - Remove a server from an HTTP upstream server group
+<p>Removes a server from an HTTP upstream server group.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns an array of <a href="ngx_http_api_module.html#def_nginx_http_upstream_conf_server">HTTP Upstream Servers</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>),
+invalid server ID (<code>UpstreamBadServerId</code>),
+server “<code><i>id</i></code>” not removable (<code>UpstreamServerImmutable</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>),
+server with ID “<code><i>id</i></code>” does not exist (<code>UpstreamServerNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_keyvals_">
+<code>/http/keyvals/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpKeyvalZones">
+<code>GET</code> - Return key-value pairs from all HTTP keyval zones
+<p>Returns key-value pairs for each HTTP keyval shared memory <a href="https://nginx.org/en/docs/http/ngx_http_keyval_module.html#keyval_zone">zone</a>.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+If the “<code>fields</code>” value is empty, then only HTTP keyval zone names are output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns a collection of "<a href="ngx_http_api_module.html#def_nginx_http_keyval_zone">HTTP Keyval Shared Memory Zone</a>" objects for all  http keyvals </li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="http_keyvals_http_keyval_zone_name">
+<code>/http/keyvals/{httpKeyvalZoneName}</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>httpKeyvalZoneName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of an HTTP keyval shared memory zone.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getHttpKeyvalZoneKeysValues">
+<code>GET</code> - Return key-value pairs from an HTTP keyval zone
+<p>Returns key-value pairs stored in a particular HTTP keyval shared memory <a href="https://nginx.org/en/docs/http/ngx_http_keyval_module.html#keyval_zone">zone</a>.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>key</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Get a particular key-value pair from the HTTP keyval zone.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_http_keyval_zone">HTTP Keyval Shared Memory Zone</a></li>
+<li>404 - Keyval not found (<code>KeyvalNotFound</code>),
+keyval key not found (<code>KeyvalKeyNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="postHttpKeyvalZoneData">
+<code>POST</code> - Add a key-value pair to the HTTP keyval zone
+<p>Adds a new key-value pair to the HTTP keyval shared memory <a href="https://nginx.org/en/docs/http/ngx_http_keyval_module.html#keyval_zone">zone</a>. Several key-value pairs can be entered if the HTTP keyval shared memory zone is empty.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>Key-value</code>
+(<a href="ngx_http_api_module.html#def_nginx_http_keyval_zone">HTTP Keyval Shared Memory Zone</a>, required)</dt>
+<dd>
+A key-value pair is specified in the JSON format. Several key-value pairs can be entered if the HTTP keyval shared memory zone is empty.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>201 - Created</li>
+<li>400 - Key required (<code>KeyvalFormatError</code>),
+only one key can be added (<code>KeyvalFormatError</code>),
+nested object or list (<code>KeyvalFormatError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Keyval not found (<code>KeyvalNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>409 - Key already exists (<code>KeyvalKeyExists</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>415 - JSON error (<code>JsonError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="patchHttpKeyvalZoneKeyValue">
+<code>PATCH</code> - Modify a key-value or delete a key
+<p>Changes the value of the selected key in the key-value pair or deletes a key by setting the key value to <code>null</code>.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>httpKeyvalZoneKeyValue</code>
+(<a href="ngx_http_api_module.html#def_nginx_http_keyval_zone">HTTP Keyval Shared Memory Zone</a>, required)</dt>
+<dd>
+A new value for the key is specified in the JSON format.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>400 - Key required (<code>KeyvalFormatError</code>),
+only one key can be updated (<code>KeyvalFormatError</code>),
+nested object or list (<code>KeyvalFormatError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Keyval not found (<code>KeyvalNotFound</code>),
+keyval key not found (<code>KeyvalKeyNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>415 - JSON error (<code>JsonError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="deleteHttpKeyvalZoneData">
+<code>DELETE</code> - Empty the HTTP keyval zone
+<p>Deletes all key-value pairs from the HTTP keyval shared memory <a href="https://nginx.org/en/docs/http/ngx_http_keyval_module.html#keyval_zone">zone</a>.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>404 - Keyval not found (<code>KeyvalNotFound</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="stream_">
+<code>/stream/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getStream">
+<code>GET</code> - Return list of stream-related endpoints
+<p>Returns a list of first level stream endpoints.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns an array of strings</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="stream_server_zones_">
+<code>/stream/server_zones/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getStreamServerZones">
+<code>GET</code> - Return status of all stream server zones
+<p>Returns status information for each stream <a href="https://nginx.org/en/docs/http/ngx_http_api_module.html#status_zone">server zone</a>.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of server zones will be output. If the “<code>fields</code>” value is empty, then only server zone names are output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns a collection of "<a href="ngx_http_api_module.html#def_nginx_stream_server_zone">Stream Server Zone</a>" objects for all  stream server zones </li>
+<li>404 - <a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="stream_server_zones_stream_server_zone_name">
+<code>/stream/server_zones/{streamServerZoneName}</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>streamServerZoneName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of a stream server zone.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getStreamServerZone">
+<code>GET</code> - Return status of a stream server zone
+<p>Returns status of a particular stream server zone.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of the server zone will be output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_stream_server_zone">Stream Server Zone</a></li>
+<li>404 - Server zone not found (<code>ServerZoneNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="deleteStreamServerZoneStat">
+<code>DELETE</code> - Reset statistics for a stream server zone
+<p>Resets statistics of accepted and discarded connections, sessions, received and sent bytes in a particular stream server zone.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>404 - Server zone not found (<code>ServerZoneNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="stream_upstreams_">
+<code>/stream/upstreams/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getStreamUpstreams">
+<code>GET</code> - Return status of all stream upstream server groups
+<p>Returns status of each stream upstream server group and its servers.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of upstream server groups will be output. If the “<code>fields</code>” value is empty, only names of upstreams are output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns a collection of "<a href="ngx_http_api_module.html#def_nginx_stream_upstream">Stream Upstream</a>" objects for all  stream upstreams </li>
+<li>404 - <a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="stream_upstreams_stream_upstream_name_">
+<code>/stream/upstreams/{streamUpstreamName}/</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>streamUpstreamName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of a stream upstream server group.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getStreamUpstream">
+<code>GET</code> - Return status of a stream upstream server group
+<p>Returns status of a particular stream upstream server group and its servers.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Limits which fields of the upstream server group will be output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_stream_upstream">Stream Upstream</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="deleteStreamUpstreamStat">
+<code>DELETE</code> - Reset statistics of a stream upstream server group
+<p>Resets the statistics for each upstream server in an upstream server group.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="stream_upstreams_stream_upstream_name_servers_">
+<code>/stream/upstreams/{streamUpstreamName}/servers/</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>streamUpstreamName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of an upstream server group.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getStreamUpstreamServers">
+<code>GET</code> - Return configuration of all servers in a stream upstream server group
+<p>Returns configuration of each server in a particular stream upstream server group.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns an array of <a href="ngx_http_api_module.html#def_nginx_stream_upstream_conf_server">Stream Upstream Servers</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="postStreamUpstreamServer">
+<code>POST</code> - Add a server to a stream upstream server group
+<p>Adds a new server to a stream upstream server group. Server parameters are specified in the JSON format.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>postStreamUpstreamServer</code>
+(<a href="ngx_http_api_module.html#def_nginx_stream_upstream_conf_server">Stream Upstream Server</a>, required)</dt>
+<dd>
+Address of a new server and other optional parameters in the JSON format. The “<code>ID</code>”, “<code>backup</code>”, and “<code>service</code>” parameters cannot be changed.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>201 - Created, returns <a href="ngx_http_api_module.html#def_nginx_stream_upstream_conf_server">Stream Upstream Server</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>),
+invalid “<code><i>parameter</i></code>” value (<code>UpstreamConfFormatError</code>),
+missing “<code>server</code>” argument (<code>UpstreamConfFormatError</code>),
+unknown parameter “<code><i>name</i></code>” (<code>UpstreamConfFormatError</code>),
+nested object or list (<code>UpstreamConfFormatError</code>),
+“<code>error</code>” while parsing (<code>UpstreamBadAddress</code>),
+no port in server “<code>host</code>” (<code>UpstreamBadAddress</code>),
+service upstream “<code>host</code>” may not have port (<code>UpstreamBadAddress</code>),
+service upstream “<code>host</code>” requires domain name (<code>UpstreamBadAddress</code>),
+invalid “<code>weight</code>” (<code>UpstreamBadWeight</code>),
+invalid “<code>max_conns</code>” (<code>UpstreamBadMaxConns</code>),
+invalid “<code>max_fails</code>” (<code>UpstreamBadMaxFails</code>),
+invalid “<code>fail_timeout</code>” (<code>UpstreamBadFailTimeout</code>),
+invalid “<code>slow_start</code>” (<code>UpstreamBadSlowStart</code>),
+“<code>service</code>” is empty (<code>UpstreamBadService</code>),
+no resolver defined to resolve (<code>UpstreamConfNoResolver</code>),
+upstream “<code><i>name</i></code>” has no backup (<code>UpstreamNoBackup</code>),
+upstream “<code><i>name</i></code>” memory exhausted (<code>UpstreamOutOfMemory</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>415 - JSON error (<code>JsonError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="stream_upstreams_stream_upstream_name_servers_stream_upstream_server_id">
+<code>/stream/upstreams/{streamUpstreamName}/servers/{streamUpstreamServerId}</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>streamUpstreamName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of the upstream server group.</dd>
+<dt><code>streamUpstreamServerId</code>
+(<code>string</code>, required)</dt>
+<dd>
+The ID of the server.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getStreamUpstreamServer">
+<code>GET</code> - Return configuration of a server in a stream upstream server group
+<p>Returns configuration of a particular server in the stream upstream server group.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_stream_upstream_conf_server">Stream Upstream Server</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>),
+invalid server ID (<code>UpstreamBadServerId</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>),
+server with ID “<code><i>id</i></code>” does not exist (<code>UpstreamServerNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="patchStreamUpstreamServer">
+<code>PATCH</code> - Modify a server in a stream upstream server group
+<p>Modifies settings of a particular server in a stream upstream server group. Server parameters are specified in the JSON format.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>patchStreamUpstreamServer</code>
+(<a href="ngx_http_api_module.html#def_nginx_stream_upstream_conf_server">Stream Upstream Server</a>, required)</dt>
+<dd>
+Server parameters, specified in the JSON format. The “<code>ID</code>”, “<code>backup</code>”, and “<code>service</code>” parameters cannot be changed.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_stream_upstream_conf_server">Stream Upstream Server</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>),
+invalid “<code><i>parameter</i></code>” value (<code>UpstreamConfFormatError</code>),
+unknown parameter “<code><i>name</i></code>” (<code>UpstreamConfFormatError</code>),
+nested object or list (<code>UpstreamConfFormatError</code>),
+“<code>error</code>” while parsing (<code>UpstreamBadAddress</code>),
+invalid “<code>server</code>” argument (<code>UpstreamBadAddress</code>),
+no port in server “<code>host</code>” (<code>UpstreamBadAddress</code>),
+invalid server ID (<code>UpstreamBadServerId</code>),
+invalid “<code>weight</code>” (<code>UpstreamBadWeight</code>),
+invalid “<code>max_conns</code>” (<code>UpstreamBadMaxConns</code>),
+invalid “<code>max_fails</code>” (<code>UpstreamBadMaxFails</code>),
+invalid “<code>fail_timeout</code>” (<code>UpstreamBadFailTimeout</code>),
+invalid “<code>slow_start</code>” (<code>UpstreamBadSlowStart</code>),
+“<code>service</code>” is empty (<code>UpstreamBadService</code>),
+server “<code><i>ID</i></code>” address is immutable (<code>UpstreamServerImmutable</code>),
+server “<code><i>ID</i></code>” weight is immutable (<code>UpstreamServerWeightImmutable</code>),
+upstream “<code>name</code>” memory exhausted (<code>UpstreamOutOfMemory</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>),
+server with ID “<code><i>id</i></code>” does not exist (<code>UpstreamServerNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>415 - JSON error (<code>JsonError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="deleteStreamUpstreamServer">
+<code>DELETE</code> - Remove a server from a stream upstream server group
+<p>Removes a server from a stream server group.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns an array of <a href="ngx_http_api_module.html#def_nginx_stream_upstream_conf_server">Stream Upstream Servers</a></li>
+<li>400 - Upstream is static (<code>UpstreamStatic</code>),
+invalid server ID (<code>UpstreamBadServerId</code>),
+server “<code><i>id</i></code>” not removable (<code>UpstreamServerImmutable</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Upstream not found (<code>UpstreamNotFound</code>),
+server with ID “<code><i>id</i></code>” does not exist (<code>UpstreamServerNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="stream_keyvals_">
+<code>/stream/keyvals/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getStreamKeyvalZones">
+<code>GET</code> - Return key-value pairs from all stream keyval zones
+<p>Returns key-value pairs for each stream keyval shared memory <a href="https://nginx.org/en/docs/stream/ngx_stream_keyval_module.html#keyval_zone">zone</a>.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>fields</code>
+(<code>string</code>, optional)</dt>
+<dd>
+If the “<code>fields</code>” value is empty, then only stream keyval zone names are output.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns a collection of "<a href="ngx_http_api_module.html#def_nginx_stream_keyval_zone">Stream Keyval Shared Memory Zone</a>" objects for all  stream keyvals </li>
+<li>404 - <a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="stream_keyvals_stream_keyval_zone_name">
+<code>/stream/keyvals/{streamKeyvalZoneName}</code>
+</dt>
+<dd>
+Parameters common for all methods:
+<dl class="compact">
+<dt><code>streamKeyvalZoneName</code>
+(<code>string</code>, required)</dt>
+<dd>
+The name of a stream keyval shared memory zone.</dd>
+</dl>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getStreamKeyvalZoneKeysValues">
+<code>GET</code> - Return key-value pairs from a stream keyval zone
+<p>Returns key-value pairs stored in a particular stream keyval shared memory <a href="https://nginx.org/en/docs/stream/ngx_stream_keyval_module.html#keyval_zone">zone</a>.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>key</code>
+(<code>string</code>, optional)</dt>
+<dd>
+Get a particular key-value pair from the stream keyval zone.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_stream_keyval_zone">Stream Keyval Shared Memory Zone</a></li>
+<li>404 - Keyval not found (<code>KeyvalNotFound</code>),
+keyval key not found (<code>KeyvalKeyNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="postStreamKeyvalZoneData">
+<code>POST</code> - Add a key-value pair to the stream keyval zone
+<p>Adds a new key-value pair to the stream keyval shared memory <a href="https://nginx.org/en/docs/stream/ngx_stream_keyval_module.html#keyval_zone">zone</a>. Several key-value pairs can be entered if the stream keyval shared memory zone is empty.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>Key-value</code>
+(<a href="ngx_http_api_module.html#def_nginx_stream_keyval_zone">Stream Keyval Shared Memory Zone</a>, required)</dt>
+<dd>
+A key-value pair is specified in the JSON format. Several key-value pairs can be entered if the stream keyval shared memory zone is empty.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>201 - Created</li>
+<li>400 - Key required (<code>KeyvalFormatError</code>),
+only one key can be added (<code>KeyvalFormatError</code>),
+nested object or list (<code>KeyvalFormatError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Keyval not found (<code>KeyvalNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>409 - Key already exists (<code>KeyvalKeyExists</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>415 - JSON error (<code>JsonError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="patchStreamKeyvalZoneKeyValue">
+<code>PATCH</code> - Modify a key-value or delete a key
+<p>Changes the value of the selected key in the key-value pair or deletes a key by setting the key value to <code>null</code>.</p>
+<p>
+Request parameters:
+</p> <dl class="compact">
+<dt><code>streamKeyvalZoneKeyValue</code>
+(<a href="ngx_http_api_module.html#def_nginx_stream_keyval_zone">Stream Keyval Shared Memory Zone</a>, required)</dt>
+<dd>
+A new value for the key is specified in the JSON format.</dd>
+</dl><p> 
+</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>400 - Key required (<code>KeyvalFormatError</code>),
+only one key can be updated (<code>KeyvalFormatError</code>),
+nested object or list (<code>KeyvalFormatError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>404 - Keyval not found (<code>KeyvalNotFound</code>),
+keyval key not found (<code>KeyvalKeyNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>415 - JSON error (<code>JsonError</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+<li id="deleteStreamKeyvalZoneData">
+<code>DELETE</code> - Empty the stream keyval zone
+<p>Deletes all key-value pairs from the stream keyval shared memory <a href="https://nginx.org/en/docs/stream/ngx_stream_keyval_module.html#keyval_zone">zone</a>.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>204 - Success</li>
+<li>404 - Keyval not found (<code>KeyvalNotFound</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+<li>405 - Method disabled (<code>MethodDisabled</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="stream_zone_sync_">
+<code>/stream/zone_sync/</code>
+</dt>
+<dd>
+<p>Supported methods:</p>
+<ul class="compact">
+<li id="getStreamZoneSync">
+<code>GET</code> - Return sync status of a node
+<p>Returns synchronization status of a cluster node.</p>
+<p>
+Possible responses:
+</p>
+<ul class="compact">
+<li>200 - Success, returns <a href="ngx_http_api_module.html#def_nginx_stream_zone_sync">Stream Zone Sync Node</a></li>
+<li>404 - Zone sync not configured (<code>ZoneSyncNotConfigured</code>),
+<a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a> not configured (<code>StreamNotConfigured</code>), returns <a href="ngx_http_api_module.html#def_nginx_error">Error</a></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl><p> 
+</p>
+<a name="definitions"></a><center><h4>Response Objects</h4></center><p>
+</p> <ul class="compact">
+<li id="def_nginx_object">
+<p>nginx:</p>
+General information about nginx:<dl class="compact">
+<dt>
+<code>version</code> (<code>string</code>)
+</dt>
+<dd>
+Version of nginx.
+</dd>
+<dt>
+<code>build</code> (<code>string</code>)
+</dt>
+<dd>
+Name of nginx build.
+</dd>
+<dt>
+<code>address</code> (<code>string</code>)
+</dt>
+<dd>
+The address of the server that accepted status request.
+</dd>
+<dt>
+<code>generation</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of configuration <a href="https://nginx.org/en/docs/control.html#reconfiguration">reloads</a>.
+</dd>
+<dt>
+<code>load_timestamp</code> (<code>string</code>)
+</dt>
+<dd>
+Time of the last reload of configuration, in the ISO 8601 format with millisecond resolution.
+</dd>
+<dt>
+<code>timestamp</code> (<code>string</code>)
+</dt>
+<dd>
+Current time in the ISO 8601 format with millisecond resolution.
+</dd>
+<dt>
+<code>pid</code> (<code>integer</code>)
+</dt>
+<dd>
+The ID of the worker process that handled status request.
+</dd>
+<dt>
+<code>ppid</code> (<code>integer</code>)
+</dt>
+<dd>
+The ID of the master process that started the <a href="https://nginx.org/en/docs/http/ngx_http_status_module.html#pid">worker process</a>.
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "nginx" : {
+    "version" : "1.15.2",
+    "build" : "nginx-plus-r16",
+    "address" : "206.251.255.64",
+    "generation" : 6,
+    "load_timestamp" : "2018-10-08T09:05:48.776Z",
+    "timestamp" : "2018-10-08T15:23:17.056Z",
+    "pid" : 32212,
+    "ppid" : 32210
+  }
+}</pre></blockquote>
+</li>
+<li id="def_nginx_processes">
+<p>Processes:</p>
+<dl class="compact">
+<dt>
+<code>respawned</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of abnormally terminated and respawned child processes.
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "respawned" : 0
+}</pre></blockquote>
+</li>
+<li id="def_nginx_connections">
+<p>Connections:</p>
+The number of accepted, dropped, active, and idle connections.<dl class="compact">
+<dt>
+<code>accepted</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of accepted client connections.
+</dd>
+<dt>
+<code>dropped</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of dropped client connections.
+</dd>
+<dt>
+<code>active</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of active client connections.
+</dd>
+<dt>
+<code>idle</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of idle client connections.
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "accepted" : 4968119,
+  "dropped" : 0,
+  "active" : 5,
+  "idle" : 117
+}</pre></blockquote>
+</li>
+<li id="def_nginx_ssl_object">
+<p>SSL:</p>
+<dl class="compact">
+<dt>
+<code>handshakes</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of successful SSL handshakes.
+</dd>
+<dt>
+<code>handshakes_failed</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of failed SSL handshakes.
+</dd>
+<dt>
+<code>session_reuses</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of session reuses during SSL handshake.
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "handshakes" : 79572,
+  "handshakes_failed" : 21025,
+  "session_reuses" : 15762
+}</pre></blockquote>
+</li>
+<li id="def_nginx_slab_zone">
+<p>Shared memory zone with slab allocator:</p>
+<dl class="compact">
+<dt>
+<code>pages</code></dt>
+<dd>
+The number of free and used memory pages.<dl class="compact">
+<dt>
+<code>used</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of used memory pages.
+</dd>
+<dt>
+<code>free</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of free memory pages.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>slots</code></dt>
+<dd>
+<p>Status data for memory slots (8, 16, 32, 64, 128, etc.)</p><p>A collection of "<a href="ngx_http_api_module.html#def_nginx_slab_zone_slot">Memory Slot</a>" objects</p>
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "pages" : {
+    "used" : 1143,
+    "free" : 2928
+  },
+  "slots" : {
+    "8" : {
+      "used" : 0,
+      "free" : 0,
+      "reqs" : 0,
+      "fails" : 0
+    },
+    "16" : {
+      "used" : 0,
+      "free" : 0,
+      "reqs" : 0,
+      "fails" : 0
+    },
+    "32" : {
+      "used" : 0,
+      "free" : 0,
+      "reqs" : 0,
+      "fails" : 0
+    },
+    "64" : {
+      "used" : 1,
+      "free" : 63,
+      "reqs" : 1,
+      "fails" : 0
+    },
+    "128" : {
+      "used" : 0,
+      "free" : 0,
+      "reqs" : 0,
+      "fails" : 0
+    },
+    "256" : {
+      "used" : 18078,
+      "free" : 178,
+      "reqs" : 1635736,
+      "fails" : 0
+    }
+  }
+}</pre></blockquote>
+</li>
+<li id="def_nginx_slab_zone_slot">
+<p>Memory Slot:</p>
+<dl class="compact">
+<dt>
+<code>used</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of used memory slots.
+</dd>
+<dt>
+<code>free</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of free memory slots.
+</dd>
+<dt>
+<code>reqs</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of attempts to allocate memory of specified size.
+</dd>
+<dt>
+<code>fails</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of unsuccessful attempts to allocate memory of specified size.
+</dd>
+</dl>
+</li>
+<li id="def_nginx_http_requests">
+<p>HTTP Requests:</p>
+<dl class="compact">
+<dt>
+<code>total</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of client requests.
+</dd>
+<dt>
+<code>current</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of client requests.
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "total" : 10624511,
+  "current" : 4
+}</pre></blockquote>
+</li>
+<li id="def_nginx_http_server_zone">
+<p>HTTP Server Zone:</p>
+<dl class="compact">
+<dt>
+<code>processing</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of client requests that are currently being processed.
+</dd>
+<dt>
+<code>requests</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of client requests received from clients.
+</dd>
+<dt>
+<code>responses</code></dt>
+<dd>
+The total number of responses sent to clients and the number of responses with status codes “<code>1xx</code>”, “<code>2xx</code>”, “<code>3xx</code>”, “<code>4xx</code>”, and “<code>5xx</code>”.<dl class="compact">
+<dt>
+<code>1xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of responses with “<code>1xx</code>” status codes.
+</dd>
+<dt>
+<code>2xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of responses with “<code>2xx</code>” status codes.
+</dd>
+<dt>
+<code>3xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of responses with “<code>3xx</code>” status codes.
+</dd>
+<dt>
+<code>4xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of responses with “<code>4xx</code>” status codes.
+</dd>
+<dt>
+<code>5xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of responses with “<code>5xx</code>” status codes.
+</dd>
+<dt>
+<code>total</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of responses sent to clients.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>discarded</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of requests completed without sending a response.
+</dd>
+<dt>
+<code>received</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes received from clients.
+</dd>
+<dt>
+<code>sent</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes sent to clients.
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "processing" : 1,
+  "requests" : 706690,
+  "responses" : {
+    "1xx" : 0,
+    "2xx" : 699482,
+    "3xx" : 4522,
+    "4xx" : 907,
+    "5xx" : 266,
+    "total" : 705177
+  },
+  "discarded" : 1513,
+  "received" : 172711587,
+  "sent" : 19415530115
+}</pre></blockquote>
+</li>
+<li id="def_nginx_http_cache">
+<p>HTTP Cache:</p>
+<dl class="compact">
+<dt>
+<code>size</code> (<code>integer</code>)
+</dt>
+<dd>
+The current size of the cache.
+</dd>
+<dt>
+<code>max_size</code> (<code>integer</code>)
+</dt>
+<dd>
+The limit on the maximum size of the cache specified in the configuration.
+</dd>
+<dt>
+<code>cold</code> (<code>boolean</code>)
+</dt>
+<dd>
+A boolean value indicating whether the “cache loader” process is still loading data from disk into the cache.
+</dd>
+<dt>
+<code>hit</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>responses</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of <a href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_valid">valid</a> responses read from the cache.
+</dd>
+<dt>
+<code>bytes</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes read from the cache.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>stale</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>responses</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of expired responses read from the cache (see <a href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_use_stale">proxy_cache_use_stale</a> and other “<code>*_cache_use_stale</code>” directives).
+</dd>
+<dt>
+<code>bytes</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes read from the cache.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>updating</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>responses</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of expired responses read from the cache while responses were being updated (see <a href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_use_stale_updating">proxy_cache_use_stale</a> and other “<code>*_cache_use_stale</code>” directives).
+</dd>
+<dt>
+<code>bytes</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes read from the cache.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>revalidated</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>responses</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of expired and revalidated responses read from the cache (see <a href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_revalidate">proxy_cache_revalidate</a> and other “<code>*_cache_revalidate</code>” directives.
+</dd>
+<dt>
+<code>bytes</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes read from the cache.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>miss</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>responses</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of responses not found in the cache.
+</dd>
+<dt>
+<code>bytes</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes read from the proxied server.
+</dd>
+<dt>
+<code>responses_written</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of responses written to the cache.
+</dd>
+<dt>
+<code>bytes_written</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes written to the cache.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>expired</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>responses</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of expired responses not taken from the cache.
+</dd>
+<dt>
+<code>bytes</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes read from the proxied server.
+</dd>
+<dt>
+<code>responses_written</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of responses written to the cache.
+</dd>
+<dt>
+<code>bytes_written</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes written to the cache.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>bypass</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>responses</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of responses not looked up in the cache due to the <a href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_bypass">proxy_cache_bypass</a> and other “<code>*_cache_bypass</code>” directives.
+</dd>
+<dt>
+<code>bytes</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes read from the proxied server.
+</dd>
+<dt>
+<code>responses_written</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of responses written to the cache.
+</dd>
+<dt>
+<code>bytes_written</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes written to the cache.
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "size" : 530915328,
+  "max_size" : 536870912,
+  "cold" : false,
+  "hit" : {
+    "responses" : 254032,
+    "bytes" : 6685627875
+  },
+  "stale" : {
+    "responses" : 0,
+    "bytes" : 0
+  },
+  "updating" : {
+    "responses" : 0,
+    "bytes" : 0
+  },
+  "revalidated" : {
+    "responses" : 0,
+    "bytes" : 0
+  },
+  "miss" : {
+    "responses" : 1619201,
+    "bytes" : 53841943822
+  },
+  "expired" : {
+    "responses" : 45859,
+    "bytes" : 1656847080,
+    "responses_written" : 44992,
+    "bytes_written" : 1641825173
+  },
+  "bypass" : {
+    "responses" : 200187,
+    "bytes" : 5510647548,
+    "responses_written" : 200173,
+    "bytes_written" : 44992
+  }
+}</pre></blockquote>
+</li>
+<li id="def_nginx_http_upstream">
+<p>HTTP Upstream:</p>
+<dl class="compact">
+<dt>
+<code>peers</code></dt>
+<dd>
+An array of:<dl class="compact">
+<dt>
+<code>id</code> (<code>integer</code>)
+</dt>
+<dd>
+The ID of the server.
+</dd>
+<dt>
+<code>server</code> (<code>string</code>)
+</dt>
+<dd>
+An  <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">address</a> of the server.
+</dd>
+<dt>
+<code>service</code> (<code>string</code>)
+</dt>
+<dd>
+The <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#service">service</a> parameter value of the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a> directive.
+</dd>
+<dt>
+<code>name</code> (<code>string</code>)
+</dt>
+<dd>
+The name of the server specified in the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a> directive.
+</dd>
+<dt>
+<code>backup</code> (<code>boolean</code>)
+</dt>
+<dd>
+A boolean value indicating whether the server is a <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#backup">backup</a> server.
+</dd>
+<dt>
+<code>weight</code> (<code>integer</code>)
+</dt>
+<dd>
+<a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#weight">Weight</a> of the server.
+</dd>
+<dt>
+<code>state</code> (<code>string</code>)
+</dt>
+<dd>
+Current state, which may be one of “<code>up</code>”, “<code>draining</code>”, “<code>down</code>”, “<code>unavail</code>”, “<code>checking</code>”, and “<code>unhealthy</code>”.
+</dd>
+<dt>
+<code>active</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of active connections.
+</dd>
+<dt>
+<code>max_conns</code> (<code>integer</code>)
+</dt>
+<dd>
+The <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_conns">max_conns</a> limit for the server.
+</dd>
+<dt>
+<code>requests</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of client requests forwarded to this server.
+</dd>
+<dt>
+<code>responses</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>1xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of responses with “<code>1xx</code>” status codes.
+</dd>
+<dt>
+<code>2xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of responses with “<code>2xx</code>” status codes.
+</dd>
+<dt>
+<code>3xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of responses with “<code>3xx</code>” status codes.
+</dd>
+<dt>
+<code>4xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of responses with “<code>4xx</code>” status codes.
+</dd>
+<dt>
+<code>5xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of responses with “<code>5xx</code>” status codes.
+</dd>
+<dt>
+<code>total</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of responses obtained from this server.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>sent</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes sent to this server.
+</dd>
+<dt>
+<code>received</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes received from this server.
+</dd>
+<dt>
+<code>fails</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of unsuccessful attempts to communicate with the server.
+</dd>
+<dt>
+<code>unavail</code> (<code>integer</code>)
+</dt>
+<dd>
+How many times the server became unavailable for client requests (state “<code>unavail</code>”) due to the number of unsuccessful attempts reaching the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails">max_fails</a> threshold.
+</dd>
+<dt>
+<code>health_checks</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>checks</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of <a href="https://nginx.org/en/docs/http/ngx_http_upstream_hc_module.html#health_check">health check</a> requests made.
+</dd>
+<dt>
+<code>fails</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of failed health checks.
+</dd>
+<dt>
+<code>unhealthy</code> (<code>integer</code>)
+</dt>
+<dd>
+How many times the server became unhealthy (state “<code>unhealthy</code>”).
+</dd>
+<dt>
+<code>last_passed</code> (<code>boolean</code>)
+</dt>
+<dd>
+Boolean indicating if the last health check request was successful and passed <a href="https://nginx.org/en/docs/http/ngx_http_upstream_hc_module.html#match">tests</a>.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>downtime</code> (<code>integer</code>)
+</dt>
+<dd>
+Total time the server was in the “<code>unavail</code>”, “<code>checking</code>”, and “<code>unhealthy</code>” states.
+</dd>
+<dt>
+<code>downstart</code> (<code>string</code>)
+</dt>
+<dd>
+The time when the server became “<code>unavail</code>”, “<code>checking</code>”, or “<code>unhealthy</code>”, in the ISO 8601 format with millisecond resolution.
+</dd>
+<dt>
+<code>selected</code> (<code>string</code>)
+</dt>
+<dd>
+The time when the server was last selected to process a request, in the ISO 8601 format with millisecond resolution.
+</dd>
+<dt>
+<code>header_time</code> (<code>integer</code>)
+</dt>
+<dd>
+The average time to get the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_header_time">response header</a> from the server.
+</dd>
+<dt>
+<code>response_time</code> (<code>integer</code>)
+</dt>
+<dd>
+The average time to get the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_response_time">full response</a> from the server.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>keepalive</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of idle <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive">keepalive</a> connections.
+</dd>
+<dt>
+<code>zombies</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of servers removed from the group but still processing active client requests.
+</dd>
+<dt>
+<code>zone</code> (<code>string</code>)
+</dt>
+<dd>
+The name of the shared memory <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">zone</a> that keeps the group’s configuration and run-time state.
+</dd>
+<dt>
+<code>queue</code></dt>
+<dd>
+For the requests <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#queue">queue</a>, the following data are provided:<dl class="compact">
+<dt>
+<code>size</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of requests in the queue.
+</dd>
+<dt>
+<code>max_size</code> (<code>integer</code>)
+</dt>
+<dd>
+The maximum number of requests that can be in the queue at the same time.
+</dd>
+<dt>
+<code>overflows</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of requests rejected due to the queue overflow.
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "upstream_backend" : {
+    "peers" : [
+      {
+        "id" : 0,
+        "server" : "10.0.0.1:8088",
+        "name" : "10.0.0.1:8088",
+        "backup" : false,
+        "weight" : 5,
+        "state" : "up",
+        "active" : 0,
+        "max_conns" : 20,
+        "requests" : 667231,
+        "header_time" : 20,
+        "response_time" : 36,
+        "responses" : {
+          "1xx" : 0,
+          "2xx" : 666310,
+          "3xx" : 0,
+          "4xx" : 915,
+          "5xx" : 6,
+          "total" : 667231
+        },
+        "sent" : 251946292,
+        "received" : 19222475454,
+        "fails" : 0,
+        "unavail" : 0,
+        "health_checks" : {
+          "checks" : 26214,
+          "fails" : 0,
+          "unhealthy" : 0,
+          "last_passed" : true
+        },
+        "downtime" : 0,
+        "downstart" : "2017-07-07T11:09:21.602Z",
+        "selected" : "2017-07-17T15:01:25.000Z"
+      },
+      {
+        "id" : 1,
+        "server" : "10.0.0.1:8089",
+        "name" : "10.0.0.1:8089",
+        "backup" : true,
+        "weight" : 1,
+        "state" : "unhealthy",
+        "active" : 0,
+        "max_conns" : 20,
+        "requests" : 0,
+        "responses" : {
+          "1xx" : 0,
+          "2xx" : 0,
+          "3xx" : 0,
+          "4xx" : 0,
+          "5xx" : 0,
+          "total" : 0
+        },
+        "sent" : 0,
+        "received" : 0,
+        "fails" : 0,
+        "unavail" : 0,
+        "health_checks" : {
+          "checks" : 26284,
+          "fails" : 26284,
+          "unhealthy" : 1,
+          "last_passed" : false
+        },
+        "downtime" : 262925617,
+        "downstart" : "2017-07-07T11:09:21.602Z",
+        "selected" : "2017-07-17T15:01:25.000Z"
+      }
+    ],
+    "keepalive" : 0,
+    "zombies" : 0,
+    "zone" : "upstream_backend"
+  }
+}</pre></blockquote>
+</li>
+<li id="def_nginx_http_upstream_conf_server">
+<p>HTTP Upstream Server:</p>
+Dynamically configurable parameters of an HTTP upstream
+<a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a>:<dl class="compact">
+<dt>
+<code>id</code> (<code>integer</code>)
+</dt>
+<dd>
+The ID of the HTTP upstream server. The ID is assigned automatically and cannot be changed.
+</dd>
+<dt>
+<code>server</code> (<code>string</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#address">address</a> parameter of the HTTP upstream server. When adding a server, it is possible to specify it as a domain name. In this case, changes of the IP addresses that correspond to a domain name will be monitored and automatically applied to the upstream configuration without the need of restarting nginx. This requires the <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#resolver">resolver</a> directive in the “<code>http</code>” block. See also the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#resolve">resolve</a> parameter of the HTTP upstream server.
+</dd>
+<dt>
+<code>service</code> (<code>string</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#service">service</a> parameter of the HTTP upstream server. This parameter cannot be changed.
+</dd>
+<dt>
+<code>weight</code> (<code>integer</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#weight">weight</a> parameter of the HTTP upstream server.
+</dd>
+<dt>
+<code>max_conns</code> (<code>integer</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_conns">max_conns</a> parameter of the HTTP upstream server.
+</dd>
+<dt>
+<code>max_fails</code> (<code>integer</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails">max_fails</a> parameter of the HTTP upstream server.
+</dd>
+<dt>
+<code>fail_timeout</code> (<code>string</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#fail_timeout">fail_timeout</a> parameter of the HTTP upstream server.
+</dd>
+<dt>
+<code>slow_start</code> (<code>string</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#slow_start">slow_start</a> parameter of the HTTP upstream server.
+</dd>
+<dt>
+<code>route</code> (<code>string</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#route">route</a> parameter of the HTTP upstream server.
+</dd>
+<dt>
+<code>backup</code> (<code>boolean</code>)
+</dt>
+<dd>
+When <code>true</code>, adds a <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#backup">backup</a> server. This parameter cannot be changed.
+</dd>
+<dt>
+<code>down</code> (<code>boolean</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#down">down</a> parameter of the HTTP upstream server.
+</dd>
+<dt>
+<code>drain</code> (<code>boolean</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#drain">drain</a> parameter of the HTTP upstream server.
+</dd>
+<dt>
+<code>parent</code> (<code>string</code>)
+</dt>
+<dd>
+Parent server ID of the resolved server. The ID is assigned automatically and cannot be changed.
+</dd>
+<dt>
+<code>host</code> (<code>string</code>)
+</dt>
+<dd>
+Hostname of the resolved server. The hostname is assigned automatically and cannot be changed.
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "id" : 1,
+  "server" : "10.0.0.1:8089",
+  "weight" : 4,
+  "max_conns" : 0,
+  "max_fails" : 0,
+  "fail_timeout" : "10s",
+  "slow_start" : "10s",
+  "route" : "",
+  "backup" : true,
+  "down" : true
+}</pre></blockquote>
+</li>
+<li id="def_nginx_http_keyval_zone">
+<p>HTTP Keyval Shared Memory Zone:</p>
+Contents of an HTTP keyval shared memory zone.<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "key1" : "value1",
+  "key2" : "value2",
+  "key3" : "value3"
+}</pre></blockquote>
+</li>
+<li id="def_nginx_stream_server_zone">
+<p>Stream Server Zone:</p>
+<dl class="compact">
+<dt>
+<code>processing</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of client connections that are currently being processed.
+</dd>
+<dt>
+<code>connections</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of connections accepted from clients.
+</dd>
+<dt>
+<code>sessions</code></dt>
+<dd>
+The total number of completed sessions, and the number of sessions completed with status codes “<code>2xx</code>”, “<code>4xx</code>”, or “<code>5xx</code>”.<dl class="compact">
+<dt>
+<code>2xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of sessions completed with <a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#var_status">status codes</a> “<code>2xx</code>”.
+</dd>
+<dt>
+<code>4xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of sessions completed with <a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#var_status">status codes</a> “<code>4xx</code>”.
+</dd>
+<dt>
+<code>5xx</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of sessions completed with <a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#var_status">status codes</a> “<code>5xx</code>”.
+</dd>
+<dt>
+<code>total</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of completed client sessions.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>discarded</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of connections completed without creating a session.
+</dd>
+<dt>
+<code>received</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes received from clients.
+</dd>
+<dt>
+<code>sent</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes sent to clients.
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "dns" : {
+    "processing" : 1,
+    "connections" : 155569,
+    "sessions" : {
+      "2xx" : 155564,
+      "4xx" : 0,
+      "5xx" : 0,
+      "total" : 155569
+    },
+    "discarded" : 0,
+    "received" : 4200363,
+    "sent" : 20489184
+  }
+}</pre></blockquote>
+</li>
+<li id="def_nginx_stream_upstream">
+<p>Stream Upstream:</p>
+<dl class="compact">
+<dt>
+<code>peers</code></dt>
+<dd>
+An array of:<dl class="compact">
+<dt>
+<code>id</code> (<code>integer</code>)
+</dt>
+<dd>
+The ID of the server.
+</dd>
+<dt>
+<code>server</code> (<code>string</code>)
+</dt>
+<dd>
+An <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#server">address</a> of the server.
+</dd>
+<dt>
+<code>service</code> (<code>string</code>)
+</dt>
+<dd>
+The <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#service">service</a> parameter value of the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#server">server</a> directive.
+</dd>
+<dt>
+<code>name</code> (<code>string</code>)
+</dt>
+<dd>
+The name of the server specified in the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#server">server</a> directive.
+</dd>
+<dt>
+<code>backup</code> (<code>boolean</code>)
+</dt>
+<dd>
+A boolean value indicating whether the server is a <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#backup">backup</a> server.
+</dd>
+<dt>
+<code>weight</code> (<code>integer</code>)
+</dt>
+<dd>
+<a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#weight">Weight</a> of the server.
+</dd>
+<dt>
+<code>state</code> (<code>string</code>)
+</dt>
+<dd>
+Current state, which may be one of “<code>up</code>”, “<code>down</code>”, “<code>unavail</code>”, “<code>checking</code>”, or “<code>unhealthy</code>”.
+</dd>
+<dt>
+<code>active</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of connections.
+</dd>
+<dt>
+<code>max_conns</code> (<code>integer</code>)
+</dt>
+<dd>
+The <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#max_conns">max_conns</a> limit for the server.
+</dd>
+<dt>
+<code>connections</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of client connections forwarded to this server.
+</dd>
+<dt>
+<code>connect_time</code> (<code>integer</code>)
+</dt>
+<dd>
+The average time to connect to the upstream server.
+</dd>
+<dt>
+<code>first_byte_time</code> (<code>integer</code>)
+</dt>
+<dd>
+The average time to receive the first byte of data.
+</dd>
+<dt>
+<code>response_time</code> (<code>integer</code>)
+</dt>
+<dd>
+The average time to receive the last byte of data.
+</dd>
+<dt>
+<code>sent</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes sent to this server.
+</dd>
+<dt>
+<code>received</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of bytes received from this server.
+</dd>
+<dt>
+<code>fails</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of unsuccessful attempts to communicate with the server.
+</dd>
+<dt>
+<code>unavail</code> (<code>integer</code>)
+</dt>
+<dd>
+How many times the server became unavailable for client connections (state “<code>unavail</code>”) due to the number of unsuccessful attempts reaching the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#max_fails">max_fails</a> threshold.
+</dd>
+<dt>
+<code>health_checks</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>checks</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_hc_module.html#health_check">health check</a> requests made.
+</dd>
+<dt>
+<code>fails</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of failed health checks.
+</dd>
+<dt>
+<code>unhealthy</code> (<code>integer</code>)
+</dt>
+<dd>
+How many times the server became unhealthy (state “<code>unhealthy</code>”).
+</dd>
+<dt>
+<code>last_passed</code> (<code>boolean</code>)
+</dt>
+<dd>
+Boolean indicating whether the last health check request was successful and passed <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_hc_module.html#match">tests</a>.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>downtime</code> (<code>integer</code>)
+</dt>
+<dd>
+Total time the server was in the “<code>unavail</code>”, “<code>checking</code>”, and “<code>unhealthy</code>” states.
+</dd>
+<dt>
+<code>downstart</code> (<code>string</code>)
+</dt>
+<dd>
+The time when the server became “<code>unavail</code>”, “<code>checking</code>”, or “<code>unhealthy</code>”, in the ISO 8601 format with millisecond resolution.
+</dd>
+<dt>
+<code>selected</code> (<code>string</code>)
+</dt>
+<dd>
+The time when the server was last selected to process a connection, in the ISO 8601 format with millisecond resolution.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>zombies</code> (<code>integer</code>)
+</dt>
+<dd>
+The current number of servers removed from the group but still processing active client connections.
+</dd>
+<dt>
+<code>zone</code> (<code>string</code>)
+</dt>
+<dd>
+The name of the shared memory <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#zone">zone</a> that keeps the group’s configuration and run-time state.
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "dns" : {
+    "peers" : [
+      {
+        "id" : 0,
+        "server" : "10.0.0.1:12347",
+        "name" : "10.0.0.1:12347",
+        "backup" : false,
+        "weight" : 5,
+        "state" : "up",
+        "active" : 0,
+        "max_conns" : 50,
+        "connections" : 667231,
+        "sent" : 251946292,
+        "received" : 19222475454,
+        "fails" : 0,
+        "unavail" : 0,
+        "health_checks" : {
+          "checks" : 26214,
+          "fails" : 0,
+          "unhealthy" : 0,
+          "last_passed" : true
+        },
+        "downtime" : 0,
+        "downstart" : "2017-07-07T11:09:21.602Z",
+        "selected" : "2017-07-17T15:01:25.000Z"
+      },
+      {
+        "id" : 1,
+        "server" : "10.0.0.1:12348",
+        "name" : "10.0.0.1:12348",
+        "backup" : true,
+        "weight" : 1,
+        "state" : "unhealthy",
+        "active" : 0,
+        "max_conns" : 50,
+        "connections" : 0,
+        "sent" : 0,
+        "received" : 0,
+        "fails" : 0,
+        "unavail" : 0,
+        "health_checks" : {
+          "checks" : 26284,
+          "fails" : 26284,
+          "unhealthy" : 1,
+          "last_passed" : false
+        },
+        "downtime" : 262925617,
+        "downstart" : "2017-07-07T11:09:21.602Z",
+        "selected" : "2017-07-17T15:01:25.000Z"
+      }
+    ],
+    "zombies" : 0,
+    "zone" : "dns"
+  }
+}</pre></blockquote>
+</li>
+<li id="def_nginx_stream_upstream_conf_server">
+<p>Stream Upstream Server:</p>
+Dynamically configurable parameters of a stream upstream
+<a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#server">server</a>:<dl class="compact">
+<dt>
+<code>id</code> (<code>integer</code>)
+</dt>
+<dd>
+The ID of the stream upstream server. The ID is assigned automatically and cannot be changed.
+</dd>
+<dt>
+<code>server</code> (<code>string</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#server">address</a> parameter of the stream upstream server. When adding a server, it is possible to specify it as a domain name. In this case, changes of the IP addresses that correspond to a domain name will be monitored and automatically applied to the upstream configuration without the need of restarting nginx. This requires the <a href="https://nginx.org/en/docs/stream/ngx_stream_core_module.html#resolver">resolver</a> directive in the “<code>stream</code>” block. See also the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#resolve">resolve</a> parameter of the stream upstream server.
+</dd>
+<dt>
+<code>service</code> (<code>string</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#service">service</a> parameter of the stream upstream server. This parameter cannot be changed.
+</dd>
+<dt>
+<code>weight</code> (<code>integer</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#weight">weight</a> parameter of the stream upstream server.
+</dd>
+<dt>
+<code>max_conns</code> (<code>integer</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#max_conns">max_conns</a> parameter of the stream upstream server.
+</dd>
+<dt>
+<code>max_fails</code> (<code>integer</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#max_fails">max_fails</a> parameter of the stream upstream server.
+</dd>
+<dt>
+<code>fail_timeout</code> (<code>string</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#fail_timeout">fail_timeout</a> parameter of the stream upstream server.
+</dd>
+<dt>
+<code>slow_start</code> (<code>string</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#slow_start">slow_start</a> parameter of the stream upstream server.
+</dd>
+<dt>
+<code>backup</code> (<code>boolean</code>)
+</dt>
+<dd>
+When <code>true</code>, adds a <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#backup">backup</a> server. This parameter cannot be changed.
+</dd>
+<dt>
+<code>down</code> (<code>boolean</code>)
+</dt>
+<dd>
+Same as the <a href="https://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#down">down</a> parameter of the stream upstream server.
+</dd>
+<dt>
+<code>parent</code> (<code>string</code>)
+</dt>
+<dd>
+Parent server ID of the resolved server. The ID is assigned automatically and cannot be changed.
+</dd>
+<dt>
+<code>host</code> (<code>string</code>)
+</dt>
+<dd>
+Hostname of the resolved server. The hostname is assigned automatically and cannot be changed.
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "id" : 0,
+  "server" : "10.0.0.1:12348",
+  "weight" : 1,
+  "max_conns" : 0,
+  "max_fails" : 1,
+  "fail_timeout" : "10s",
+  "slow_start" : 0,
+  "backup" : false,
+  "down" : false
+}</pre></blockquote>
+</li>
+<li id="def_nginx_stream_keyval_zone">
+<p>Stream Keyval Shared Memory Zone:</p>
+Contents of a stream keyval shared memory zone.<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "key1" : "value1",
+  "key2" : "value2",
+  "key3" : "value3"
+}</pre></blockquote>
+</li>
+<li id="def_nginx_stream_zone_sync">
+<p>Stream Zone Sync Node:</p>
+<dl class="compact">
+<dt>
+<code>zones</code></dt>
+<dd>
+<p>Synchronization information per each shared memory zone.</p><p>A collection of "<a href="ngx_http_api_module.html#def_nginx_stream_zone_sync_zone">Sync Zone</a>" objects</p>
+</dd>
+<dt>
+<code>status</code></dt>
+<dd>
+Synchronization information per node in a cluster.<dl class="compact">
+<dt>
+<code>bytes_in</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of bytes received by this node.
+</dd>
+<dt>
+<code>msgs_in</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of messages received by this node.
+</dd>
+<dt>
+<code>msgs_out</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of messages sent by this node.
+</dd>
+<dt>
+<code>bytes_out</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of bytes sent by this node.
+</dd>
+<dt>
+<code>nodes_online</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of peers this node is connected to.
+</dd>
+</dl>
+</dd>
+</dl>
+<p>Example:</p>
+<blockquote class="example"><pre>
+{
+  "zones" : {
+    "zone1" : {
+      "records_pending" : 2061,
+      "records_total" : 260575
+    },
+    "zone2" : {
+      "records_pending" : 0,
+      "records_total" : 14749
+    }
+  },
+  "status" : {
+    "bytes_in" : 1364923761,
+    "msgs_in" : 337236,
+    "msgs_out" : 346717,
+    "bytes_out" : 1402765472,
+    "nodes_online" : 15
+  }
+}</pre></blockquote>
+</li>
+<li id="def_nginx_stream_zone_sync_zone">
+<p>Sync Zone:</p>
+Synchronization status of a shared memory zone.<dl class="compact">
+<dt>
+<code>records_pending</code> (<code>integer</code>)
+</dt>
+<dd>
+The number of records that need to be sent to the cluster.
+</dd>
+<dt>
+<code>records_total</code> (<code>integer</code>)
+</dt>
+<dd>
+The total number of records stored in the shared memory zone.
+</dd>
+</dl>
+</li>
+<li id="def_nginx_error">
+<p>Error:</p>
+nginx error object.<dl class="compact">
+<dt>
+<code>path</code> (<code>string</code>)
+</dt>
+<dd>
+API path.
+</dd>
+<dt>
+<code>method</code> (<code>string</code>)
+</dt>
+<dd>
+HTTP method.
+</dd>
+<dt>
+<code>error</code></dt>
+<dd>
+<dl class="compact">
+<dt>
+<code>status</code> (<code>integer</code>)
+</dt>
+<dd>
+HTTP error code.
+</dd>
+<dt>
+<code>text</code> (<code>string</code>)
+</dt>
+<dd>
+Error description.
+</dd>
+<dt>
+<code>code</code> (<code>string</code>)
+</dt>
+<dd>
+Internal nginx error code.
+</dd>
+</dl>
+</dd>
+<dt>
+<code>request_id</code> (<code>string</code>)
+</dt>
+<dd>
+The ID of the request, equals the value of the <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#var_request_id">$request_id</a> variable.
+</dd>
+<dt>
+<code>href</code> (<code>string</code>)
+</dt>
+<dd>
+Link to reference documentation.
+</dd>
+</dl>
+</li>
+</ul><p> 
+</p>
+
+</div></div></body></html>

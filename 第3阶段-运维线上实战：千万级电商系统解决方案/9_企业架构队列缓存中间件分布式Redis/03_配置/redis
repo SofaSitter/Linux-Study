@@ -1,0 +1,35 @@
+#!/bin/bash
+#执行软件路径
+SOFTPATH='/usr/local/redis/bin/redis-server'
+CLIPATH='/usr/local/redis/bin/redis-cli'
+#配置文件路径
+CONFIGPATH='/usr/local/redis/bin/redis.conf'
+#引入系统函数库文件
+. /etc/rc.d/init.d/functions
+start(){
+  $SOFTPATH $CONFIGPATH
+  echo 'redis runing'
+}
+
+stop(){
+  #killall redis-server
+  $CLIPATH shutdown
+  echo -e "\033[31m redis stop \033[0m"
+}
+mystatus(){
+  status redis-server 
+}
+case "$1" in
+   start)
+     start;;
+   stop)
+     stop;;
+   status)
+     mystatus;;
+   restart)
+     stop
+     start
+     ;;
+   *)
+     echo 'start|stop|status'
+esac

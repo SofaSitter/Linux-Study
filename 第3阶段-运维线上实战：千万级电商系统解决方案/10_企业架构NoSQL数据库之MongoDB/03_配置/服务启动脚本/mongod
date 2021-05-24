@@ -1,0 +1,50 @@
+#!/bin/bash
+#mongodb服务操作
+#chkconfig - 68 78
+BASEDIR="/usr/local/mongodb"
+BIN=$BASEDIR"/bin/mongod"
+DBPATH=$BASEDIR"/data"
+LOGPATH=$BASEDIR"/logs/log.txt"
+#BIND_IP='127.0.0.1,192.168.17.112'
+
+#引入系统函数库
+. /etc/rc.d/init.d/functions
+#启动
+start () {
+  echo -n $"Starting $prog: "
+  $BIN --dbpath=$DBPATH --logpath=$LOGPATH --fork &>>/dev/null
+  RETVAL=$?
+  [ $RETVAL -eq 0 ] && echo 'starting'
+}
+#关闭
+stop () {
+  echo -n $"Stopping $prog: "
+  $BIN --dbpath=$DBPATH --shutdown
+  RETVAL=$?
+  [ $RETVAL -eq 0  ] && echo 'stopd'
+}
+#重启
+restart () {
+  stop
+  start
+}
+#查看状态
+mongod_status () {
+  status $BIN
+}
+case "$1" in
+  start)
+      start
+      ;;
+  stop)
+      stop
+      ;;
+  restart)
+      restart
+      ;;
+  status)
+      mongod_status
+      ;;
+  *)
+      echo "$EXE {start|stop|restart}"
+esac

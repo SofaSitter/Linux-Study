@@ -1,0 +1,38 @@
+ -- access_by_lua_file '/usr/local/lua_test/my_access_limit.lua';
+ngx.req.read_body()
+-- 引入redis的包
+local redis = require "resty.redis"
+-- 实例化
+local red = redis.new()
+-- 连接redis
+red.connect(red, '192.168.17.107', '6379')
+-- redis的密码
+red:auth("devops")
+-- 用户的真实IP
+local myIP = ngx.req.get_headers()["X-Real-IP"]
+if myIP == nil then
+   myIP = ngx.req.get_headers()["x_forwarded_for"]
+end
+if myIP == nil then
+   myIP = ngx.var.remote_addr
+end
+-- 匹配需要验证的URI
+if ngx.re.match(ngx.var.uri,"/index.html") then
+    -- 校验IP是否存在黑名单中
+    local hasIP = red:sismember('black.ip',myIP)
+    -- 在黑名单
+    if hasIP==1 then
+        -- ngx.say("This is 'Black List' request")
+        ngx.exit(ngx.HTTP_FORBIDDEN)
+    end
+    --如果访问超过10次 就加入IP到黑名单
+        local count = red:get(myIP)
+        if count == ngx.null then
+           count = 0
+        end
+        if (tonumber(count)>7) then
+          red:sadd('black.ip',myIP)
+        end
+        --每次访问+1
+        red:incr(myIP)
+end

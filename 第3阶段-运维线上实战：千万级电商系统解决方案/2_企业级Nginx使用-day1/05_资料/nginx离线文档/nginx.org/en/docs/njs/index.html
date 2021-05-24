@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>njs scripting language</title><style type="text/css">body { background: white; color: black; font-family: sans-serif; line-height: 1.4em; text-align: center; margin: 0; padding: 0; } #banner { background: black; color: #F2F2F2; line-height: 1.2em; padding: .3em 0; box-shadow: 0 5px 10px black; } #banner a { color: #00B140; } #main { text-align: left; margin: 0 auto; min-width: 32em; max-width: 64em; } #menu { float: right; width: 11em; padding: 0 .5em 1em .5em; border-left: 2px solid #DDD; } #content { margin-right: 13.5em; padding: 0 .2em 0 1.5em; } h1 { display: block; font-size: 3em; text-align: left; height: .7em; margin: 0; margin-bottom: .5em; } h1 img { width: 100%; } h2 { text-align: center; } p { text-align: justify; } table.news p { margin-top: 0; } table.news td { vertical-align: baseline; } table.news .date { text-align: right; padding-right: 0.5em; white-space: nowrap; } table.donors td { vertical-align: baseline; } table.donors li { text-align: left; } div.directive { background: #F2F2F2; line-height: 1em; margin: 1em 0 1em -1em; padding: .7em .7em .7em 1em; border-top: 2px solid #DDD; } div.directive th { padding-left: 0; padding-right: .5em; vertical-align: baseline; text-align: left; font-weight: normal; } div.directive td { vertical-align: baseline; } div.directive pre { padding: 0; margin: 0; } div.directive p { margin: .5em 0 0 .1em; font-size: .8em; } a.notrans { color: gray; text-decoration:none; } span.initial { font-size: 200%; float: left; padding-right: 10pt;} ul, ol { margin: .5em 0 1em 1em; padding: 0 .5em; } ol { list-style-position: inside; } li { text-align: justify; padding: .5em 0 0 1px; } .compact li { padding-top: 0; } dl { margin: .5em 0 1em 0; } dt { margin: .5em 0; } .compact dt { margin-bottom: .2em; } dd { margin-left: 1.5em; padding-left: 1px; text-align: justify; } td.list { background: #F2F2F2; } blockquote { margin: 1em 0 1em 1em; padding: .5em; } li blockquote, dd blockquote { margin: .7em 0; } blockquote.note { border: 1px dotted #999; line-height: 1.2em; text-align: justify; } blockquote.example { line-height: 1em; border-left: 1px solid #BBB; } blockquote.example pre { padding: 0; margin: 0; } sup { font-size: 50%; } .video { position: relative; padding-bottom: 56.25%; overflow: hidden; } .video iframe, .video object, .video embed { position: absolute; top:0; left:0; width:100%; height:100%; }</style><script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TPSP33');
+    </script></head><body><div id="banner">
+        NGINX Plus R17 released: TLS 1.3, two-stage rate limiting, easier OpenID Connect SSO, and 2x faster NGINX WAF.<br><a href="https://www.nginx.com/blog/nginx-plus-r17-released/?utm_source=nginxorg&amp;utm_medium=homepagebanner&amp;utm_campaign=r17">Learn more.</a></div><div id="main"><div id="menu"><h1><a href="http://nginx.org/"><img src="http://nginx.org/nginx.png" alt="nginx"></a></h1><div>english<br><a href="http://nginx.org/ru/docs/njs/index.html">русский</a><br><br><a href="http://nginx.org/">news</a><br><a href="http://nginx.org/en/">about</a><br><a href="http://nginx.org/en/download.html">download</a><br><a href="http://nginx.org/en/security_advisories.html">security</a><br><a href="../index.html">documentation</a><br><a href="../faq.html">faq</a><br><a href="http://nginx.org/en/books.html">books</a><br><a href="http://nginx.org/en/support.html">support</a><br><br><a href="http://trac.nginx.org/nginx">trac</a><br><a href="http://twitter.com/nginxorg">twitter</a><br><a href="https://www.nginx.com/blog/">blog</a><br><br><a href="https://unit.nginx.org/">unit</a><br><a href="http://nginx.org/en/docs/njs/">njs</a><br></div></div><div id="content"><h2>njs scripting language</h2><a name="summary"></a><p>
+njs is a subset of the JavaScript language that allows
+extending nginx functionality.
+njs is created in compliance with
+<a href="http://www.ecma-international.org/ecma-262/5.1/">ECMAScript 5.1</a>
+(strict mode) with some
+<a href="http://www.ecma-international.org/ecma-262/6.0/">ECMAScript 6</a>
+and later extensions.
+The compliance is still <a href="compatibility.html">evolving</a>.
+</p><a name="links"></a><p>
+</p> <ul class="compact">
+
+<li>
+<a href="install.html">Download and install</a>
+</li>
+
+<li>
+<a href="changes.html">Changes</a>
+</li>
+
+<li>
+<a href="reference.html">Reference</a>
+</li>
+
+<li>
+<a href="examples.html">Examples</a>
+</li>
+
+<li>
+<a href="compatibility.html">Compatibility</a>
+</li>
+
+<li>
+<a href="cli.html">Command-line interface</a>
+</li>
+
+</ul><p> 
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<a href="../http/ngx_http_js_module.html">
+ngx_http_js_module</a>
+</li>
+
+<li>
+<a href="../stream/ngx_stream_js_module.html">
+ngx_stream_js_module</a>
+</li>
+
+</ul><p> 
+</p><a name="usecases"></a><center><h4>Use cases</h4></center><p>
+</p> <ul class="compact">
+
+<li>
+Complex access control and security checks in njs
+before a request reaches an upstream server
+</li>
+
+<li>
+Manipulating response headers
+</li>
+
+<li>
+Writing flexible asynchronous content handlers and filters
+</li>
+
+</ul><p> 
+See <a href="examples.html">examples</a> and
+<a href="https://www.nginx.com/blog/tag/nginx-javascript-module/">blog posts</a>
+for more njs use cases.
+</p><a name="example"></a><center><h4>Basic HTTP Example</h4></center><p>
+To use njs in nginx:
+</p> <ul class="compact">
+
+<li>
+<p>
+<a href="install.html">install</a> njs scripting language
+</p>
+</li>
+
+<li id="hello_world">
+<p>
+create an njs script file, for example, <code>hello_world.js</code>.
+See <a href="reference.html">Reference</a>
+for the list of njs properties and methods.
+</p> <blockquote class="example"><pre>
+function hello(r) {
+    r.return(200, "Hello world!");
+}
+</pre></blockquote><p> 
+</p>
+</li>
+
+<li>
+
+<p>
+in the <code>nginx.conf</code> file, enable
+<a href="../http/ngx_http_js_module.html">ngx_http_js_module</a> module
+and specify the
+<a href="../http/ngx_http_js_module.html#js_include">js_include</a>
+directive
+with the <code>hello_world.js</code> script file:
+</p> <blockquote class="example"><pre>
+load_module modules/ngx_http_js_module.so;
+
+events {}
+
+http {
+    js_include hello_world.js;
+
+    server {
+        listen 8000;
+
+        location / {
+            js_content hello;
+        }
+    }
+}
+
+</pre></blockquote><p> 
+</p>
+</li>
+
+</ul><p> 
+There is also a standalone <a href="cli.html">command line</a> utility
+that can be used independently of nginx for njs development and debugging.
+</p><a name="presentation"></a><center><h4>Presentation at nginx.conf 2018</h4></center><p><div class="video"><iframe type="text/html" src="https://www.youtube.com/embed/Jc_L6UffFOs?modestbranding=1&amp;rel=0&amp;showinfo=0&amp;color=white" frameborder="0" allowfullscreen="1"></iframe></div></p></div></div></body></html>

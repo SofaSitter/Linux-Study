@@ -1,0 +1,1335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Changes</title><style type="text/css">body { background: white; color: black; font-family: sans-serif; line-height: 1.4em; text-align: center; margin: 0; padding: 0; } #banner { background: black; color: #F2F2F2; line-height: 1.2em; padding: .3em 0; box-shadow: 0 5px 10px black; } #banner a { color: #00B140; } #main { text-align: left; margin: 0 auto; min-width: 32em; max-width: 64em; } #menu { float: right; width: 11em; padding: 0 .5em 1em .5em; border-left: 2px solid #DDD; } #content { margin-right: 13.5em; padding: 0 .2em 0 1.5em; } h1 { display: block; font-size: 3em; text-align: left; height: .7em; margin: 0; margin-bottom: .5em; } h1 img { width: 100%; } h2 { text-align: center; } p { text-align: justify; } table.news p { margin-top: 0; } table.news td { vertical-align: baseline; } table.news .date { text-align: right; padding-right: 0.5em; white-space: nowrap; } table.donors td { vertical-align: baseline; } table.donors li { text-align: left; } div.directive { background: #F2F2F2; line-height: 1em; margin: 1em 0 1em -1em; padding: .7em .7em .7em 1em; border-top: 2px solid #DDD; } div.directive th { padding-left: 0; padding-right: .5em; vertical-align: baseline; text-align: left; font-weight: normal; } div.directive td { vertical-align: baseline; } div.directive pre { padding: 0; margin: 0; } div.directive p { margin: .5em 0 0 .1em; font-size: .8em; } a.notrans { color: gray; text-decoration:none; } span.initial { font-size: 200%; float: left; padding-right: 10pt;} ul, ol { margin: .5em 0 1em 1em; padding: 0 .5em; } ol { list-style-position: inside; } li { text-align: justify; padding: .5em 0 0 1px; } .compact li { padding-top: 0; } dl { margin: .5em 0 1em 0; } dt { margin: .5em 0; } .compact dt { margin-bottom: .2em; } dd { margin-left: 1.5em; padding-left: 1px; text-align: justify; } td.list { background: #F2F2F2; } blockquote { margin: 1em 0 1em 1em; padding: .5em; } li blockquote, dd blockquote { margin: .7em 0; } blockquote.note { border: 1px dotted #999; line-height: 1.2em; text-align: justify; } blockquote.example { line-height: 1em; border-left: 1px solid #BBB; } blockquote.example pre { padding: 0; margin: 0; } sup { font-size: 50%; } .video { position: relative; padding-bottom: 56.25%; overflow: hidden; } .video iframe, .video object, .video embed { position: absolute; top:0; left:0; width:100%; height:100%; }</style><script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TPSP33');
+    </script></head><body><div id="banner">
+        NGINX Plus R17 released: TLS 1.3, two-stage rate limiting, easier OpenID Connect SSO, and 2x faster NGINX WAF.<br><a href="https://www.nginx.com/blog/nginx-plus-r17-released/?utm_source=nginxorg&amp;utm_medium=homepagebanner&amp;utm_campaign=r17">Learn more.</a></div><div id="main"><div id="menu"><h1><a href="http://nginx.org/"><img src="http://nginx.org/nginx.png" alt="nginx"></a></h1><div>english<br><a class="notrans">русский</a><br><br><a href="http://nginx.org/">news</a><br><a href="http://nginx.org/en/">about</a><br><a href="http://nginx.org/en/download.html">download</a><br><a href="http://nginx.org/en/security_advisories.html">security</a><br><a href="../index.html">documentation</a><br><a href="../faq.html">faq</a><br><a href="http://nginx.org/en/books.html">books</a><br><a href="http://nginx.org/en/support.html">support</a><br><br><a href="http://trac.nginx.org/nginx">trac</a><br><a href="http://twitter.com/nginxorg">twitter</a><br><a href="https://www.nginx.com/blog/">blog</a><br><br><a href="https://unit.nginx.org/">unit</a><br><a href="http://nginx.org/en/docs/njs/">njs</a><br></div></div><div id="content"><h2>Changes</h2><a name="njs0.2.6"></a><center><h4>Changes with 0.2.6</h4></center><p>
+Release Date:
+27 November 2018
+</p><p>
+Core:
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+making built-in prototypes mutable.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+making global object mutable.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+<code>console.time()</code> and
+<code>console.timeEnd()</code> methods.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+allowing variables and functions to be redeclared.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+extending <code>Object.defineProperty()</code> spec conformance.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+introduced quiet mode for CLI to handle simple expressions from stdin.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+introduced compact form of backtraces to handle stack overflows.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+improved wording for various exceptions.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed closure values handling.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed equality operator for various value types.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed handling of “this” keyword in various scopes.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed handling non-object values in <code>Object.keys()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed parsing of throw statement inside <code>if</code> statement.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed parsing of newline after throw statement.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed parsing of statements in if statement without newline.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed size <code>uint32_t</code> overflow
+in <code>njs_array_expand()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>typeof</code> operator
+for <code>object_value</code> type.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous additional bugs have been fixed.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.2.5"></a><center><h4>Changes with 0.2.5</h4></center><p>
+Release Date:
+30 October 2018
+</p><p>
+nginx modules:
+</p> <ul class="compact">
+
+<li>
+<p>
+Bugfix:
+fixed counting pending events in stream module.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>s.off()</code> in stream module.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed processing of data chunks in <code>js_filter</code> in stream module.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed http <code>status</code> and
+<code>contentType</code> getter in http module.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed http response and parent getters in http module.
+</p>
+</li>
+
+</ul><p> 
+</p><p>
+Core:
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+arguments object support.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+non-integer fractions support.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+handling non-array values in <code>Array.prototype.slice()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>Array.prototype.length</code> setter
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>njs_array_alloc()</code> for length &gt; 2**31.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+handling int overflow in <code>njs_array_alloc()</code> on 32bit archs.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed code size mismatch error message.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed delete operator in a loop.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>Object.getOwnPropertyDescriptor()</code> for complex object
+(inherited from <code>Array</code> and <code>string</code> values).
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>Object.prototype.hasOwnProperty()</code>
+for non-object properties
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous additional bugs have been fixed.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.2.4"></a><center><h4>Changes with 0.2.4</h4></center><p>
+Release Date:
+18 September 2018
+</p><p>
+nginx modules:
+</p> <ul class="compact">
+
+<li>
+<p>
+Change:
+stream module handlers refactored.
+</p>
+
+<p>
+New methods and properties:
+<a href="reference.html#s_on">s.on()</a>,
+<a href="reference.html#s_off">s.off()</a>,
+<a href="reference.html#s_allow">s.allow()</a>,
+<a href="reference.html#s_done">s.done()</a>,
+<a href="reference.html#s_decline">s.decline()</a>,
+<a href="reference.html#s_deny">s.deny()</a>.
+</p>
+
+<p>
+Removed properties of the
+<a href="reference.html#stream">Stream</a> object:
+<code>s.OK</code>,
+<code>s.ABORT</code>,
+<code>s.AGAIN</code>,
+<code>s.DECLINED</code>,
+<code>s.ERROR</code>
+(replaced with
+<a href="reference.html#s_allow">s.allow()</a>,
+<a href="reference.html#s_done">s.done()</a>,
+<a href="reference.html#s_deny">s.deny()</a>).
+</p>
+
+<p>
+<code>s.buffer</code>
+(for reading replaced with data argument of
+the corresponding callback, for writing use
+<a href="reference.html#s_send">s.send()</a>).
+</p>
+
+<p>
+<code>s.fromUpstream</code>
+(replaced with a callback for a corresponding event).
+</p>
+
+<p>
+<code>s.eof</code>
+(replaced with <code></code>
+<a href="reference.html#s_on_callback_last">flags.last</a>).
+</p>
+
+</li>
+
+</ul><p> 
+</p><p>
+Core:
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+added <code>Function.prototype.length</code>.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+introduced sandboxing mode.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+added exception strings where appropriate.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+improved wording for primitive type conversion exception.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+throwing <code>TypeError</code>
+for attempts to change frozen properties.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>Object.defineProperty()</code> for existing properties.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+respecting the enumerable attribute while iterating by for in.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+respecting writable attribute for property handlers.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed exception handling in arguments of a function.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>Object.prototype.toString</code> for different value types.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>Object()</code> constructor for object types arguments.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed comparison of objects and strings.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>String.slice()</code> for undefined arguments.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous additional bugs have been fixed.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.2.3"></a><center><h4>Changes with 0.2.3</h4></center><p>
+Release Date:
+31 July 2018
+</p><p>
+nginx modules:
+</p> <ul class="compact">
+
+<li>
+<p>
+Bugfix:
+making a subrequest from a <code>Reply</code> object caused
+a segmentation fault.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+getting the parent property of the main
+<a href="reference.html#http">HTTP Request</a>
+object caused a segmentation fault.
+</p>
+</li>
+
+</ul><p> 
+</p><p>
+Core:
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+added the pretty string representation for values.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+correctly printing floating point numbers.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+correctly parsing floating point numbers.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+<a href="reference.html#string_bytesfrom">String.bytesFrom()</a> method
+(decoding <code>hex</code>,
+<code>base64</code>,
+<code>base64url</code> into a byte string).
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+<a href="reference.html#string_padstart">String.padStart()</a> and
+<a href="reference.html#string_padend">String.padEnd()</a> methods.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+added support of binary literals.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+added information about illegal token in number parsing.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+allowed uppercased <code>O</code> in octal literal values.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+added support for multiple arguments in <code>console.log()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed applying <code>call()</code> to methods of external values.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed addition operator applied to an object.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed exception handling in <code>njs_vm_value_to_ext_string()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>Number()</code> with boolean, null and undefined arguments.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed error handling of setting non-numeric <code>Array.length</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed autocompletion for global objects.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous additional bugs have been fixed.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.2.2"></a><center><h4>Changes with 0.2.2</h4></center><p>
+Release Date:
+19 June 2018
+</p><p>
+nginx modules:
+</p> <ul class="compact">
+
+<li>
+<p>
+Change:
+merged HTTP <code>Response</code> and <code>Reply</code>
+into <a href="reference.html#http">HTTP Request</a>.
+New members of <code>Request</code>:
+
+</p> <ul class="compact">
+
+<li>
+<p>
+<code>req.status</code> (<code>res.status</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.parent</code> (<code>reply.parent</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.requestBody</code> (<code>req.body</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.responseBody</code> (<code>reply.body</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.headersIn</code> (<code>req.headers</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.headersOut</code> (<code>res.headers</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.sendHeader()</code> (<code>res.sendHeader()</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.send()</code> (<code>res.send()</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.finish()</code> (<code>res.finish()</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.return()</code> (<code>res.return()</code>)
+</p>
+</li>
+
+</ul><p> 
+Deprecated members of <code>Request</code>:
+
+</p> <ul class="compact">
+
+<li>
+<p>
+<code>req.body</code> (use <code>req.requestBody</code>
+or <code>req.responseBody</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.headers</code> (use <code>req.headersIn</code>
+or <code>req.headersOut</code>)
+</p>
+</li>
+
+<li>
+<p>
+<code>req.response</code>
+</p>
+</li>
+
+</ul><p> 
+The deprecated properties will be removed in next releases.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+HTTP <a href="reference.html#r_internal_redirect">internalRedirect()</a>
+method.
+</p>
+</li>
+
+</ul><p> 
+</p><p>
+Core:
+</p> <ul class="compact">
+
+<li>
+<p>
+Bugfix:
+fixed heap-buffer-overflow in <code>crypto.createHmac()</code>.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.2.1"></a><center><h4>Changes with 0.2.1</h4></center><p>
+Release Date:
+31 May 2018
+</p><p>
+nginx modules:
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+HTTP request body getter.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+moved njs vm to the <code>main</code> configuration.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+improved logging for
+<a href="../http/ngx_http_js_module.html#js_set">js_set</a> and
+<a href="../http/ngx_http_js_module.html#js_content">js_content</a> directives.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+setting status code to 500 by default in the
+<a href="../http/ngx_http_js_module.html#js_content">js_content</a> handler
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+added the debug for the returned status code in
+<a href="../http/ngx_http_js_module.html#js_content">js_content</a> handler
+</p>
+</li>
+
+<li>
+<p>
+Bugfix: fixed error logging in
+<a href="../http/ngx_http_js_module.html#js_include">js_include</a>.
+</p>
+</li>
+
+</ul><p> 
+</p><p>
+Core:
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+added array length setter.
+</p>
+</li>
+
+<li>
+<p>
+Improvement:
+public header <code>cleanup. njscript.h</code> is renamed to
+<code>njs.h</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed crypto <code>update()</code> method after 
+<code>digest()</code> is called.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>crypto.createHmac()</code> for keys with size &lt;= alg size
+and &gt; 64.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>JSON.stringify()</code> for arrays with empty cells.
+</p>
+</li>
+
+<li>
+<p>
+ Bugfix:
+fixed exception type for unsupported types in
+<code>JSON.stringify()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed handling of undefined arguments of functions.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed handling of missing <code>arg</code> of
+<code>Object.getOwnPropertyDescriptor()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed handling of properties in
+<code>Object.getOwnPropertyDescriptor()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed the writeable flag of <code>Array.length</code> property.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix: fixed return value type of <code>clearTimeout()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+fixed <code>njs_vm_external_bind()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous additional bugs have been fixed.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.2.0"></a><center><h4>Changes with 0.2.0</h4></center><p>
+Release Date:
+3 Apr 2018
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+reporting njs version by CLI.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+textual description for type converting exceptions.
+</p>
+</li>
+
+<li>
+Feature:
+<code>setTimeout()</code> and
+<code>clearTimeout()</code> methods.
+</li>
+
+<li>
+<p>
+Feature:
+Byte string to
+<code>hex</code>,
+<code>base64</code>,
+<code>base64url</code> encodings.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+<a href="https://nodejs.org/api/crypto.html#crypto_class_hash">Node.js style</a>
+<code>Crypto</code> methods.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+HTTP and stream
+<code>warn()</code> and
+<code>error()</code> methods.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+HTTP <code>subrequest()</code> method.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+HTTP <code>return()</code> method.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous bugs have been fixed in the core and
+interactive shell.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.1.15"></a><center><h4>Changes with 0.1.15</h4></center><p>
+Release Date:
+20 Nov 2017
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+<code>Error</code>,
+<code>EvalError</code>,
+<code>InternalError</code>,
+<code>RangeError</code>,
+<code>ReferenceError</code>,
+<code>SyntaxError</code>,
+<code>TypeError</code>,
+<code>URIError</code> objects.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+octal literals support.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+<a href="https://nodejs.org/api/fs.html#fs_file_system">Node.js style</a>
+<code>File system</code> access methods:
+<code>fs.readFile()</code>,
+<code>fs.readFileSync()</code>,
+<code>fs.appendFile()</code>,
+<code>fs.appendFileSync()</code>,
+<code>fs.writeFile()</code>,
+<code>fs.writeFileSync()</code>.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+nginx modules print backtrace on exception.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous bugs have been fixed.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.1.14"></a><center><h4>Changes with 0.1.14</h4></center><p>
+Release Date:
+09 Oct 2017
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+JSON object.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+object level completions in interactive shell.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+various configure improvements.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous bugs have been fixed in the core and
+interactive shell.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.1.13"></a><center><h4>Changes with 0.1.13</h4></center><p>
+Release Date:
+31 Aug 2017
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+<code>console.log()</code> and
+<code>console.help()</code>
+methods in interactive shell.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+interactive shell prints backtrace on exception.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+interactive shell by default
+if <code>libedit</code> is available.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+processing of large files from
+<code>stdin</code> in command line mode.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+improved <code>editline</code> detection.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.1.12"></a><center><h4>Changes with 0.1.12</h4></center><p>
+Release Date:
+08 Aug 2017
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+Interactive shell.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+in <code>Object.isSealed()</code>.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.1.11"></a><center><h4>Changes with 0.1.11</h4></center><p>
+Release Date:
+27 Jun 2017
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+<code>Object.keys()</code>,
+<code>Object.prototype.hasOwnProperty()</code>
+methods.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+<code>Object.defineProperty()</code>,
+<code>Object.defineProperties()</code>,
+<code>Object.getOwnPropertyDescriptor()</code>
+methods.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+<code>Object.getPrototypeOf()</code>,
+<code>Object.prototype.isPrototypeOf()</code>
+methods.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+<code>Object.preventExtensions()</code>,
+<code>Object.isExtensible()</code>,
+<code>Object.freeze()</code>,
+<code>Object.isFrozen()</code>,
+<code>Object.seal()</code>,
+<code>Object.isSealed()</code>
+methods.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+scientific notation (<code>3.35e10</code>) literals support.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+hexadecimal (<code>0x1123</code>) literals support.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+processing of large array indexes.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+in <code>parseInt()</code> and
+<code>Date.parse()</code>.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.1.10"></a><center><h4>Changes with 0.1.10</h4></center><p>
+Release Date:
+04 Apr 2017
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Feature:
+nested functions and function closures.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+<code>Array.of()</code>,
+<code>Array.prototype.fill()</code>,
+<code>Array.prototype.find()</code>,
+<code>Array.prototype.findIndex()</code>
+methods.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous bugs and segmentation faults have been fixed.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.1.9"></a><center><h4>Changes with 0.1.9</h4></center><p>
+Release Date:
+01 Feb 2017
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Bugfix:
+global variables were not initialized when njs was used
+in nginx.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.1.8"></a><center><h4>Changes with 0.1.8</h4></center><p>
+Release Date:
+24 Jan 2017
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Change:
+the <code>strict</code> mode is enforced,
+variables must be explicitly declared.
+</p>
+</li>
+
+
+<li>
+<p>
+Feature:
+<code>for</code> and
+<code>for-in</code> loops support variable declaration.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+global and function scopes have been fixed.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+now <code>for-in</code> loop does not discard the last value
+of property variable.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous bugs and segmentation faults have been fixed.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.1.7"></a><center><h4>Changes with 0.1.7</h4></center><p>
+Release Date:
+27 Dec 2016
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Change:
+the <a href="../http/ngx_http_js_module.html#js_include">js_include</a> directive
+has been disabled at server and location levels.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+exponentiation operators.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous bugs and segmentation faults have been fixed.
+</p>
+</li>
+
+</ul><p> 
+</p><a name="njs0.1.6"></a><center><h4>Changes with 0.1.6</h4></center><p>
+Release Date:
+13 Dec 2016
+</p><p>
+</p> <ul class="compact">
+
+<li>
+<p>
+Change:
+the <a href="../http/ngx_http_js_module.html#js_set">js_set</a> directive
+has been disabled at server and location levels.
+</p>
+</li>
+
+<li>
+<p>
+Feature:
+ES6 <code>Math</code> methods.
+</p>
+</li>
+
+<li>
+<p>
+Bugfix:
+miscellaneous bugs and segmentation faults have been fixed.
+</p>
+</li>
+
+</ul><p> 
+</p></div></div></body></html>

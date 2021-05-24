@@ -1,0 +1,1216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Reference</title><style type="text/css">body { background: white; color: black; font-family: sans-serif; line-height: 1.4em; text-align: center; margin: 0; padding: 0; } #banner { background: black; color: #F2F2F2; line-height: 1.2em; padding: .3em 0; box-shadow: 0 5px 10px black; } #banner a { color: #00B140; } #main { text-align: left; margin: 0 auto; min-width: 32em; max-width: 64em; } #menu { float: right; width: 11em; padding: 0 .5em 1em .5em; border-left: 2px solid #DDD; } #content { margin-right: 13.5em; padding: 0 .2em 0 1.5em; } h1 { display: block; font-size: 3em; text-align: left; height: .7em; margin: 0; margin-bottom: .5em; } h1 img { width: 100%; } h2 { text-align: center; } p { text-align: justify; } table.news p { margin-top: 0; } table.news td { vertical-align: baseline; } table.news .date { text-align: right; padding-right: 0.5em; white-space: nowrap; } table.donors td { vertical-align: baseline; } table.donors li { text-align: left; } div.directive { background: #F2F2F2; line-height: 1em; margin: 1em 0 1em -1em; padding: .7em .7em .7em 1em; border-top: 2px solid #DDD; } div.directive th { padding-left: 0; padding-right: .5em; vertical-align: baseline; text-align: left; font-weight: normal; } div.directive td { vertical-align: baseline; } div.directive pre { padding: 0; margin: 0; } div.directive p { margin: .5em 0 0 .1em; font-size: .8em; } a.notrans { color: gray; text-decoration:none; } span.initial { font-size: 200%; float: left; padding-right: 10pt;} ul, ol { margin: .5em 0 1em 1em; padding: 0 .5em; } ol { list-style-position: inside; } li { text-align: justify; padding: .5em 0 0 1px; } .compact li { padding-top: 0; } dl { margin: .5em 0 1em 0; } dt { margin: .5em 0; } .compact dt { margin-bottom: .2em; } dd { margin-left: 1.5em; padding-left: 1px; text-align: justify; } td.list { background: #F2F2F2; } blockquote { margin: 1em 0 1em 1em; padding: .5em; } li blockquote, dd blockquote { margin: .7em 0; } blockquote.note { border: 1px dotted #999; line-height: 1.2em; text-align: justify; } blockquote.example { line-height: 1em; border-left: 1px solid #BBB; } blockquote.example pre { padding: 0; margin: 0; } sup { font-size: 50%; } .video { position: relative; padding-bottom: 56.25%; overflow: hidden; } .video iframe, .video object, .video embed { position: absolute; top:0; left:0; width:100%; height:100%; }</style><script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TPSP33');
+    </script></head><body><div id="banner">
+        NGINX Plus R17 released: TLS 1.3, two-stage rate limiting, easier OpenID Connect SSO, and 2x faster NGINX WAF.<br><a href="https://www.nginx.com/blog/nginx-plus-r17-released/?utm_source=nginxorg&amp;utm_medium=homepagebanner&amp;utm_campaign=r17">Learn more.</a></div><div id="main"><div id="menu"><h1><a href="http://nginx.org/"><img src="http://nginx.org/nginx.png" alt="nginx"></a></h1><div>english<br><a href="http://nginx.org/ru/docs/njs/reference.html">русский</a><br><br><a href="http://nginx.org/">news</a><br><a href="http://nginx.org/en/">about</a><br><a href="http://nginx.org/en/download.html">download</a><br><a href="http://nginx.org/en/security_advisories.html">security</a><br><a href="../index.html">documentation</a><br><a href="../faq.html">faq</a><br><a href="http://nginx.org/en/books.html">books</a><br><a href="http://nginx.org/en/support.html">support</a><br><br><a href="http://trac.nginx.org/nginx">trac</a><br><a href="http://twitter.com/nginxorg">twitter</a><br><a href="https://www.nginx.com/blog/">blog</a><br><br><a href="https://unit.nginx.org/">unit</a><br><a href="http://nginx.org/en/docs/njs/">njs</a><br></div></div><div id="content"><h2>Reference</h2><table width="100%"><tr><td align="left"><a href="reference.html#http_stream">nginx objects</a><br>     <a href="reference.html#http">HTTP Request</a><br>     <a href="reference.html#stream">Stream Session</a><br><a href="reference.html#core">Core</a><br>     <a href="reference.html#string">String</a><br>     <a href="reference.html#core_json">JSON</a><br>     <a href="reference.html#crypto">Crypto</a><br>     <a href="reference.html#njs_api_timers">Timers</a><br>     <a href="reference.html#njs_api_fs">File System</a><br></td></tr></table><a name="summary"></a><p>
+<a href="index.html">njs</a> provides objects, methods and properties
+for extending nginx functionality.
+</p><a name="http_stream"></a><center><h4>nginx objects</h4></center><a name="http"></a><center><h4>HTTP Request</h4></center><p>
+The HTTP request object is available only in the
+<a href="../http/ngx_http_js_module.html">ngx_http_js_module</a> module.
+All string properties of the object are <a href="reference.html#string">byte strings</a>.
+
+</p> <dl class="compact">
+
+<dt><code>r.args{}</code></dt>
+<dd>
+request arguments object, read-only
+</dd>
+
+<dt><code>r.error(<code><i>string</i></code>)</code></dt>
+<dd>
+writes a <code>string</code> to the error log
+on the <code>error</code> level of logging
+</dd>
+
+<dt><code>r.finish()</code></dt>
+<dd>
+finishes sending a response to the client
+</dd>
+
+<dt><code>r.headersIn{}</code></dt>
+<dd>
+incoming headers object, read-only.
+<p>
+For example, the <code>Foo</code> header
+can be accessed with the syntax <code>headersIn.foo</code>
+or <code>headersIn['Foo']</code>
+</p>
+</dd>
+
+<dt><code>r.headersOut{}</code></dt>
+<dd>
+outgoing headers object, writable.
+<p>
+For example, the <code>Foo</code> header
+can be accessed with the syntax <code>headersOut.foo</code>
+or <code>headersOut['Foo']</code>
+</p>
+</dd>
+
+<dt><code>r.httpVersion</code></dt>
+<dd>
+HTTP version, read-only
+</dd>
+
+<dt><code>r.log(<code><i>string</i></code>)</code></dt>
+<dd>
+writes a <code>string</code> to the error log
+on the <code>info</code> level of logging
+</dd>
+
+<dt id="r_internal_redirect"><code>r.internalRedirect(<code><i>uri</i></code>)</code></dt>
+<dd>
+performs an internal redirect to the specified <code>uri</code>.
+If the uri starts with the “<code>@</code>” prefix,
+it is considered a named location.
+</dd>
+
+<dt><code>r.method</code></dt>
+<dd>
+HTTP method, read-only
+</dd>
+
+<dt><code>r.parent</code></dt>
+<dd>
+references the parent request object
+</dd>
+
+<dt><code>r.remoteAddress</code></dt>
+<dd>
+client address, read-only
+</dd>
+
+<dt id="r_request_body"><code>r.requestBody</code></dt>
+<dd>
+returns the client request body if it has not been
+written to a temporary file.
+To ensure that the client request body is in memory,
+its size should be limited by
+<a href="../http/ngx_http_core_module.html#client_max_body_size">client_max_body_size</a>,
+and a sufficient buffer size should be set using
+<a href="../http/ngx_http_core_module.html#client_body_buffer_size">client_body_buffer_size</a>.
+</dd>
+
+<dt><code>r.responseBody</code></dt>
+<dd>
+holds the <a href="reference.html#subrequest">subrequest</a> response body, read-only.
+The size of <code>r.responseBody</code> is limited by the
+<a href="../http/ngx_http_core_module.html#subrequest_output_buffer_size">subrequest_output_buffer_size</a>
+directive.
+</dd>
+
+<dt><code>r.return(status[, string])</code></dt>
+<dd>
+sends the entire response
+with the specified <code>status</code> to the client
+<p>
+It is possible to specify either a redirect URL
+(for codes 301, 302, 303, 307, and 308)
+or the response body text (for other codes) as the second argument
+</p>
+</dd>
+
+<dt><code>r.send(<code><i>string</i></code>)</code></dt>
+<dd>
+sends a part of the response body to the client
+</dd>
+
+<dt><code>r.sendHeader()</code></dt>
+<dd>
+sends the HTTP headers to the client
+</dd>
+
+<dt><code>r.status</code></dt>
+<dd>
+status, writable
+</dd>
+
+<dt><code>r.variables{}</code></dt>
+<dd>
+nginx variables object, read-only
+</dd>
+
+<dt><code>r.warn(<code><i>string</i></code>)</code></dt>
+<dd>
+writes a <code>string</code> to the error log
+on the <code>warning</code> level of logging
+</dd>
+
+<dt><code>r.uri</code></dt>
+<dd>
+current URI, read-only
+</dd>
+
+<dt id="subrequest"><code>r.subrequest(<code><i>uri</i></code>[,
+<code><i>options</i></code>[, <code><i>callback</i></code>]])</code></dt>
+<dd>
+creates a subrequest with the given <code>uri</code> and
+<code>options</code>, and installs
+an optional completion <code>callback</code>.
+
+<p>
+If <code>options</code> is a string, then it
+holds the subrequest arguments string.
+Otherwise, <code>options</code> is expected to be
+an object with the following keys:
+</p> <dl class="compact">
+<dt><code>args</code></dt>
+<dd>
+arguments string
+</dd>
+<dt><code>body</code></dt>
+<dd>
+request body
+</dd>
+
+<dt><code>method</code></dt>
+<dd>
+HTTP method
+</dd>
+
+</dl><p> 
+</p>
+
+<p>
+The completion <code>callback</code> receives
+a subrequest response object with methods and properties
+identical to the parent request object.
+</p>
+</dd>
+
+</dl><p> 
+</p><a name="stream"></a><center><h4>Stream Session</h4></center><p>
+The stream session object is available only in the
+<a href="../stream/ngx_stream_js_module.html">ngx_stream_js_module</a>
+module.
+All string properties of the object are <a href="reference.html#string">byte strings</a>.
+</p><p>
+</p> <blockquote class="note">
+Prior to njs <a href="changes.html#njs0.2.4">0.2.4</a>,
+the stream session object had some properties which are currently
+<a href="reference.html#stream_obsolete">removed</a>.
+</blockquote><p> 
+</p><p>
+</p> <dl class="compact">
+
+<dt id="s_allow"><code>s.allow()</code></dt>
+<dd>
+successfully finalizes the phase handler
+(<a href="changes.html#njs0.2.4">0.2.4</a>)
+</dd>
+
+<dt id="s_decline"><code>s.decline()</code></dt>
+<dd>
+finalizes the phase handler and passes control to the next handler
+(<a href="changes.html#njs0.2.4">0.2.4</a>)
+</dd>
+
+<dt id="s_deny"><code>s.deny()</code></dt>
+<dd>
+finalizes the phase handler with the access error code
+(<a href="changes.html#njs0.2.4">0.2.4</a>)
+</dd>
+
+<dt id="s_done"><code>s.done</code>(<code><i>[code]</i></code>)</dt>
+<dd>
+successfully finalizes the current phase handler
+or finalizes it with the specified numeric code
+(<a href="changes.html#njs0.2.4">0.2.4</a>).
+</dd>
+
+<dt><code>s.error(<code><i>string</i></code>)</code></dt>
+<dd>
+writes a sent <code>string</code> to the error log
+on the <code>error</code> level of logging
+</dd>
+
+<dt><code>s.log(<code><i>string</i></code>)</code></dt>
+<dd>
+writes a sent <code><i>string</i></code> to the error log
+on the <code>info</code> level of logging
+</dd>
+
+<dt id="s_off"><code>s.off(<code><i>eventName</i></code>)</code></dt>
+<dd>
+unregisters the callback set by the <a href="reference.html#s_on">s.on()</a> method
+(<a href="changes.html#njs0.2.4">0.2.4</a>)
+</dd>
+
+<dt id="s_on"><code>s.on(<code><i>event</i></code>,
+<code><i>callback</i></code>)</code></dt>
+<dd>
+registers a <code>callback</code> for the specified <code>event</code>
+(<a href="changes.html#njs0.2.4">0.2.4</a>).
+
+<p>
+An <code>event</code> may be one of the following strings:
+</p> <dl class="compact">
+<dt><code>upload</code></dt>
+<dd>
+new data from a client
+</dd>
+
+<dt><code>download</code></dt>
+<dd>
+new data to a client
+</dd>
+
+</dl><p> 
+</p>
+
+<p>
+The completion callback has the following prototype:
+<code>callback(data, flags)</code>, where
+<code>data</code> is string,
+<code>flags</code> is an object
+with the following properties:
+</p> <dl class="compact">
+<dt id="s_on_callback_last"><code>last</code></dt>
+<dd>
+a boolean value, true if data is a last buffer.
+</dd>
+
+</dl><p> 
+</p>
+</dd>
+
+<dt><code>s.remoteAddress</code></dt>
+<dd>
+client address, read-only
+</dd>
+
+<dt id="s_send"><code>s.send(<code><i>data</i></code>[,
+<code><i>options</i></code>])</code></dt>
+<dd>
+sends the data to the client
+(<a href="changes.html#njs0.2.4">0.2.4</a>).
+The <code>options</code> is an object used
+to override nginx buffer flags derived from an incoming data chunk buffer.
+The flags can be overriden with the following flags:
+<p>
+</p> <dl class="compact">
+
+<dt><code>last</code></dt>
+<dd>
+boolean, true if the buffer is the last buffer
+</dd>
+
+<dt><code>flush</code></dt>
+<dd>
+boolean, true if the buffer should have the <code>flush</code> flag
+</dd>
+</dl><p> 
+</p>
+The method can be called multiple times per callback invocation.
+</dd>
+
+<dt><code>s.variables{}</code></dt>
+<dd>
+nginx variables object, read-only
+</dd>
+
+<dt><code>s.warn(<code><i>string</i></code>)</code></dt>
+<dd>
+writes a sent <code>string</code> to the error log
+on the <code>warning</code> level of logging
+</dd>
+
+</dl><p> 
+</p><a name="stream_obsolete"></a><center><h4>Obsolete properties</h4></center><p>
+These properties have been removed
+in njs <a href="changes.html#njs0.2.4">0.2.4</a>
+and are not backward compatible with the existing njs code.
+</p><p>
+</p> <dl class="compact">
+
+<dt id="s_abort"><code>s.ABORT</code></dt>
+<dd>
+the <code>ABORT</code> return code
+<blockquote class="note">
+Starting from njs <a href="changes.html#njs0.2.4">0.2.4</a>,
+the <a href="reference.html#s_deny">s.deny()</a> method should be used instead.
+</blockquote>
+</dd>
+
+<dt><code>s.AGAIN</code></dt>
+<dd>
+the <code>AGAIN</code> return code
+<blockquote class="note">
+Starting from njs <a href="changes.html#njs0.2.4">0.2.4</a>,
+the corresponding behavior is achieved if no
+<a href="reference.html#s_allow">s.allow()</a>,
+<a href="reference.html#s_deny">s.deny()</a>,
+<a href="reference.html#s_decline">s.decline()</a>,
+<a href="reference.html#s_done">s.done()</a>
+is invoked and a callback is registered.
+</blockquote>
+</dd>
+
+<dt id="s_buffer"><code>s.buffer</code></dt>
+<dd>
+the current buffer, writable
+<blockquote class="note">
+Starting from <a href="changes.html#njs0.2.4">0.2.4</a>,
+the <a href="reference.html#s_send">s.send()</a> method should be used for writing.
+For reading, the current buffer is available as the first argument of the
+<code>event</code> callback.
+</blockquote>
+</dd>
+
+<dt><code>s.DECLINED</code></dt>
+<dd>
+the <code>DECLINED</code> return code
+<blockquote class="note">
+Starting from njs <a href="changes.html#njs0.2.4">0.2.4</a>,
+the <a href="reference.html#s_decline">s.decline()</a> method should be used instead.
+</blockquote>
+</dd>
+
+<dt><code>s.eof</code></dt>
+<dd>
+a boolean read-only property, true if the current buffer is the last buffer
+<blockquote class="note">
+Starting from <a href="changes.html#njs0.2.4">0.2.4</a>,
+the <a href="reference.html#s_on_callback_last">flags.last</a> property
+should be used instead.
+</blockquote>
+</dd>
+
+<dt><code>s.ERROR</code></dt>
+<dd>
+the <code>ERROR</code> return code
+<blockquote class="note">
+Starting from njs <a href="changes.html#njs0.2.4">0.2.4</a>,
+an appropriate exception can be thrown to report an error.
+</blockquote>
+</dd>
+
+<dt><code>s.fromUpstream</code></dt>
+<dd>
+a boolean read-only property,
+true if the current buffer is from the upstream server to the client
+<blockquote class="note">
+Starting from <a href="changes.html#njs0.2.4">0.2.4</a>,
+a corresponding <a href="reference.html#s_on">event</a>
+(<code>upload</code> or <code>download</code>)
+should be used to handle data to or from client.
+</blockquote>
+</dd>
+
+<dt id="s_ok"><code>s.OK</code></dt>
+<dd>
+the <code>OK</code> return code
+<blockquote class="note">
+Starting from njs <a href="changes.html#njs0.2.4">0.2.4</a>,
+the <a href="reference.html#s_allow">s.allow()</a> method should be used instead.
+</blockquote>
+</dd>
+
+</dl><p> 
+</p><a name="core"></a><center><h4>Core</h4></center><a name="string"></a><center><h4>String</h4></center><p>
+There are two types of strings:
+a <code>Unicode string</code> (default) and
+a <code>byte string</code>.
+</p><p>
+A <code>Unicode string</code> corresponds to an ECMAScript string
+which contains Unicode characters.
+</p><p>
+<code>Byte strings</code> contain a sequence of bytes.
+They are used to serialize Unicode strings
+to external data and deserialize from external sources.
+For example, the <a href="reference.html#string_toutf8">toUTF8()</a> method serializes
+a Unicode string to a byte string using UTF8 encoding:
+</p> <blockquote class="example"><pre>
+&gt;&gt; '£'.toUTF8().toString('hex')
+'c2a3'  /* C2 A3 is the UTF8 representation of 00A3 ('£') code point */
+</pre></blockquote><p> 
+The <a href="reference.html#string_tobytes">toBytes()</a> method serializes
+a Unicode string with code points up to 255 into a byte string,
+otherwise, <code>null</code> is returned:
+</p> <blockquote class="example"><pre>
+&gt;&gt; '£'.toBytes().toString('hex')
+'a3'  /* a3 is a byte equal to 00A3 ('£') code point  */
+</pre></blockquote><p> 
+Only byte strings can be converted to different encodings.
+For example, a string cannot be encoded to <code>hex</code> directly:
+</p> <blockquote class="example"><pre>
+&gt;&gt; 'αβγδ'.toString('base64')
+TypeError: argument must be a byte string
+    at String.prototype.toString (native)
+    at main (native)
+</pre></blockquote><p> 
+To convert a Unicode string to hex,
+first, it should be converted to a byte string and then to hex:
+</p> <blockquote class="example"><pre>
+&gt;&gt; 'αβγδ'.toUTF8().toString('base64')
+'zrHOss6zzrQ='
+</pre></blockquote><p> 
+
+</p> <dl class="compact">
+
+<dt id="string_bytesfrom"><code>String.bytesFrom(<code><i>array</i></code>
+| <code><i>string</i></code>, <code><i>encoding</i></code>)</code></dt>
+<dd>
+(njs specific) Creates a byte string either from an array that contains octets,
+or from an encoded string (0.2.3).
+The encoding can be
+<code>hex</code>,
+<code>base64</code>, and
+<code>base64url</code>.
+<blockquote class="example"><pre>
+&gt;&gt; String.bytesFrom([0x62, 0x75, 0x66, 0x66, 0x65, 0x72])
+'buffer'
+
+&gt;&gt; String.bytesFrom('YnVmZmVy', 'base64')
+'buffer'
+</pre></blockquote>
+</dd>
+
+<dt id="string_fromcharcode"><code>String.fromCharCode(<code><i>CharCode1</i></code>[, ...[,
+<code><i>CharCodeN</i></code>]])</code></dt>
+<dd>
+Returns a string from one or more Unicode code points.
+<blockquote class="example"><pre>
+&gt;&gt; String.fromCharCode(97, 98, 99, 100)
+'abcd'
+</pre></blockquote>
+</dd>
+
+<dt id="string_fromcodepoint"><code>String.fromCodePoint(<code><i>codePoint1</i></code>[, ...[,
+<code><i>codePoint2</i></code>]])</code></dt>
+<dd>
+Returns a string from one or more Unicode code points.
+<blockquote class="example"><pre>
+&gt;&gt; String.fromCodePoint(97, 98, 99, 100)
+'abcd'
+</pre></blockquote>
+</dd>
+
+<dt id="string_charat"><code>String.prototype.charAt(<code><i>index</i></code>)</code></dt>
+<dd>
+Returns a string representing one Unicode code unit
+at the specified <code>index</code>;
+empty string if index is out of range.
+The <code>index</code> can be integer
+between 0 and 1-less-than the length of the string.
+If no index is provided, the default is <code>0</code>,
+so the first character in the string is returned.
+</dd>
+
+<dt id="string_codepointat"><code>String.prototype.CodePointAt(<code><i>position</i></code>)</code></dt>
+<dd>
+Returns a number representing the code point value of the character
+at the given index;
+<code>undefined</code> if there is no element at position.
+<blockquote class="example"><pre>
+&gt;&gt; 'ABCD'.codePointAt(3);
+68
+</pre></blockquote>
+</dd>
+
+<dt id="string_concat"><code>String.prototype.concat(<code><i>string1</i></code>[, ...,
+<code><i>stringN</i></code>])</code></dt>
+<dd>
+Returns a string that contains the concatenation of specified
+<code>strings</code>.
+<blockquote class="example"><pre>
+&gt;&gt; "a".concat("b", "c")
+'abc'
+</pre></blockquote>
+</dd>
+
+<dt id="string_endswith"><code>String.prototype.endsWith(<code><i>searchString</i></code>[,
+<code><i>length</i></code>])</code></dt>
+<dd>
+Returns <code>true</code> if a string ends with the characters
+of a specified string, otherwise <code>false</code>.
+The optional <code>length</code> parameter is the the length of string.
+If omitted, the default value is the length of the string.
+<blockquote class="example"><pre>
+&gt;&gt; 'abc'.endsWith('abc')
+true
+&gt;&gt; 'abca'.endsWith('abc')
+false
+</pre></blockquote>
+</dd>
+
+<dt id="string_frombytes"><code>String.prototype.fromBytes(<code><i>start</i></code>[,
+<code><i>end</i></code>])</code></dt>
+<dd>
+(njs specific) Returns a new Unicode string from a byte string
+where each byte is replaced with a corresponding Unicode code point.
+</dd>
+
+<dt id="string_fromutf8"><code>String.prototype.fromUTF8(<code><i>start</i></code>[,
+<code><i>end</i></code>])</code></dt>
+<dd>
+(njs specific) Converts a byte string containing a valid UTF8 string
+into a Unicode string,
+otherwise <code>null</code> is returned.
+</dd>
+
+<dt id="string_includes"><code>String.prototype.includes(<code><i>searchString</i></code>[,
+<code><i>position</i></code>]))</code></dt>
+<dd>
+Returns <code>true</code> if a string is found within another string,
+otherwise <code>false</code>.
+The optional <code>position</code> parameter is the position
+within the string at which to begin search for <code>searchString</code>. 
+Default value is 0.
+<blockquote class="example"><pre>
+&gt;&gt; 'abc'.includes('bc')
+true
+</pre></blockquote>
+</dd>
+
+<dt id="string_indexof"><code>String.prototype.indexOf(<code><i>searchString</i></code>[,
+<code><i>fromIndex</i></code>])</code></dt>
+<dd>
+Returns the position of the first occurrence
+of the <code>searchString</code>
+The search is started at <code>fromIndex</code>.
+Returns <code><i>-1</i></code> if the value is not found.
+The <code>fromIndex</code> is an integer,
+default value is 0.
+If <code>fromIndex</code> is lower than 0
+or greater than
+<a href="reference.html#string_length">String.prototype.length</a><code><i></i></code>,
+the search starts at index <code><i>0</i></code> and
+<code><i>String.prototype.length</i></code>.
+<blockquote class="example"><pre>
+&gt;&gt; 'abcdef'.indexOf('de', 2)
+3
+</pre></blockquote>
+</dd>
+
+<dt id="string_lastindexof"><code>String.prototype.lastIndexOf(<code><i>searchString</i></code>[,
+<code><i>fromIndex</i></code>])</code></dt>
+<dd>
+Returns the position of the last occurrence
+of the <code>searchString</code>,
+searching backwards from <code>fromIndex</code>.
+Returns <code><i>-1</i></code> if the value is not found.
+If <code>searchString</code>  is empty,
+then <code>fromIndex</code> is returned.
+<blockquote class="example"><pre>
+&gt;&gt; "nginx".lastIndexOf("gi")
+1
+</pre></blockquote>
+</dd>
+
+<dt id="string_length"><code>String.prototype.length</code></dt>
+<dd>
+Returns the length of the string.
+<blockquote class="example"><pre>
+&gt;&gt; 'αβγδ'.length
+4
+</pre></blockquote>
+</dd>
+
+<dt id="string_match"><code>String.prototype.match([<code><i>regexp</i></code>])</code></dt>
+<dd>
+Matches a string against a <code>regexp</code>.
+<blockquote class="example"><pre>
+&gt;&gt; 'nginx'.match( /ng/i )
+'ng'
+</pre></blockquote>
+</dd>
+
+<dt id="string_padend"><code>String.prototype.padEnd(<code><i>length</i></code>
+[, <code><i>string</i></code>])</code></dt>
+<dd>
+Returns a string of a specified <code>length</code>
+with the pad <code>string</code> applied
+to the end of the specified string (0.2.3).
+<blockquote class="example"><pre>
+&gt;&gt; '1234'.padEnd(8, 'abcd')
+'1234abcd'
+</pre></blockquote>
+</dd>
+
+<dt id="string_padstart"><code>String.prototype.padStart(<code><i>length</i></code>
+[, <code><i>string</i></code>])</code></dt>
+<dd>
+Returns a string of a specified <code>length</code>
+with the pad <code>string</code> applied
+to the start of the specified string (0.2.3).
+<blockquote class="example"><pre>
+&gt;&gt; '1234'.padStart(8, 'abcd')
+'abcd1234'
+</pre></blockquote>
+</dd>
+
+<dt id="string_repeat"><code>String.prototype.repeat(<code><i>number</i></code>)</code></dt>
+<dd>
+Returns a string 
+with the specified <code>number</code> of copies of the string.
+<blockquote class="example"><pre>
+&gt;&gt; 'abc'.repeat(3)
+'abcabcabc'
+</pre></blockquote>
+</dd>
+
+<dt id="string_replace"><code>String.prototype.replace([<code><i>regexp</i></code>|<code><i>string</i></code>[,
+<code><i>string</i></code>|<code><i>function</i></code>]])</code></dt>
+<dd>
+Returns a new string with matches of a pattern
+(<code>string</code> or a <code>regexp</code>)
+replaced by a <code>string</code> or a <code>function</code>.
+<blockquote class="example"><pre>
+&gt;&gt; 'abcdefgh'.replace('d', 1)
+'abc1efgh'
+</pre></blockquote>
+</dd>
+
+<dt id="string_search"><code>String.prototype.search([<code><i>regexp</i></code>])</code></dt>
+<dd>
+Searches for a string using a <code>regexp</code>
+<blockquote class="example"><pre>
+&gt;&gt; 'abcdefgh'.search('def')
+3
+</pre></blockquote>
+</dd>
+
+<dt id="string_slice"><code>String.prototype.slice(<code><i>start</i></code>[,
+<code><i>end</i></code>])</code></dt>
+<dd>
+Returns a new string containing a part of an
+original string between <code>start</code>
+and <code>end</code> or
+from <code>start</code> to the end of the string.
+<blockquote class="example"><pre>
+&gt;&gt; 'abcdefghijklmno'.slice(NaN, 5)
+'abcde'
+</pre></blockquote>
+</dd>
+
+<dt id="string_split"><code>String.prototype.split(([<code><i>string</i></code>|<code><i>regexp</i></code>[,
+<code><i>limit</i></code>]]))</code></dt>
+<dd>
+Returns match of a string against a <code>regexp</code>.
+The optional <code>limit</code> parameter is an integer that specifies
+a limit on the number of splits to be found.
+<blockquote class="example"><pre>
+&gt;&gt; 'abc'.split('')
+[
+ 'a',
+ 'b',
+ 'c'
+]
+</pre></blockquote>
+</dd>
+
+<dt id="string_startswith"><code>String.prototype.startsWith(<code><i>searchString</i></code>[,
+<code><i>position</i></code>])</code></dt>
+<dd>
+Returns <code>true</code> if a string begins with the characters
+of a specified string, otherwise <code>false</code>.
+The optional <code>position</code> parameter is the position
+in this string at which to begin search for <code>searchString</code>.
+Default value is 0.
+<blockquote class="example"><pre>
+&gt;&gt; 'abc'.startsWith('abc')
+true
+&gt; 'aabc'.startsWith('abc')
+false
+</pre></blockquote>
+</dd>
+
+<dt id="string_substr"><code>String.prototype.substr(<code><i>start</i></code>[,
+<code><i>length</i></code>])</code></dt>
+<dd>
+Returns the part of the string of the specified <code>length</code>
+from <code>start</code>
+or from <code>start</code> to the end of the string.
+<blockquote class="example"><pre>
+&gt;&gt;  'abcdefghijklmno'.substr(3, 5)
+'defgh'
+</pre></blockquote>
+</dd>
+
+<dt id="string_substring"><code>String.prototype.substring(<code><i>start</i></code>[,
+<code><i>end</i></code>])</code></dt>
+<dd>
+Returns the part of the string between
+<code>start</code> and <code>end</code> or
+from <code>start</code> to the end of the string.
+<blockquote class="example"><pre>
+&gt;&gt; 'abcdefghijklmno'.substring(3, 5)
+'de'
+</pre></blockquote>
+</dd>
+
+<dt id="string_tobytes"><code>String.prototype.toBytes(start[,
+end])</code></dt>
+<dd>
+(njs specific) Serializes a Unicode string to a byte string.
+Returns <code>null</code> if a character larger than 255 is
+found in the string.
+</dd>
+
+<dt id="string_tolowercase"><code>String.prototype.toLowerCase()</code></dt>
+<dd>
+Converts a string to lower case.
+The method supports only simple Unicode folding.
+<blockquote class="example"><pre>
+&gt;&gt; 'ΑΒΓΔ'.toLowerCase()
+'αβγδ'
+</pre></blockquote>
+</dd>
+
+<dt><code>String.prototype.toString([<code><i>encoding</i></code>])</code></dt>
+<dd>
+<p>
+If no <code>encoding</code> is specified,
+returns a specified Unicode string or byte string as in ECMAScript.
+</p>
+
+<p>
+(njs specific) If <code>encoding</code> is specified,
+encodes a <a href="reference.html#string_tobytes">byte string</a> to
+<code>hex</code>,
+<code>base64</code>, or
+<code>base64url</code>.
+</p>
+<blockquote class="example"><pre>
+&gt;&gt;  'αβγδ'.toUTF8().toString('base64url')
+'zrHOss6zzrQ'
+</pre></blockquote>
+</dd>
+
+<dt id="string_touppercase"><code>String.prototype.toUpperCase()</code></dt>
+<dd>
+Converts a string to upper case.
+The method supports only simple Unicode folding.
+<blockquote class="example"><pre>
+&gt;&gt; 'αβγδ'.toUpperCase()
+'ΑΒΓΔ'
+</pre></blockquote>
+</dd>
+
+<dt id="string_toutf8"><code>String.prototype.toUTF8(<code><i>start</i></code>[,
+<code><i>end</i></code>])</code></dt>
+<dd>
+(njs specific) Serializes a Unicode string
+to a byte string using UTF8 encoding.
+<blockquote class="example"><pre>
+&gt;&gt; 'αβγδ'.toUTF8().length
+8
+&gt;&gt; 'αβγδ'.length
+4
+</pre></blockquote>
+</dd>
+
+<dt id="string_trim"><code>String.prototype.trim()</code></dt>
+<dd>
+Removes whitespaces from both ends of a string.
+<blockquote class="example"><pre>
+&gt;&gt; '   abc  '.trim()
+'abc'
+</pre></blockquote>
+</dd>
+
+<dt id="encodeuri"><code>encodeURI(<code><i>URI</i></code>)</code></dt>
+<dd>
+encodes a URI by replacing each instance of certain characters by
+one, two, three, or four escape sequences
+representing the UTF-8 encoding of the character
+<blockquote class="example"><pre>
+&gt;&gt; encodeURI('012αβγδ')
+'012%CE%B1%CE%B2%CE%B3%CE%B4'
+</pre></blockquote>
+</dd>
+
+<dt id="encodeuricomponent"><code>encodeURIComponent(<code><i>encodedURIString</i></code>)</code></dt>
+<dd>
+Encodes a URI by replacing each instance of certain characters
+by one, two, three, or four escape sequences
+representing the UTF-8 encoding of the character.
+<blockquote class="example"><pre>
+&gt;&gt; encodeURIComponent('[@?=')
+'%5B%40%3F%3D'
+</pre></blockquote>
+</dd>
+
+<dt id="decodeuri"><code>decodeURI(<code><i>encodedURI</i></code>)</code></dt>
+<dd>
+Decodes a previously <a href="reference.html#encodeuri">encoded</a> URI.
+<blockquote class="example"><pre>
+&gt;&gt; decodeURI('012%CE%B1%CE%B2%CE%B3%CE%B4')
+'012αβγδ'
+</pre></blockquote>
+</dd>
+
+<dt id="decodeuricomponent"><code>decodeURIComponent(<code><i>decodedURIString</i></code>)</code></dt>
+<dd>
+Decodes an encoded component of a previously encoded URI.
+<blockquote class="example"><pre>
+&gt;&gt; decodeURIComponent('%5B%40%3F%3D')
+'[@?='
+</pre></blockquote>
+</dd>
+
+</dl><p> 
+</p><a name="core_json"></a><center><h4>JSON</h4></center><p>
+The <code>JSON</code> object (ES 5.1) provides functions
+to convert njs values to and from JSON format.
+</p> <dl class="compact">
+
+<dt><code>JSON.parse(<code><i>string</i></code>[,
+<code><i>reviver</i></code>])</code></dt>
+<dd>
+Converts a <code>string</code> that represents JSON data
+into an njs object (<code>{...}</code>) or
+array (<code>[...]</code>).
+The optional <code>reviver</code> parameter is a function (key, value)
+that will be called for each (key,value) pair and can transform the value.
+</dd>
+
+<dt><code>JSON.stringify(<code><i>value</i></code>[,
+<code><i>replacer</i></code>] [, <code><i>space</i></code>])</code></dt>
+<dd>
+Converts an njs object back to JSON.
+The obligatory <code>value</code> parameter is generally a JSON
+<code>object</code> or <code>array</code> that will be converted.
+If the value has a <code>toJSON()</code> method,
+it defines how the object will be serialized.
+The optional <code>replacer</code> parameter is
+a <code>function</code> or <code>array</code>
+that transforms results.
+The optional <code>space</code> parameter is
+a <code>string</code> or <code>number</code>.
+If it is a <code>number</code>,
+it indicates the number of white spaces placed before a result
+(no more than 10).
+If it is a <code>string</code>,
+it is used as a white space (or first 10 characters of it).
+If omitted or is <code>null</code>, no white space is used.
+</dd>
+</dl><p> 
+</p><p>
+</p> <blockquote class="example"><pre>
+&gt;&gt; var json = JSON.parse('{"a":1, "b":true}')
+&gt;&gt; json.a
+1
+
+&gt;&gt; JSON.stringify(json)
+'{"a":1,"b":true}'
+
+&gt;&gt; JSON.stringify(json, undefined, 1)
+'{\n "a": 1,\n "b": true\n}'
+
+&gt;&gt; JSON.stringify({ x: [10, undefined, function(){}] })
+'{"x":[10,null,null]}'
+
+&gt;&gt; JSON.stringify({"a":1, "toJSON": function() {return "xxx"}})
+'"xxx"'
+
+# Example with function replacer
+
+&gt;&gt; function replacer(key, value) {return (typeof value === 'string') ? undefined : value}
+&gt;&gt;JSON.stringify({a:1, b:"b", c:true}, replacer)
+'{"a":1,"c":true}'
+</pre></blockquote><p> 
+</p><a name="crypto"></a><center><h4>Crypto</h4></center><p>
+The Crypto module provides cryptographic functionality support.
+The Crypto module object is returned by <code>require('crypto')</code>.
+</p><p>
+</p> <dl class="compact">
+
+<dt id="crypto_createhash"><code>crypto.createHash(<code><i>algorithm</i></code>)</code></dt>
+<dd>
+Creates and returns a <a href="reference.html#crypto_hash">Hash</a> object
+that can be used to generate hash digests
+using the given <code><i>algorithm</i></code>.
+The algorighm can be
+<code>md5</code>,
+<code>sha1</code>, and
+<code>sha256</code>.
+</dd>
+
+<dt id="crypto_createhmac"><code>crypto.createHmac(<code><i>algorithm</i></code>,
+<code><i>secret key</i></code>)</code></dt>
+<dd>
+Creates and returns an <a href="reference.html#crypto_hmac">HMAC</a> object
+that uses the given <code><i>algorithm</i></code> and <code><i>secret key</i></code>.
+The algorighm can be
+<code>md5</code>,
+<code>sha1</code>, and
+<code>sha256</code>.
+</dd>
+
+</dl><p> 
+</p><a name="crypto_hash"></a><center><h4>Hash</h4></center><p>
+</p> <dl class="compact">
+
+<dt><code>hash.update(<code><i>data</i></code>)</code></dt>
+<dd>
+Updates the hash content with the given <code><i>data</i></code>.
+</dd>
+
+<dt><code>hash.digest([<code><i>encoding</i></code>])</code></dt>
+<dd>
+Calculates the digest of all of the data passed using
+<code>hash.update()</code>.
+The encoding can be
+<code>hex</code>,
+<code>base64</code>, and
+<code>base64url</code>.
+If encoding is not provided, a byte string is returned.
+</dd>
+
+</dl><p> 
+</p><p>
+</p> <blockquote class="example"><pre>
+&gt;&gt; var cr = require('crypto')
+undefined
+
+&gt;&gt; cr.createHash('sha1').update('A').update('B').digest('base64url')
+'BtlFlCqiamG-GMPiK_GbvKjdK10'
+</pre></blockquote><p> 
+</p><a name="crypto_hmac"></a><center><h4>HMAC</h4></center><p>
+</p> <dl class="compact">
+
+<dt><code>hmac.update(<code><i>data</i></code>)</code></dt>
+<dd>
+Updates the HMAC content with the given <code><i>data</i></code>.
+</dd>
+
+<dt><code>hmac.digest([<code><i>encoding</i></code>])</code></dt>
+<dd>
+Calculates the HMAC digest of all of the data passed using
+<code>hmac.update()</code>.
+The encoding can be
+<code>hex</code>,
+<code>base64</code>, and
+<code>base64url</code>.
+If encoding is not provided, a byte string is returned.
+</dd>
+</dl><p> 
+</p><p>
+</p> <blockquote class="example"><pre>
+&gt;&gt; var cr = require('crypto')
+undefined
+
+&gt;&gt; cr.createHmac('sha1', 'secret.key').update('AB').digest('base64url')
+'Oglm93xn23_MkiaEq_e9u8zk374'
+</pre></blockquote><p> 
+</p><a name="njs_api_timers"></a><center><h4>Timers</h4></center><p>
+
+</p> <dl class="compact">
+
+<dt id="cleartimeout"><code>clearTimeout(<code><i>timeout</i></code>)</code></dt>
+<dd>
+Cancels a <code>timeout</code> object
+created by <a href="reference.html#settimeout">setTimeout()</a>.
+</dd>
+
+<dt id="settimeout"><code>setTimeout(<code><i>function</i></code>,
+<code><i>ms</i></code>[, <code><i>arg1</i></code>, <code><i>argN</i></code>])</code></dt>
+<dd>
+Calls a <code>function</code>
+after a specified number of <code>milliseconds</code>.
+One or more optional <code>arguments</code>
+can be passed to the specified function.
+Returns a <code>timeout</code> object.
+<blockquote class="example"><pre>
+function handler(v)
+{
+    // ...
+}
+
+t = setTimeout(handler, 12);
+
+// ...
+
+clearTimeout(t);
+</pre></blockquote>
+</dd>
+
+</dl><p> 
+</p><a name="njs_api_fs"></a><center><h4>File System</h4></center><p>
+The File System module provides operations with files.
+The module object is returned by <code>require('fs')</code>.
+</p> <dl class="compact">
+
+<dt id="appendfilesync"><code>appendFileSync(<code><i>filename</i></code>,
+<code><i>data</i></code>[, <code><i>options</i></code>])</code></dt>
+<dd>
+Synchronously appends specified <code>data</code>
+to a file with provided <code>filename</code>.
+If the file does not exist, it will be created.
+The <code>options</code> parameter is expected to be
+an object with the following keys:
+<dl class="compact">
+
+<dt><code>mode</code></dt>
+<dd>
+mode option, by default is <code>0o666</code>
+</dd>
+
+<dt><code>flag</code></dt>
+<dd>
+file system <a href="reference.html#njs_api_fs_flags">flag</a>,
+by default is <code>a</code>
+</dd>
+
+</dl>
+</dd>
+
+<dt id="readfilesync"><code>readFileSync(<code><i>filename</i></code>[,
+<code><i>options</i></code>])</code></dt>
+<dd>
+Synchronously returns the contents of the file
+with provided <code>filename</code>.
+The <code>options</code> parameter holds
+<code>string</code> that specifies encoding.
+If not specified, a <a href="reference.html#string_tobytes">byte string</a> is returned.
+If <code>utf8</code> encoding is specified, a Unicode string is returned.
+Otherwise, <code>options</code> is expected to be
+an object with the following keys:
+<dl class="compact">
+
+<dt><code>encoding</code></dt>
+<dd>
+encoding, by default is not specified.
+The encoding can be <code>utf8</code>
+</dd>
+
+<dt><code>flag</code></dt>
+<dd>
+file system <a href="reference.html#njs_api_fs_flags">flag</a>,
+by default is <code>r</code>
+</dd>
+
+</dl>
+<blockquote class="example"><pre>
+&gt;&gt; var fs = require('fs')
+undefined
+&gt;&gt; var file = fs.readFileSync('/file/path.tar.gz')
+undefined
+&gt;&gt; var gzipped = /^\x1f\x8b/.test(file); gzipped
+true
+</pre></blockquote>
+</dd>
+
+<dt id="writefilesync"><code>writeFileSync(<code><i>filename</i></code>,
+<code><i>data</i></code>[,
+<code><i>options</i></code>])</code></dt>
+<dd>
+Synchronously writes <code>data</code> to a file
+with provided <code>filename</code>.
+If the file does not exist, it will be created,
+if the file exists, it will be replaced.
+The <code>options</code> parameter is expected to be
+an object with the following keys:
+<dl class="compact">
+<dt><code>mode</code></dt>
+<dd>
+mode option, by default is <code>0o666</code>
+</dd>
+
+<dt><code>flag</code></dt>
+<dd>
+file system <a href="reference.html#njs_api_fs_flags">flag</a>,
+by default is <code>w</code>
+</dd>
+
+</dl>
+<blockquote class="example"><pre>
+&gt;&gt; var fs = require('fs')
+undefined
+&gt;&gt; var file = fs.writeFileSync('hello.txt', 'Hello world')
+undefined
+</pre></blockquote>
+</dd>
+
+</dl><p> 
+</p><a name="njs_api_fs_flags"></a><center><h4>File System Flags</h4></center><p>
+The <code>flag</code> option can accept the following values:
+
+</p> <ul>
+
+<li>
+<code>a</code> — open a file for appending.
+The file is created if it does not exist
+</li>
+
+<li>
+<code>ax</code> — the same as <code>a</code>
+but fails if the file already exists
+</li>
+
+<li>
+<code>a+</code> — open a file for reading and appending.
+If the file does not exist, it will be created
+</li>
+
+<li>
+<code>ax+</code> — the same as  <code>a+</code>
+but fails if the file already exists
+</li>
+
+<li>
+<code>as</code> — open a file for appending in synchronous mode.
+If the file does not exist, it will be created
+</li>
+
+<li>
+<code>as+</code> — open a file for reading and appending
+in synchronous mode.
+If the file does not exist, it will be created
+</li>
+
+<li>
+<code>r</code> — open a file for reading.
+An exception occurs if the file does not exist
+</li>
+
+<li>
+<code>r+</code> — open a file for reading and writing.
+An exception occurs if the file does not exist
+</li>
+
+<li>
+<code>rs+</code> — open a file for reading and writing
+in synchronous mode.
+Instructs the operating system to bypass the local file system cache
+</li>
+
+<li>
+<code>w</code> — open a file for writing.
+If the file does not exist, it will be created.
+If the file exists, it will be replaced
+</li>
+
+<li>
+<code>wx</code> — the same as <code>w</code>
+but fails if the file already exists
+</li>
+
+<li>
+<code>w+</code> — open a file for reading and writing.
+If the file does not exist, it will be created.
+If the file exists, it will be replaced
+</li>
+
+<li>
+<code>wx+</code> — the same as <code>w+</code>
+but fails if the file already exists
+</li>
+
+</ul><p> 
+</p></div></div></body></html>

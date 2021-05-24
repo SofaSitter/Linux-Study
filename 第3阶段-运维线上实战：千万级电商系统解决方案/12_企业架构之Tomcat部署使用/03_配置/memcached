@@ -1,0 +1,19 @@
+#!bin/bash
+. /etc/init.d/functions
+case "$1" in
+   start)
+      /usr/local/memcached/bin/memcached -uroot -d
+      ;;
+   stop)
+      killproc memcached
+      ;;
+   restart)
+      killproc memcached
+      /usr/local/memcached/bin/memcached -uroot -d
+      ;;
+   status)
+     status memcached
+     ;;
+   *)
+     echo '不要输入垃圾参数'
+esac   

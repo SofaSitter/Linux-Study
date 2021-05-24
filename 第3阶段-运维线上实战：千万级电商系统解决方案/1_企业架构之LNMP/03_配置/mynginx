@@ -1,0 +1,54 @@
+#!/bin/bash
+#Nginx管理文件位置
+EXEC=/usr/local/nginx/sbin/nginx
+start(){
+   $EXEC
+   if [ $? -eq 0 ];then
+      echo -e "\033[32m nginx is running \033[0m"
+   fi
+}
+
+stop(){
+  $EXEC -s quit
+   if [ $? -eq 0 ];then
+      echo -e "\033[31m nginx is not run \033[0m"
+   fi
+}
+status(){
+  if [ -f '/usr/local/nginx/logs/nginx.pid' ];then
+     echo -e "\033[32m nginx is running \033[0m"
+  else
+     echo -e "\033[31m nginx is not run \033[0m"
+  fi
+}
+restart(){
+  stop
+  start
+}
+
+reload(){
+  $EXEC -s reload
+}
+
+configtest(){
+  $EXEC -t
+}
+
+#调用执行
+case "$1" in 
+   start)
+      start;;
+   stop)
+      stop;;
+   restart)
+      restart;;
+   status)
+      status;;
+   reload)
+      reload;;
+   configtest)
+      configtest;;
+   *)
+   echo '{start|stop|restart|reload|configtest}'
+   ;;
+esac
